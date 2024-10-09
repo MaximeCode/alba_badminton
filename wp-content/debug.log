@@ -1,0 +1,77 @@
+[30-Sep-2024 20:47:26 UTC] PHP Warning:  Attempt to read property "title" on null in C:\xampp\htdocs\alba\wp-includes\class-wp-customize-widgets.php on line 905
+[30-Sep-2024 20:47:30 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function wp_get_attachment_image_src(), 0 passed in C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php on line 20 and at least 1 expected in C:\xampp\htdocs\alba\wp-includes\media.php:968
+Stack trace:
+#0 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php(20): wp_get_attachment_image_src()
+#1 C:\xampp\htdocs\alba\wp-includes\template.php(810): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\alba\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#3 C:\xampp\htdocs\alba\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#4 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\index.php(1): get_header()
+#5 C:\xampp\htdocs\alba\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\alba\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#7 C:\xampp\htdocs\alba\index.php(18): require('C:\\xampp\\htdocs...')
+#8 {main}
+  thrown in C:\xampp\htdocs\alba\wp-includes\media.php on line 968
+[04-Oct-2024 16:58:23 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function wp_get_attachment_image_src(), 0 passed in C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php on line 20 and at least 1 expected in C:\xampp\htdocs\alba\wp-includes\media.php:968
+Stack trace:
+#0 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php(20): wp_get_attachment_image_src()
+#1 C:\xampp\htdocs\alba\wp-includes\template.php(810): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\alba\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#3 C:\xampp\htdocs\alba\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#4 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\index.php(1): get_header()
+#5 C:\xampp\htdocs\alba\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\alba\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#7 C:\xampp\htdocs\alba\index.php(18): require('C:\\xampp\\htdocs...')
+#8 {main}
+  thrown in C:\xampp\htdocs\alba\wp-includes\media.php on line 968
+[04-Oct-2024 16:58:38 UTC] Automatic updates starting...
+[04-Oct-2024 16:58:39 UTC] Automatic updates complete.
+[04-Oct-2024 16:58:47 UTC] PHP Deprecated:  La fonction wp_update_https_detection_errors est <strong>obsolète</strong> depuis la version 6.4.0, aucune alternative n’est disponible. in C:\xampp\htdocs\alba\wp-includes\functions.php on line 6085
+[04-Oct-2024 16:58:56 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function wp_get_attachment_image_src(), 0 passed in C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php on line 20 and at least 1 expected in C:\xampp\htdocs\alba\wp-includes\media.php:968
+Stack trace:
+#0 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php(20): wp_get_attachment_image_src()
+#1 C:\xampp\htdocs\alba\wp-includes\template.php(810): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\alba\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#3 C:\xampp\htdocs\alba\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#4 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\index.php(1): get_header()
+#5 C:\xampp\htdocs\alba\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\alba\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#7 C:\xampp\htdocs\alba\index.php(18): require('C:\\xampp\\htdocs...')
+#8 {main}
+  thrown in C:\xampp\htdocs\alba\wp-includes\media.php on line 968
+[04-Oct-2024 16:58:59 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function wp_get_attachment_image_src(), 0 passed in C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php on line 20 and at least 1 expected in C:\xampp\htdocs\alba\wp-includes\media.php:968
+Stack trace:
+#0 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php(20): wp_get_attachment_image_src()
+#1 C:\xampp\htdocs\alba\wp-includes\template.php(810): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\alba\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#3 C:\xampp\htdocs\alba\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#4 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\index.php(1): get_header()
+#5 C:\xampp\htdocs\alba\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\alba\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#7 C:\xampp\htdocs\alba\index.php(18): require('C:\\xampp\\htdocs...')
+#8 {main}
+  thrown in C:\xampp\htdocs\alba\wp-includes\media.php on line 968
+[04-Oct-2024 16:58:59 UTC] Erreur d’événement de déplanification de tâche pour le crochet wordfence_start_scheduled_scan. Code d’erreur : could_not_set. Message d’erreur : La liste des évènements planifiés n’a pas pu être sauvegardée.. Données : {"schedule":false,"args":[1727920200]}
+[04-Oct-2024 16:59:05 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function wp_get_attachment_image_src(), 0 passed in C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php on line 20 and at least 1 expected in C:\xampp\htdocs\alba\wp-includes\media.php:968
+Stack trace:
+#0 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php(20): wp_get_attachment_image_src()
+#1 C:\xampp\htdocs\alba\wp-includes\template.php(810): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\alba\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#3 C:\xampp\htdocs\alba\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#4 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\index.php(1): get_header()
+#5 C:\xampp\htdocs\alba\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\alba\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#7 C:\xampp\htdocs\alba\index.php(18): require('C:\\xampp\\htdocs...')
+#8 {main}
+  thrown in C:\xampp\htdocs\alba\wp-includes\media.php on line 968
+[04-Oct-2024 17:00:53 UTC] PHP Fatal error:  Uncaught ArgumentCountError: Too few arguments to function wp_get_attachment_image_src(), 0 passed in C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php on line 20 and at least 1 expected in C:\xampp\htdocs\alba\wp-includes\media.php:968
+Stack trace:
+#0 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\header.php(20): wp_get_attachment_image_src()
+#1 C:\xampp\htdocs\alba\wp-includes\template.php(810): require_once('C:\\xampp\\htdocs...')
+#2 C:\xampp\htdocs\alba\wp-includes\template.php(745): load_template('C:\\xampp\\htdocs...', true, Array)
+#3 C:\xampp\htdocs\alba\wp-includes\general-template.php(48): locate_template(Array, true, true, Array)
+#4 C:\xampp\htdocs\alba\wp-content\themes\alba_theme\index.php(1): get_header()
+#5 C:\xampp\htdocs\alba\wp-includes\template-loader.php(106): include('C:\\xampp\\htdocs...')
+#6 C:\xampp\htdocs\alba\wp-blog-header.php(19): require_once('C:\\xampp\\htdocs...')
+#7 C:\xampp\htdocs\alba\index.php(18): require('C:\\xampp\\htdocs...')
+#8 {main}
+  thrown in C:\xampp\htdocs\alba\wp-includes\media.php on line 968

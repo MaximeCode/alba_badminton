@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:tailwindcss/recommended"
+  ],
+  "plugins": [
+    "tailwindcss"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.html",
+        "*.blade.php"
+      ],
+      "parser": "@angular-eslint/template-parser"
+    }
+  ]
+}

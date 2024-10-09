@@ -1,0 +1,11 @@
+/*
+Theme Name: ALBA_theme
+Author: Maxime BAUDE
+Description: ALBA_theme is designed to be a light, fast, and free theme for use with the ALBA website.
+Text Domain: ALBA_theme
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add your custom styles here */
