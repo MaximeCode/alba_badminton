@@ -1,0 +1,11 @@
+# Ignorer le dossier node_modules
+node_modules/
+
+# Ignorer les fichiers de logs
+*.log
+
+# Ignorer les fichiers et dossiers temporaires
+.DS_Store
+.env
+.cache/
+dist/
