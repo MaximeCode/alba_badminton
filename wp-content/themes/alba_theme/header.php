@@ -31,12 +31,12 @@
         <div class="hidden w-full lg:block lg:w-auto" id="navbar-dropdown">
             <ul class="flex flex-col font-medium p-4 mt-4 lg:px-4 xl:text-lg text-white border-gray-100 rounded-lg uppercase lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 border-0">
                 <li>
-                    <a href="#"
+                    <a href="/"
                        class="block py-2 px-3 rounded hover:bg-white hover:text-primary-blue md:py-3"
                        aria-current="page">Accueil</a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="<?= get_permalink(26); ?>"
                        class="block py-2 px-3 rounded hover:bg-white hover:text-primary-blue md:py-3">Actualit&eacute;s</a>
                 </li>
                 <!-- Dropdown Le club -->
