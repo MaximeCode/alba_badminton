@@ -20,6 +20,9 @@ module.exports = {
             boxShadow: {
                 'box-dd': '0px 0px 17px 0px rgba(31,162,218,0.5);',
             },
+            backgroundImage: {
+                'home-bg': "var(--background-image-home)",
+            },
         },
     },
     plugins: [

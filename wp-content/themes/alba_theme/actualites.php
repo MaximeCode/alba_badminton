@@ -3,7 +3,7 @@
 get_header(); ?>
 
 <div class="container mx-auto py-8">
-        <h2 class="text-4xl font-bold mb-8">Nos Actualités</h2>
+    <h2 class="text-4xl font-bold mb-8">Nos Actualités</h2>
 	<?php the_content(); ?>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 		<?php
@@ -22,8 +22,10 @@ get_header(); ?>
                                  class="w-full h-48 object-cover">
 						<?php endif; ?>
                         <div class="p-4">
-                            <h2 class="text-xl font-bold"><?php the_title(); ?></h2>
-                            <p class="text-gray-700"><?php the_excerpt(); ?></p>
+                            <h2 class="text-xl font-bold text-primary-blue underline"><?php the_title(); ?></h2>
+                            <p class="text-gray-700 text-center"><?php the_excerpt(); ?></p>
+
+
                         </div>
                     </a>
                 </div>
