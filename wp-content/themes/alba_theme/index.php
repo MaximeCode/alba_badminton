@@ -5,29 +5,37 @@
         }
     </style>
 
-    <section
-            class="bg-center bg-no-repeat bg-home-bg bg-gray-500 bg-blend-multiply">
-        <div class="px-4 text-center py-24 lg:py-56">
-            <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">We
-                invest in the world’s potential</h1>
-            <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Here at Flowbite we focus on
-                markets where technology, innovation, and capital can unlock long-term value and drive economic
-                growth.</p>
-            <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-                <a href="#"
-                   class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
-                    Get started
-                    <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                         fill="none" viewBox="0 0 14 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                    </svg>
-                </a>
-                <a href="#"
-                   class="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 sm:ms-4 text-base font-medium text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
-                    Learn more
-                </a>
-            </div>
+    <!--Img back-->
+    <div class="bg-home-bg bg-scroll aspect-auto w-full min-h-screen absolute top-0 left-0"></div>
+
+    <section class="backdrop-blur-sm mx-auto h-1/2 text-center lg:py-4 relative
+            grid grid-cols-1 xl:grid-cols-2 gap-24 md:gap-48 rounded-3xl">
+
+        <!--Left Col-->
+        <div class="text-white flex-col items-center justify-center">
+            <h1 class="text-4xl md:text-4xl">Faisons vivre notre passion commune, rejoignez ALBA 🏸 !</h1>
+            <p class="text-lg md:text-2xl my-10 xl:my-24">Depuis 1987, le club ALBA, situ&eacute; au c&oelig;ur
+                de Luc&eacute;,
+                rassemble les amoureux du badminton de tous &acirc;ges et niveaux. Avec plus de 100 membres actifs,
+                nous nous retrouvons
+                chaque semaine dans une ambiance conviviale au gymnase Jean Boudrie, &eacute;quip&eacute; de
+                7 terrains de jeu aux standards professionnels.
+                Que vous soyez d&eacute;butant ou v&eacute;t&eacute;ran, rejoignez-nous pour des entra&icirc;nements
+                dynamiques et des tournois passionnants &agrave; travers la r&eacute;gion Centre-Val de Loire.
+            </p>
+            <button type="button"
+                    class="text-lg md:text-xl text-white bg-primary-blue/50 hover:text-white border-4 border-primary-blue hover:bg-primary-blue rounded-lg px-4 py-2">
+                En savoirs plus sur le club
+            </button>
+        </div>
+
+        <!--Right Col-->
+        <div class="text-white flex-col content-center items-center justify-center">
+			<?php echo wp_get_attachment_image( 12, 'medium rounded-2xl mx-auto', false, array('loading' => 'lazy') ); ?>
+            <button type="button"
+                    class="text-lg md:text-xl text-white bg-primary-blue/50 hover:text-white border-4 border-primary-blue hover:bg-primary-blue rounded-lg px-4 py-2 mt-8">
+                Voir l'article
+            </button>
         </div>
     </section>
 
@@ -35,7 +43,7 @@
     <!-- Add section with the 3 last articles published -->
     <section class="py-10">
         <div>
-            <h2 class="mb-8 text-3xl font-extrabold text-center">The latest articles</h2>
+            <h2 class="mb-8 text-3xl font-extrabold text-center underline">Les derniers articles publiés :</h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
 				<?php
 				// Paramètres pour récupérer les 3 derniers articles
@@ -52,17 +60,17 @@
 					while ( $query->have_posts() ) : $query->the_post(); ?>
                         <!-- Template de carte horizontale avec un lien vers l'article -->
                         <a href="<?php the_permalink(); ?>"
-                           class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+                           class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100">
                             <!-- Image de mise en avant de l'article -->
                             <div class="h-48 bg-gray-200 bg-center bg-cover rounded-t-lg md:h-auto md:w-48"
                                  style="background-image: url('<?php the_post_thumbnail_url(); ?>');"></div>
 
                             <!-- Titre et extrait de l'article -->
                             <div class="flex flex-col justify-between p-4 leading-normal">
-                                <h3 class="mb-2 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                                <h3 class="mb-2 text-xl font-semibold tracking-tight text-gray-900">
 									<?php the_title(); ?>
                                 </h3>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                <p class="mb-3 font-normal text-gray-700">
 									<?php echo wp_trim_words( get_the_excerpt(), 20 ); // Limiter à 20 mots ?>
                                 </p>
                             </div>
@@ -74,21 +82,17 @@
         </div>
     </section>
 
-
     <!--Card-->
-
     <a href="#"
-       class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+       class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100">
         <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
              src="" alt="">
         <div class="flex flex-col justify-between p-4 leading-normal">
-            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology
+            <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900">Noteworthy technology
                 acquisitions 2021</h5>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology
+            <p class="mb-3 font-normal text-gray-700">Here are the biggest enterprise technology
                 acquisitions of 2021 so far, in reverse chronological order.</p>
         </div>
     </a>
-
-<?php get_footer() ?>
 
 <?php get_footer() ?>

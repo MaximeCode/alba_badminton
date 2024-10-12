@@ -7,10 +7,11 @@ module.exports = {
     ],
     theme: {
         fontFamily: {
-            'personal': ['"Poppins"', 'sans-serif'],
+            'personal': ['Poppins', 'sans-serif'],
             'sans': ['Helvetica', 'Arial', 'sans-serif'],
             'serif': ['Times New Roman', 'Georgia', 'serif'],
             'mono': ['Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+            'crimson': ['Crimson Pro', 'serif'],
         },
         extend: {
             colors: {

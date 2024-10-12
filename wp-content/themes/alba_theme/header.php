@@ -10,10 +10,11 @@
 	<?php wp_head(); ?>
 </head>
 
-<body class="bg-back-blue font-personal">
+<body class="bg-back-blue font-crimson">
 
-<nav class="bg-primary-blue mb-10">
-    <div class="container w-10/12 flex flex-wrap items-center justify-between mx-auto">
+<!-- Navbar wrapper -->
+<nav class="bg-primary-blue mb-10 z-50 font-personal relative">
+    <div class="container mx-auto w-10/12 flex flex-wrap items-center justify-between z-50">
         <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
 			<?php echo wp_get_attachment_image( 18, 'thumbnail', false, array( 'class' => 'h-24 w-auto' ) ); ?>
         </a>
@@ -28,8 +29,11 @@
                       d="M1 1h15M1 7h15M1 13h15"/>
             </svg>
         </button>
-        <div class="hidden w-full lg:block lg:w-auto" id="navbar-dropdown">
-            <ul class="flex flex-col font-medium mt-4 xl:px-4 xl:text-lg text-white rounded-lg uppercase xl:space-x-8 lg:flex-row lg:mt-0">
+
+        <!-- Mobile menu (hidden by default) -->
+        <div class="hidden absolute top-24 left-0 w-full bg-primary-blue lg:static lg:w-auto lg:block z-50"
+             id="navbar-dropdown">
+            <ul class="w-10/12 mx-auto lg:w-full flex flex-col font-medium mt-4 xl:px-4 xl:text-lg text-white rounded-lg uppercase xl:space-x-8 lg:flex-row lg:mt-0">
                 <li>
                     <a href="/"
                        class="block py-2 px-3 rounded hover:bg-white hover:text-primary-blue md:py-3"
