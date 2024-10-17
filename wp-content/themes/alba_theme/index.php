@@ -6,42 +6,56 @@
     </style>
 
     <!--Img back-->
-    <div class="bg-home-bg bg-scroll aspect-auto w-full min-h-screen absolute top-0 left-0"></div>
+    <div class="bg-home-bg bg-center bg-cover aspect-auto w-full min-h-screen absolute top-0 left-0"></div>
 
-    <section class="backdrop-blur-sm mx-auto h-1/2 text-center lg:py-4 relative
-            grid grid-cols-1 xl:grid-cols-2 gap-24 md:gap-48 rounded-3xl">
+    <section class="backdrop-blur-sm mx-auto text-center lg:py-4 relative rounded-3xl shadow-xl">
 
-        <!--Left Col-->
-        <div class="text-white flex-col items-center justify-center">
-            <h1 class="text-4xl md:text-4xl">Faisons vivre notre passion commune, rejoignez ALBA 🏸 !</h1>
-            <p class="text-lg md:text-2xl my-10 xl:my-24">Depuis 1987, le club ALBA, situ&eacute; au c&oelig;ur
-                de Luc&eacute;,
-                rassemble les amoureux du badminton de tous &acirc;ges et niveaux. Avec plus de 100 membres actifs,
-                nous nous retrouvons
-                chaque semaine dans une ambiance conviviale au gymnase Jean Boudrie, &eacute;quip&eacute; de
-                7 terrains de jeu aux standards professionnels.
-                Que vous soyez d&eacute;butant ou v&eacute;t&eacute;ran, rejoignez-nous pour des entra&icirc;nements
-                dynamiques et des tournois passionnants &agrave; travers la r&eacute;gion Centre-Val de Loire.
-            </p>
-            <button type="button"
-                    class="text-lg md:text-xl text-white bg-primary-blue/50 hover:text-white border-4 border-primary-blue hover:bg-primary-blue rounded-lg px-4 py-2">
-                En savoirs plus sur le club
-            </button>
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-24 md:gap-x-48">
+            <!--Left Col-->
+            <div class="col text-white flex flex-col items-center justify-between py-8 space-y-8">
+                <h1 class="text-3xl md:text-4xl">Faisons vivre notre passion commune, rejoignez ALBA 🏸 !</h1>
+                <p class="text-lg md:text-2xl">Depuis 1987, le club ALBA, situ&eacute; au c&oelig;ur
+                    de Luc&eacute;,
+                    rassemble les amoureux du badminton de tous &acirc;ges et niveaux. Avec plus de 100 membres actifs,
+                    nous nous retrouvons
+                    chaque semaine dans une ambiance conviviale au gymnase Jean Boudrie, &eacute;quip&eacute; de
+                    7 terrains de jeu aux standards professionnels.
+                    Que vous soyez d&eacute;butant ou v&eacute;t&eacute;ran, rejoignez-nous pour des entra&icirc;nements
+                    dynamiques et des tournois passionnants &agrave; travers la r&eacute;gion Centre-Val de Loire.
+                </p>
+                <button type="button"
+                        class="text-lg md:text-xl text-white bg-primary-blue/50 hover:text-white border-4 border-primary-blue hover:bg-primary-blue rounded-lg px-4 py-2">
+                    En savoirs plus sur le club
+                </button>
+            </div>
+
+            <!--Right Col-->
+            <div class="col text-white flex flex-col items-center justify-between py-8 space-y-8">
+                <h1 class="text-3xl md:text-4xl italic tracking-wide">Actualité populaire :</h1>
+				<?php echo wp_get_attachment_image( 12, '', false, array(
+					'loading' => 'lazy',
+					'class'   => 'rounded-2xl w-2/3',
+				) ); ?>
+                <button type="button"
+                        class="text-lg md:text-xl text-white bg-primary-blue/50 hover:text-white border-4 border-primary-blue hover:bg-primary-blue rounded-lg px-4 py-2">
+                    Voir l'article
+                </button>
+            </div>
         </div>
 
-        <!--Right Col-->
-        <div class="text-white flex-col content-center items-center justify-center">
-			<?php echo wp_get_attachment_image( 12, 'medium rounded-2xl mx-auto', false, array('loading' => 'lazy') ); ?>
-            <button type="button"
-                    class="text-lg md:text-xl text-white bg-primary-blue/50 hover:text-white border-4 border-primary-blue hover:bg-primary-blue rounded-lg px-4 py-2 mt-8">
-                Voir l'article
-            </button>
+        <div class="flex items-center justify-center">
+            <svg class="w-8 h-8 text-white rounded-full hover:bg-primary-blue/50 cursor-pointer animate-bounce"
+                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                 width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="m19 9-7 7-7-7"/>
+            </svg>
         </div>
     </section>
 
 
     <!-- Add section with the 3 last articles published -->
-    <section class="py-10">
+    <section class="py-10 mt-16">
         <div>
             <h2 class="mb-8 text-3xl font-extrabold text-center underline">Les derniers articles publiés :</h2>
             <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">

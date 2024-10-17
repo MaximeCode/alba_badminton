@@ -23,7 +23,7 @@ module.exports = {
             },
             backgroundImage: {
                 'home-bg': "var(--background-image-home)",
-            },
+            }
         },
     },
     plugins: [
