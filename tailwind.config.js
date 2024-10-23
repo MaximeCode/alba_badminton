@@ -3,6 +3,7 @@ module.exports = {
     // In the content array below, add all files that contain the classes using Tailwind CSS
     content: [
         "./wp-content/themes/alba_theme/**/*.{html,js,php}",
+        // and all files that contain the classes using the flowbite plugin
         "./node_modules/flowbite/**/*.js",
     ],
     theme: {
