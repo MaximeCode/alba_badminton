@@ -25,8 +25,6 @@ wp-content/debug.log
 
 # Ignorer les plugins et thèmes non personnalisés
 wp-content/plugins/
-wp-content/themes/
-!wp-content/themes/alba_theme/
 
 # Ignorer les fichiers de configuration sensibles
 wp-config.php

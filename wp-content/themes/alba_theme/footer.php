@@ -1,6 +1,6 @@
 </div>
 
-<footer class="bg-white shadow mt-16 font-personal">
+<footer class="bg-white shadow mt-16 font-personal selection:bg-white selection:text-primary-blue">
   <div class="w-full mx-auto flex flex-col items-center justify-center">
     <ul
       class="flex flex-wrap flex-col sm:flex-row items-center justify-center text-md font-medium w-full bg-primary-blue text-white py-1 space-x-0 sm:space-x-8 lg:space-x-20">

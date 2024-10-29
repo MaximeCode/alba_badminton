@@ -2,7 +2,7 @@
 /* Template Name: actualites */
 get_header(); ?>
 
-  <div class="container mx-auto py-8">
+<!--  <div class="container mx-auto py-8">-->
     <h2 class="text-4xl font-bold mb-8"><?php the_title(); ?></h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -35,6 +35,6 @@ get_header(); ?>
           <p>Aucun article trouvé.</p>
 		<?php endif; ?>
     </div>
-  </div>
+<!--  </div>-->
 
 <?php get_footer(); ?>

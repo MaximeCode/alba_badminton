@@ -10,7 +10,7 @@
 	// Animation cartes d'actualités
 	global $animCardNews;
 	global $animBase;
-	$animCardNews    = "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-5";
+	$animCardNews    = "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-10 hover:scale-105";
 	$animRotateArrow = "transform transition-transform duration-500 group-hover:rotate-180";
 	// <li> animation on hover
 	$animBase = "transform transition duration-200 ease-in-out";
@@ -19,20 +19,25 @@
 	// Class of each dropdown <li> in the navbar
 	$classLiDropdown = "flex items-center justify-between w-full py-2 px-3 rounded $animBase group-hover:bg-white 
 	group-hover:text-primary-blue lg:w-auto lg:py-3 uppercase focus:bg-white focus:text-primary-blue";
+
+	// Classes of all btn (sauf "envoyer" du form de contact)
+	global $classBtn;
+	$classBtn = "text-lg md:text-xl text-white bg-primary-blue hover:bg-primary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out";
 	?>
 </head>
 
-<body class="bg-back-blue font-crimson">
+<body class="bg-back-blue font-crimson selection:bg-primary-blue selection:text-white">
 
 <!-- Navbar wrapper -->
 <nav class="bg-primary-blue mb-10 z-50 font-personal relative">
   <div class="container mx-auto w-10/12 flex flex-wrap items-center justify-between z-50">
-    <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
+    <a href="/" class="flex items-center space-x-3">
 		<?php echo wp_get_attachment_image( 18, 'thumbnail', false, array( 'class' => 'h-24 w-auto' ) ); ?>
     </a>
     <!-- Btn open navbar in mobile -->
     <button data-collapse-toggle="navbar-dropdown" type="button"
-            class="inline-flex items-center p-2 w-10 h-10 justify-center lg:text-lg text-gray-500 rounded-lg lg:hidden focus:outline-none focus:ring-2 focus:ring-gray-200"
+            class="inline-flex items-center p-2 w-10 h-10 justify-center lg:text-lg text-gray-500 rounded-lg lg:hidden
+            focus:outline-none hover:ring-2 hover:ring-white focus:ring-2 focus:ring-gray-200 <?= $animBase ?>"
             aria-controls="navbar-dropdown" aria-expanded="false">
       <span class="sr-only text-white">Open main menu</span>
       <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -43,8 +48,9 @@
     </button>
 
     <!-- Mobile menu (hidden by default) -->
-    <div class="hidden absolute top-24 left-0 w-full bg-primary-blue lg:static lg:w-auto lg:block z-50"
-         id="navbar-dropdown">
+    <div
+      class="hidden absolute top-24 left-0 w-full bg-primary-blue lg:static lg:w-auto lg:block z-50 transform transition-all duration-300 ease-in-out"
+      id="navbar-dropdown">
       <ul
         class="w-10/12 mx-auto lg:w-full flex flex-col font-medium mt-4 xl:px-4 xl:text-lg text-white rounded-lg uppercase xl:space-x-8 lg:flex-row lg:mt-0">
         <li>
@@ -149,7 +155,7 @@
           </div>
         </li>
         <li>
-          <a href="#"
+          <a href="<?= get_permalink( 134 ); ?>"
              class="<?= $classLi ?>">Contact</a>
         </li>
       </ul>
