@@ -13,48 +13,41 @@
 //>>docs: https://api.jqueryui.com/highlight-effect/
 //>>demos: https://jqueryui.com/effect/
 
-( function( factory ) {
-	"use strict";
+(function (factory) {
+     'use strict';
 
-	if ( typeof define === "function" && define.amd ) {
+     if (typeof define === 'function' && define.amd) {
+          // AMD. Register as an anonymous module.
+          define(['jquery', '../version', '../effect'], factory);
+     } else {
+          // Browser globals
+          factory(jQuery);
+     }
+})(function ($) {
+     'use strict';
 
-		// AMD. Register as an anonymous module.
-		define( [
-			"jquery",
-			"../version",
-			"../effect"
-		], factory );
-	} else {
+     return $.effects.define('highlight', 'show', function (options, done) {
+          var element = $(this),
+               animation = {
+                    backgroundColor: element.css('backgroundColor'),
+               };
 
-		// Browser globals
-		factory( jQuery );
-	}
-} )( function( $ ) {
-"use strict";
+          if (options.mode === 'hide') {
+               animation.opacity = 0;
+          }
 
-return $.effects.define( "highlight", "show", function( options, done ) {
-	var element = $( this ),
-		animation = {
-			backgroundColor: element.css( "backgroundColor" )
-		};
+          $.effects.saveStyle(element);
 
-	if ( options.mode === "hide" ) {
-		animation.opacity = 0;
-	}
-
-	$.effects.saveStyle( element );
-
-	element
-		.css( {
-			backgroundImage: "none",
-			backgroundColor: options.color || "#ffff99"
-		} )
-		.animate( animation, {
-			queue: false,
-			duration: options.duration,
-			easing: options.easing,
-			complete: done
-		} );
-} );
-
-} );
+          element
+               .css({
+                    backgroundImage: 'none',
+                    backgroundColor: options.color || '#ffff99',
+               })
+               .animate(animation, {
+                    queue: false,
+                    duration: options.duration,
+                    easing: options.easing,
+                    complete: done,
+               });
+     });
+});

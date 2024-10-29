@@ -13,60 +13,55 @@
 //>>docs: https://api.jqueryui.com/drop-effect/
 //>>demos: https://jqueryui.com/effect/
 
-( function( factory ) {
-	"use strict";
+(function (factory) {
+     'use strict';
 
-	if ( typeof define === "function" && define.amd ) {
+     if (typeof define === 'function' && define.amd) {
+          // AMD. Register as an anonymous module.
+          define(['jquery', '../version', '../effect'], factory);
+     } else {
+          // Browser globals
+          factory(jQuery);
+     }
+})(function ($) {
+     'use strict';
 
-		// AMD. Register as an anonymous module.
-		define( [
-			"jquery",
-			"../version",
-			"../effect"
-		], factory );
-	} else {
+     return $.effects.define('drop', 'hide', function (options, done) {
+          var distance,
+               element = $(this),
+               mode = options.mode,
+               show = mode === 'show',
+               direction = options.direction || 'left',
+               ref =
+                    direction === 'up' || direction === 'down' ? 'top' : 'left',
+               motion =
+                    direction === 'up' || direction === 'left' ? '-=' : '+=',
+               oppositeMotion = motion === '+=' ? '-=' : '+=',
+               animation = {
+                    opacity: 0,
+               };
 
-		// Browser globals
-		factory( jQuery );
-	}
-} )( function( $ ) {
-"use strict";
+          $.effects.createPlaceholder(element);
 
-return $.effects.define( "drop", "hide", function( options, done ) {
+          distance =
+               options.distance ||
+               element[ref === 'top' ? 'outerHeight' : 'outerWidth'](true) / 2;
 
-	var distance,
-		element = $( this ),
-		mode = options.mode,
-		show = mode === "show",
-		direction = options.direction || "left",
-		ref = ( direction === "up" || direction === "down" ) ? "top" : "left",
-		motion = ( direction === "up" || direction === "left" ) ? "-=" : "+=",
-		oppositeMotion = ( motion === "+=" ) ? "-=" : "+=",
-		animation = {
-			opacity: 0
-		};
+          animation[ref] = motion + distance;
 
-	$.effects.createPlaceholder( element );
+          if (show) {
+               element.css(animation);
 
-	distance = options.distance ||
-		element[ ref === "top" ? "outerHeight" : "outerWidth" ]( true ) / 2;
+               animation[ref] = oppositeMotion + distance;
+               animation.opacity = 1;
+          }
 
-	animation[ ref ] = motion + distance;
-
-	if ( show ) {
-		element.css( animation );
-
-		animation[ ref ] = oppositeMotion + distance;
-		animation.opacity = 1;
-	}
-
-	// Animate
-	element.animate( animation, {
-		queue: false,
-		duration: options.duration,
-		easing: options.easing,
-		complete: done
-	} );
-} );
-
-} );
+          // Animate
+          element.animate(animation, {
+               queue: false,
+               duration: options.duration,
+               easing: options.easing,
+               complete: done,
+          });
+     });
+});
