@@ -9,6 +9,7 @@ node_modules/
 .env
 .cache/
 dist/
+.idea/
 
 # Ignorer les fichiers spécifiques de WordPress
 wp-content/wflogs/
@@ -16,6 +17,7 @@ wp-content/advanced-cache.php
 wp-content/backup-db/
 wp-content/backups/
 wp-content/cache/
+wp-content/languages/
 wp-content/updraft/
 wp-content/upgrade/
 wp-content/uploads/
