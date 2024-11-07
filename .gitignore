@@ -9,3 +9,27 @@ node_modules/
 .env
 .cache/
 dist/
+.idea/
+
+# Ignorer les fichiers spécifiques de WordPress
+wp-content/wflogs/
+wp-content/advanced-cache.php
+wp-content/backup-db/
+wp-content/backups/
+wp-content/cache/
+wp-content/languages/
+wp-content/updraft/
+wp-content/upgrade/
+wp-content/uploads/
+wp-content/debug.log
+
+# Ignorer les plugins et thèmes non personnalisés
+wp-content/plugins/
+
+# Ignorer les fichiers de configuration sensibles
+wp-config.php
+wp-config-sample.php
+
+# Ignorer les fichiers de configuration de WordPress
+wp-admin/
+wp-includes/
