@@ -45,7 +45,7 @@ $imgPartners = array( 7, 10, 14, 11, 7, 10, 14, 11 );
       </div>
     </div>
 
-    <a href="#lastNews" class="flex items-center justify-center mt-6">
+    <a href="#lastNews" class="flex items-center justify-center mt-6" id="goToLastNews">
       <svg class="w-8 h-8 text-primary-blue rounded-full hover:bg-primary-blue/50 animate-bounce"
            aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
            width="24" height="24" fill="none" viewBox="0 0 24 24">

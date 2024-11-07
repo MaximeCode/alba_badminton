@@ -24,6 +24,7 @@ module.exports = {
     extend: {
       colors: {
         "primary-blue": "#1FA2DA",
+        "secondary-blue": "#0A4E8F",
         "back-blue": "rgba(31,162,218,0.15)",
       },
       boxShadow: {
@@ -37,6 +38,14 @@ module.exports = {
           },
         },
       },
+    },
+    screens: {
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+      "3xl": "1600px",
     },
   },
   plugins: [require("flowbite/plugin"), require("@tailwindcss/typography")],

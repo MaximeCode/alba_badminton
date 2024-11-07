@@ -22,7 +22,7 @@
 
 	// Classes of all btn (sauf "envoyer" du form de contact)
 	global $classBtn;
-	$classBtn = "text-lg md:text-xl text-white bg-primary-blue hover:bg-primary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out";
+	$classBtn = "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out";
 	?>
 </head>
 

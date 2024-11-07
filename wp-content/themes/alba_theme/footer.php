@@ -24,7 +24,7 @@
 
 <!-- Bouton de retour en haut -->
 <a href="#" id="backToTop"
-   class="fixed bottom-7 right-7 bg-primary-blue text-white rounded-full p-5 shadow-box-dropdown transition duration-300 ease-in-out opacity-0 hover:opacity-100 transform hover:scale-110">
+   class="fixed bottom-7 right-7 bg-secondary-blue text-white rounded-full p-5 shadow-box-dropdown transition duration-300 ease-in-out opacity-0 hover:opacity-100 transform hover:scale-110">
   <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
     <path stroke="currentColor" stroke-width="2" d="M8 12V4m0 0L4 8m4-4l4 4" />
   </svg>
@@ -48,7 +48,7 @@
     window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll smooth vers le haut
   };
 
-  const goToLastNews = document.querySelector("a[href=\"#lastNews\"]");
+  const goToLastNews = document.getElementById("goToLastNews");
   goToLastNews.addEventListener("click", function(e) {
     e.preventDefault();
     document.getElementById("lastNews").scrollIntoView({ behavior: "smooth" });

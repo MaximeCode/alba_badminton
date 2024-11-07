@@ -18,7 +18,7 @@ $animbase = "transform transition duration-100 ease-in-out";
       textarea:-webkit-autofill,
       textarea:-webkit-autofill:hover,
       textarea:-webkit-autofill:focus {
-          -webkit-text-fill-color: #374151; /* Couleur du texte, adapte-la si besoin */
+          -webkit-text-fill-color: #374151; /* Couleur du texte */
           -webkit-box-shadow: 0 0 0 1000px transparent inset; /* Fond transparent */
           box-shadow: 0 0 0 1000px transparent inset;
           transition: background-color 5000s ease-in-out 0s;
@@ -96,7 +96,7 @@ $animbase = "transform transition duration-100 ease-in-out";
     <div class="grid place-items-center">
       <button type="button"
               class="<?= $classBtn ?> my-16">
-        <a href="#" class="inline-flex items-center">Ou via le formulaire ci-dessous
+        <a href="#contact-form" class="inline-flex items-center" id="btnGoToForm">Ou via le formulaire ci-dessous
           <svg class="w-6 h-6 text-white ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -107,59 +107,63 @@ $animbase = "transform transition duration-100 ease-in-out";
     </div>
 
     <!--Contact form-->
-    <form class="w-3/4 mx-auto font-personal bg-white/50 rounded-2xl p-10">
+    <form id="contact-form" method="post" action="<?= get_template_directory_uri() . '/submit/data_contact.php' ?>"
+          class="w-full lg:w-3/4 mx-auto font-personal bg-white/50 rounded-2xl p-10">
+
+		<?php wp_nonce_field( 'contact_form_nonce', 'contact_nonce' ); ?>
       <div class="grid md:grid-cols-2 md:gap-10 lg:gap-16">
-        <div>
+        <div class="flex flex-col justify-between">
           <!--Nom Complet-->
-          <div class="grid md:grid-cols-2 md:gap-6">
+          <div class="grid">
             <!--Prénom-->
-            <div class="relative z-0 w-full mb-5 group">
-              <input type="text" name="floating_first_name" id="floating_first_name"
+            <div class="relative z-0 w-full group">
+              <input type="text" name="first_name" id="floating_first_name"
                      class="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 appearance-none focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                     placeholder=" " />
+                     placeholder=" " required value="Test First name" />
               <label for="floating_first_name"
                      class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                 Votre Prénom
               </label>
             </div>
             <!--Nom-->
-            <div class="relative z-0 w-full mb-5 group">
-              <input type="text" name="floating_first_name" id="floating_first_name"
+            <div class="relative z-0 w-full mt-10 group">
+              <input type="text" name="name" id="floating_name"
                      class="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 appearance-none focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                     placeholder=" " />
-              <label for="floating_first_name"
+                     placeholder=" " value="Test Name" />
+              <label for="floating_name"
                      class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-                Votre NOM
+                Votre Nom
               </label>
             </div>
           </div>
           <!--Email-->
-          <div class="relative z-0 w-full mt-5 group">
-            <input type="email" name="floating_first_name" id="floating_first_name"
+          <div class="relative z-0 w-full mt-10 group">
+            <input type="email" name="email" id="floating_email"
                    class="block py-3 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                   placeholder=" " required />
-            <label for="floating_first_name"
+                   placeholder=" " required value="Test@gmail.com" />
+            <label for="floating_email"
                    class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Votre Email
             </label>
-            <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 italic">Pour pouvoir vous recontacter
-              suite à votre message.</p>
           </div>
+          <p id="helper-text-explanation" class="md:hidden mt-2 text-sm text-gray-500 italic">Pour pouvoir vous
+            recontacter
+            suite à votre message.</p>
         </div>
         <div>
           <!--Objet-->
-          <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="floating_first_name" id="floating_first_name"
+          <div class="relative z-0 w-full mt-10 md:mt-0 group">
+            <input type="text" name="object" id="floating_object"
                    class="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 appearance-none focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                   placeholder=" " required />
-            <label for="floating_first_name"
+                   placeholder=" " required value="Test Object" />
+            <label for="floating_object"
                    class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
               Objet du message
             </label>
           </div>
           <!--Message-->
           <div class="relative z-0 w-full mt-10 group">
-          <textarea name="floating_message" id="floating_message"
+          <textarea name="message" id="floating_message"
                     class="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 appearance-none focus:outline-none focus:ring-0 focus:border-primary-blue peer"
                     placeholder=" " required rows="5"></textarea>
             <label for="floating_message"
@@ -169,11 +173,16 @@ $animbase = "transform transition duration-100 ease-in-out";
           </div>
         </div>
       </div>
+      <!--Message d'aide pour le mail-->
+      <div class="md:grid md:grid-cols-2 md:gap-10 hidden">
+        <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 italic">Pour pouvoir vous recontacter
+          suite à votre message.</p>
+      </div>
       <!--Checkbox autorisation RGPD-->
-      <div class="w-3/4 mx-auto flex justify-center items-center mt-10 cursor-pointer">
-        <input id="checkbox-1" type="checkbox" value=""
+      <div class="w-full lg:w-3/4 mx-auto flex flex-col md:flex-row justify-center items-center mt-10 cursor-pointer">
+        <input id="checkbox-1" type="checkbox" required
                class="w-5 h-5 text-primary-blue focus:ring-0 bg-gray-100 border-gray-300 rounded-full cursor-pointer">
-        <label for="checkbox-1" class="ms-5 text-sm font-medium text-gray-700 cursor-pointer">
+        <label for="checkbox-1" class="mt-5 md:mt-0 md:ms-5 text-sm font-medium text-gray-700 cursor-pointer">
           J'autorise ce site à utiliser mes données personnelles saisies ci-dessus pour répondre à ma demande de
           contact. Pour en savoir plus sur la gestion de vos données personnelles, veuillez consulter notre
           <a href="<?= get_permalink( 3 ) ?>" target="_blank" class="text-primary-blue hover:underline text-balance">
@@ -188,8 +197,18 @@ $animbase = "transform transition duration-100 ease-in-out";
           Envoyer
         </button>
       </div>
+
     </form>
   </section>
+
+  <script>
+    const goToForm = document.getElementById("btnGoToForm");
+
+    goToForm.addEventListener("click", function(e) {
+      e.preventDefault();
+      document.getElementById("contact-form").scrollIntoView({ behavior: "smooth" });
+    });
+  </script>
 
 <?php
 get_footer();
