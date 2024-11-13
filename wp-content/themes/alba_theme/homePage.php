@@ -31,7 +31,7 @@ $imgPartners = array( 7, 10, 14, 11, 7, 10, 14, 11 );
       <!--Right Col-->
       <div
         class="col text-primary-blue flex flex-col items-center justify-between space-y-8 bg-white/50 rounded-2xl p-10">
-        <h1 class="text-3xl md:text-4xl italic font-bold tracking-wide underline">Actualité populaire :</h1>
+        <h1 class="text-3xl md:text-4xl italic text-center font-bold tracking-wide underline">Actualité populaire :</h1>
         <a href="<?php the_permalink( $nb_mainActus ); ?>" class="w-5/6 max-w-96 md:max-w-md lg:max-w-lg
                  md:w-3/4">
 			<?php echo wp_get_attachment_image( 47, '', false, array(
