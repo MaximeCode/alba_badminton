@@ -66,7 +66,7 @@
                 <li class="group">
                     <button id="dropdownClub" data-dropdown-toggle="dropdownNavbarClub" data-dropdown-trigger="hover"
                             class="<?= $classLiDropdown ?>">
-                        Le club
+                        <a href="<?= get_permalink(149); ?>">Le club</a>
                         <svg class="w-2.5 h-2.5 ms-2.5 <?= $animRotateArrow ?>"
                              aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                              fill="none" viewBox="0 0 10 6">
@@ -79,7 +79,7 @@
                          class="z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6">
                         <ul class="xl:text-lg normal-case divide-y" aria-labelledby="dropdownLargeButton">
                             <li>
-                                <a href="#"
+                                <a href="<?= get_permalink(149); ?>"
                                    class="block px-4 py-2 leading-7 rounded-t-lg hover:bg-white hover:text-primary-blue">Pr&eacute;sentation</a>
                             </li>
                             <li>
