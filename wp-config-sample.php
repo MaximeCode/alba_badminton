@@ -20,16 +20,16 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'wp_alba' );
+define( 'DB_NAME', 'database_name_here' );
 
 /** Database username */
-define( 'DB_USER', 'gitea' );
+define( 'DB_USER', 'username_here' );
 
 /** Database password */
-define( 'DB_PASSWORD', 'password' );
+define( 'DB_PASSWORD', 'password_here' );
 
 /** Database hostname */
-define( 'DB_HOST', '192.168.56.4' );
+define( 'DB_HOST', 'localhost' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8' );
@@ -64,8 +64,14 @@ define( 'NONCE_SALT',       'put your unique phrase here' );
  *
  * You can have multiple installations in one database if you give each
  * a unique prefix. Only numbers, letters, and underscores please!
+ *
+ * At the installation time, database tables are created with the specified prefix.
+ * Changing this value after WordPress is installed will make your site think
+ * it has not been installed.
+ *
+ * @link https://developer.wordpress.org/advanced-administration/wordpress/wp-config/#table-prefix
  */
-$table_prefix = 'bad_';
+$table_prefix = 'wp_';
 
 /**
  * For developers: WordPress debugging mode.
