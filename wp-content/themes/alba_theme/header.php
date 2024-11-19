@@ -7,6 +7,7 @@
     <title><?php wp_title(); ?></title>
     <!-- link:css fait grâce à wp_head() -->
     <?php wp_head();
+
     // Animation cartes d'actualités
     global $animCardNews;
     global $animBase;
@@ -23,6 +24,35 @@
     // Classes of all btn (sauf "envoyer" du form de contact)
     global $classBtn;
     $classBtn = "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out";
+
+    global $members;
+    // bureau actuel
+    $members = array(
+        'pr&eacute;sident' => array(
+            'name' => 'Jean Dupont',
+            'img' => 151,
+        ),
+        'vice-pr&eacute;sident' => array(
+            'name' => 'Jeanne Dupont',
+            'img' => 151,
+        ),
+        'tr&eacute;sorier' => array(
+            'name' => 'Jean Dupont',
+            'img' => 151,
+        ),
+        'secr&eacute;taire' => array(
+            'name' => 'Jeanne Dupont',
+            'img' => 151,
+        ),
+        'membre' => array(
+            'name' => 'Jean Dupont',
+            'img' => 151,
+        ),
+        'membre 2' => array(
+            'name' => 'MaximE bauDe',
+            'img' => 151,
+        ),
+    );
     ?>
 </head>
 
@@ -87,7 +117,7 @@
                                    class="block px-4 py-2 leading-7 rounded-t-lg hover:bg-white hover:text-primary-blue">Pr&eacute;sentation</a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="<?= get_permalink(153); ?>"
                                    class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Historique
                                     du
                                     Bureau</a>
