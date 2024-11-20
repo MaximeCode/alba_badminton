@@ -33,3 +33,6 @@ wp-config-sample.php
 # Ignorer les fichiers de configuration de WordPress
 wp-admin/
 wp-includes/
+
+# Ignorer le fichier style.css car il est généré automatiquement
+style.css

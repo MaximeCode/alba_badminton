@@ -54,7 +54,7 @@ $oldBureaux = array(
                     <div class="space-y-12 z-50">
                         <?php foreach ($oldBureaux as $key => $bureau) {
                             echo sprintf('
-        <a class="flex items-center bg-white rounded-xl p-1 sm:p-2 md:p-3 space-x-3 lg:space-x-5" href="#%s" onclick="goToOldManagers(this, \'%s\')">
+        <a class="flex items-center bg-white rounded-xl shadow-2xl p-1 sm:p-2 md:p-3 space-x-3 lg:space-x-5" href="#%s" onclick="goToOldManagers(this, \'%s\')">
             <div class="w-5 h-5 sm:w-7 sm:h-7 lg:w-10 lg:h-10 rounded-full bg-primary-blue relative"></div>
             <div>%s</div>
         </a>
@@ -70,11 +70,11 @@ $oldBureaux = array(
                     echo sprintf('
                 <div id="%s">
                     <h3 class="text-2xl font-bold mb-4">%s</h3>
-                    <div class="bg-white rounded-2xl p-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y divide-primary-blue sm:divide-none">
+                    <div class="bg-white rounded-2xl shadow-2xl p-3 sm:p-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y divide-primary-blue sm:divide-none">
                         ', $key, $key);
                     foreach ($bureau as $keyB => $member) {
                         echo sprintf(
-                            '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center items-center text-center text-lg p-4">
+                            '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center items-center text-center text-lg p-3">
                             <p class="underline font-bold text-xl">%s</p>
                             <div class="row-span-1">%s</div>
                             <p class="row-span-1 italic text-xl">%s</p>

@@ -59,7 +59,7 @@
 <body class="bg-back-blue font-crimson selection:bg-primary-blue selection:text-white">
 
 <!-- Navbar wrapper -->
-<nav class="bg-primary-blue mb-10 z-50 font-personal relative">
+<nav class="bg-primary-blue mb-10 z-50 font-personal relative shadow-xl">
     <div class="container mx-auto w-10/12 flex flex-wrap items-center justify-between z-50">
         <a href="/" class="flex items-center space-x-3">
             <?php echo wp_get_attachment_image(140, 'thumbnail', false, array('class' => 'h-24 w-auto')); ?>
