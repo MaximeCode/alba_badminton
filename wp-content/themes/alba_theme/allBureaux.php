@@ -39,48 +39,42 @@ $oldBureaux = array(
 );
 
 ?>
-    <style>
-        .thefixe {
-            position: sticky;
-            top: 20%;
-        }
-    </style>
     <section>
         <h2 class="text-4xl font-bold mb-8"><?php the_title(); ?></h2>
 
-        <div class="flex gap-6 relative "> <!--flex-col sm:flex-row-->
+        <div class="flex gap-3 sm:gap-6 md:gap-10 xl:gap-16 relative">
             <!--Date (col fixe)-->
-            <div class="basis-2/6 md:basis-1/6">
+            <div class="basis-2/6 lg:basis-3/12">
                 <!-- Les dates se positionnent ici -->
-                <div class="sticky top-[15%] relative flex flex-col justify-center">
+                <div class="sticky top-[10%] relative flex flex-col justify-center">
                     <!-- Ligne continue verticale passant derrière les liens -->
-                    <div class="absolute inset-0 left-[32px] z-40 m-0 w-0.5 h-full bg-black/50 transform -translate-x-1/2"></div>
+                    <div class="absolute inset-0 left-10 z-40 m-0 w-[1px] h-full bg-black/50 transform -translate-x-1/2"></div>
 
                     <!-- Liens avec espace entre eux -->
                     <div class="space-y-12 z-50">
                         <?php foreach ($oldBureaux as $key => $bureau) {
                             echo sprintf('
-        <a class="flex items-center bg-white rounded-xl p-3" href="#%s">
-            <div class="w-10 h-10 rounded-full bg-primary-blue relative"></div>
-            <div class="ms-3">%s</div>
+        <a class="flex items-center bg-white rounded-xl p-1 sm:p-2 md:p-3 space-x-3 lg:space-x-5" href="#%s" onclick="goToOldManagers(this, \'%s\')">
+            <div class="w-5 h-5 sm:w-7 sm:h-7 lg:w-10 lg:h-10 rounded-full bg-primary-blue relative"></div>
+            <div>%s</div>
         </a>
-        ', $key, $key);
+        ', $key, $key, $key);
                         } ?>
                     </div>
                 </div>
 
             </div>
             <!--Grille des informations-->
-            <div class="basis-4/6 md:basis-5/6">
+            <div class="basis-4/6 md:basis-5/6 space-y-10">
                 <?php foreach ($oldBureaux as $key => $bureau) {
                     echo sprintf('
-                <div id="%s" class="mb-16">
+                <div id="%s">
                     <h3 class="text-2xl font-bold mb-4">%s</h3>
                     <div class="bg-white rounded-2xl p-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y divide-primary-blue sm:divide-none">
                         ', $key, $key);
                     foreach ($bureau as $keyB => $member) {
                         echo sprintf(
-                            '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center text-center text-lg p-4">
+                            '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center items-center text-center text-lg p-4">
                             <p class="underline font-bold text-xl">%s</p>
                             <div class="row-span-1">%s</div>
                             <p class="row-span-1 italic text-xl">%s</p>

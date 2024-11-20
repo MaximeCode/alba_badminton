@@ -94,20 +94,18 @@
                 </li>
                 <!-- Dropdown Le club -->
                 <li class="group">
-                    <a href="<?= get_permalink(149); ?>">
-                        <button id="dropdownClub" data-dropdown-toggle="dropdownNavbarClub"
-                                data-dropdown-trigger="hover"
-                                class="<?= $classLiDropdown ?>">
-                            Le club
-                            <svg class="w-2.5 h-2.5 ms-2.5 <?= $animRotateArrow ?>"
-                                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                 fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="m1 1 4 4 4-4"/>
-                            </svg>
-                        </button>
-                    </a>
+                    <button id="dropdownClub" data-dropdown-toggle="dropdownNavbarClub"
+                            data-dropdown-trigger="hover"
+                            class="<?= $classLiDropdown ?>">
+                        Le club
+                        <svg class="w-2.5 h-2.5 ms-2.5 <?= $animRotateArrow ?>"
+                             aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                             fill="none" viewBox="0 0 10 6">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="m1 1 4 4 4-4"/>
+                        </svg>
+                    </button>
                     <!-- Dropdown menu -->
                     <div id="dropdownNavbarClub"
                          class="z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6">
@@ -197,4 +195,4 @@
     </div>
 </nav>
 
-<div class="container mx-auto w-10/12">
+<div class="container mx-auto w-full sm:w-10/12 p-2 sm:p-0">

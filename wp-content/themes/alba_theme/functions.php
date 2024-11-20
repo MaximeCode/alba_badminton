@@ -1,5 +1,8 @@
 <?php
 
+// Désactiver la barre d'administration pour tous les utilisateurs
+add_filter('show_admin_bar', '__return_false');
+
 function alba_theme_enqueue_styles(): void
 {
 
