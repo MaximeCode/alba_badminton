@@ -42,7 +42,7 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-12 justify-center items-center">
             <!--Contact-->
-            <section class="w-full md:w-10/12 lg:max-xl:w-full xl:w-10/12 mx-auto">
+            <section class="w-full md:w-10/12 lg:max-xl:w-full xl:w-10/12 mx-auto bg-white px-5 py-3 rounded-2xl">
                 <h4 class="text-2xl font-bold mb-12">Contactez-nous :</h4>
                 <address class="flex flex-col not-italic gap-y-12 md:text-lg text-center md:text-left">
                     <!--Email-->
@@ -187,7 +187,7 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
 
         <!--Contact form-->
         <form id="contact-form" method="post" action="<?= get_template_directory_uri() . '/submit/data_contact.php' ?>"
-              class="w-full lg:w-3/4 mx-auto font-personal bg-white/50 rounded-2xl p-10">
+              class="w-full lg:w-3/4 mx-auto font-personal bg-white rounded-2xl p-10">
 
             <?php wp_nonce_field('contact_form_nonce', 'contact_nonce'); ?>
             <div class="grid md:grid-cols-2 md:gap-10 lg:gap-16">
