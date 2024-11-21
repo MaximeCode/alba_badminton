@@ -7,6 +7,7 @@
     <title><?php wp_title(); ?></title>
     <!-- link:css fait grâce à wp_head() -->
     <?php wp_head();
+
     // Animation cartes d'actualités
     global $animCardNews;
     global $animBase;
@@ -23,13 +24,42 @@
     // Classes of all btn (sauf "envoyer" du form de contact)
     global $classBtn;
     $classBtn = "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out";
+
+    global $members;
+    // bureau actuel
+    $members = array(
+        'pr&eacute;sident' => array(
+            'name' => 'Jean Dupont',
+            'img' => 151,
+        ),
+        'vice-pr&eacute;sident' => array(
+            'name' => 'Jeanne Dupont',
+            'img' => 151,
+        ),
+        'tr&eacute;sorier' => array(
+            'name' => 'Jean Dupont',
+            'img' => 151,
+        ),
+        'secr&eacute;taire' => array(
+            'name' => 'Jeanne Dupont',
+            'img' => 151,
+        ),
+        'membre' => array(
+            'name' => 'Jean Dupont',
+            'img' => 151,
+        ),
+        'membre 2' => array(
+            'name' => 'MaximE bauDe',
+            'img' => 151,
+        ),
+    );
     ?>
 </head>
 
 <body class="bg-back-blue font-crimson selection:bg-primary-blue selection:text-white">
 
 <!-- Navbar wrapper -->
-<nav class="bg-primary-blue mb-10 z-50 font-personal relative">
+<nav class="bg-primary-blue mb-10 z-50 font-personal relative shadow-xl">
     <div class="container mx-auto w-10/12 flex flex-wrap items-center justify-between z-50">
         <a href="/" class="flex items-center space-x-3">
             <?php echo wp_get_attachment_image(140, 'thumbnail', false, array('class' => 'h-24 w-auto')); ?>
@@ -64,13 +94,15 @@
                 </li>
                 <!-- Dropdown Le club -->
                 <li class="group">
-                    <button id="dropdownClub" data-dropdown-toggle="dropdownNavbarClub" data-dropdown-trigger="hover"
+                    <button id="dropdownClub" data-dropdown-toggle="dropdownNavbarClub"
+                            data-dropdown-trigger="hover"
                             class="<?= $classLiDropdown ?>">
                         Le club
                         <svg class="w-2.5 h-2.5 ms-2.5 <?= $animRotateArrow ?>"
                              aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                              fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2"
                                   d="m1 1 4 4 4-4"/>
                         </svg>
                     </button>
@@ -79,11 +111,11 @@
                          class="z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6">
                         <ul class="xl:text-lg normal-case divide-y" aria-labelledby="dropdownLargeButton">
                             <li>
-                                <a href="#"
+                                <a href="<?= get_permalink(149); ?>"
                                    class="block px-4 py-2 leading-7 rounded-t-lg hover:bg-white hover:text-primary-blue">Pr&eacute;sentation</a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="<?= get_permalink(153); ?>"
                                    class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Historique
                                     du
                                     Bureau</a>
@@ -163,4 +195,4 @@
     </div>
 </nav>
 
-<div class="container mx-auto w-10/12">
+<div class="container mx-auto w-full sm:w-10/12 p-2 sm:p-0">
