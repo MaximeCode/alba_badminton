@@ -3,7 +3,7 @@
 $nb_mainActus = 1;
 
 // classes des img des partners
-$imgPartners = array( 7, 10, 14, 11, 7, 10, 14, 11 );
+$imgPartners = array( 148, 144, 143, 142, 148, 144, 143, 142 );
 ?>
 
   <section>
@@ -34,7 +34,7 @@ $imgPartners = array( 7, 10, 14, 11, 7, 10, 14, 11 );
         <h1 class="text-3xl md:text-4xl italic text-center font-bold tracking-wide underline">Actualité populaire :</h1>
         <a href="<?php the_permalink( $nb_mainActus ); ?>" class="w-5/6 max-w-96 md:max-w-md lg:max-w-lg
                  md:w-3/4">
-			<?php echo wp_get_attachment_image( 47, '', false, array(
+			<?php echo wp_get_attachment_image( 146, '', false, array(
 				'loading' => 'lazy',
 				'class'   => "rounded-2xl transform transition duration-300 ease-in-out hover:scale-105",
 			) ); ?>
