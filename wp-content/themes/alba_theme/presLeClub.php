@@ -68,7 +68,8 @@ function showGridJudges(array $judges): void
 ?>
 
     <section>
-        <h2 class="text-4xl font-bold mb-8"><?php the_title(); ?></h2>
+        <h2 class="<?= $classTitle ?>"><?php the_title(); ?></h2>
+
         <div class="container w-full lg:w-3/4 m-auto">
             <!--ALBA-->
             <h2 class="text-center italic text-4xl font-bold mb-12 text-balance">

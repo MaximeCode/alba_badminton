@@ -8,6 +8,10 @@
     <!-- link:css fait grâce à wp_head() -->
     <?php wp_head();
 
+    // Class title page
+    global $classTitle;
+    $classTitle = "text-4xl font-bold mb-8";
+
     // Animation cartes d'actualités
     global $animCardNews;
     global $animBase;
@@ -196,3 +200,5 @@
 </nav>
 
 <div class="container mx-auto w-full sm:w-10/12 p-2 sm:p-0">
+
+<?php generate_breadcrumbs(); ?>

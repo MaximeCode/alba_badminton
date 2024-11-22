@@ -35,7 +35,7 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
     </style>
 
     <section>
-        <h2 class="text-4xl font-bold mb-8"><?php the_title(); ?></h2>
+        <h2 class="<?= $classTitle ?>"><?php the_title(); ?></h2>
 
         <h3 class="text-3xl font-bold mb-8">Une question ?<br>
             Une demande particulière destinée au membre du bureau ?</h3>

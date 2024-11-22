@@ -83,9 +83,9 @@ function showTraining(bool $training, bool $adults, string $compet, int $difficu
 } ?>
 
     <section class="space-y-8">
-        <h2 class="text-4xl font-bold"><?php the_title(); ?></h2>
+        <h2 class="<?= $classTitle ?>"><?php the_title(); ?></h2>
 
-        <div><h3 class="text-3xl font-bold mt-12 underline decoration-primary-blue">Les séances d'entraînements :</h3>
+        <div><h3 class="text-3xl font-bold mt-12 underline decoration-primary-blue">Les séances d'entraînements</h3>
         </div>
 
         <!--img-->
@@ -100,7 +100,7 @@ function showTraining(bool $training, bool $adults, string $compet, int $difficu
             } ?>
         </div>
 
-        <div><h3 class="text-3xl font-bold mt-16 underline decoration-primary-blue">Les séances de jeux libres :</h3>
+        <div><h3 class="text-3xl font-bold mt-16 underline decoration-primary-blue">Les séances de jeux libres</h3>
         </div>
 
         <div class="flex flex-col md:flex-row gap-x-12 gap-y-10">
