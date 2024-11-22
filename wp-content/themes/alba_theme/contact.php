@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /* Template Name: contact */
 session_start();
 get_header();

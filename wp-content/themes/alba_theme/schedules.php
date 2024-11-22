@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /* Template Name: schedules */
 get_header();
 

@@ -1,4 +1,6 @@
-<?php get_header();
+<?php /** @noinspection ALL */
+
+get_header();
 /* Template Name: Page d'accueil ALBA */
 $nb_mainActus = 1;
 

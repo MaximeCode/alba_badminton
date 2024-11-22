@@ -16,7 +16,7 @@ add_action('wp_enqueue_scripts', 'alba_theme_enqueue_styles');
 add_theme_support('title-tag');
 
 
-function alba_theme_enqueue_scripts()
+function alba_theme_enqueue_scripts(): void
 {
     // Enqueue Flowbite JS
     wp_enqueue_script('flowbite', get_template_directory_uri() . '/assets/js/flowbite.min.js', array(), null, true);
@@ -65,7 +65,7 @@ function wppln_mime_types($mimes)
 
 add_filter('upload_mimes', 'wppln_mime_types');
 
-function wppln_fix_svg()
+function wppln_fix_svg(): void
 {
     echo '<style>
         .attachment-266x266, .thumbnail img {

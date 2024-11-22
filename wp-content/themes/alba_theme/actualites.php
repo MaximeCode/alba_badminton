@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 /* Template Name: actualites */
 get_header(); ?>
 
