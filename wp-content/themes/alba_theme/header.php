@@ -21,9 +21,13 @@
     $animBase = "transform transition duration-200 ease-in-out";
     // Class of each <li> in the navbar
     $classLi = "block py-2 px-3 rounded $animBase hover:bg-white hover:text-primary-blue md:py-3";
+    // Class of div of each dropdown in the navbar
+    $classDivDropdown = "z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6";
     // Class of each dropdown <li> in the navbar
     $classLiDropdown = "flex items-center justify-between w-full py-2 px-3 rounded $animBase group-hover:bg-white 
-	group-hover:text-primary-blue lg:w-auto lg:py-3 uppercase focus:bg-white focus:text-primary-blue";
+	group-hover:text-primary-blue lg:w-auto lg:py-3 uppercase";
+    // Class of each sub dropdown <li> in the navbar
+    $classLiSubDropdown = "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue";
 
     // Classes of all btn (sauf "envoyer" du form de contact)
     global $classBtn;
@@ -57,6 +61,27 @@
             'img' => 151,
         ),
     );
+
+    $seasons = get_post_meta(166, 'custom_seasons', true);
+
+
+    // Préparation des données pour le menu Galerie
+    $gallery = [];
+    if (isset($seasons) && is_array($seasons)) {
+        foreach ($seasons as $season) {
+            $gallery[$season['title']] = []; // Initialise la saison
+
+            if (isset($season['events']) && is_array($season['events'])) {
+                foreach ($season['events'] as $eventKey => $event) {
+                    $eventAnchor = isset($event['title']) ? sanitize_title(str_replace(' ', '-', $event['title'])) : 'event-' . $eventKey;
+                    $gallery[$season['title']][$eventKey] = [
+                        'title' => $event['title'],
+                        'anchor' => $eventAnchor,
+                    ];
+                }
+            }
+        }
+    }
     ?>
 </head>
 
@@ -112,7 +137,7 @@
                     </button>
                     <!-- Dropdown menu -->
                     <div id="dropdownNavbarClub"
-                         class="z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6">
+                         class="<?= $classDivDropdown ?>">
                         <ul class="xl:text-lg normal-case divide-y" aria-labelledby="dropdownLargeButton">
                             <li>
                                 <a href="<?= get_permalink(149); ?>"
@@ -120,9 +145,9 @@
                             </li>
                             <li>
                                 <a href="<?= get_permalink(153); ?>"
-                                   class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Historique
-                                    du
-                                    Bureau</a>
+                                   class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">
+                                    Historique du Bureau
+                                </a>
                             </li>
                             <li>
                                 <a href="#"
@@ -148,7 +173,7 @@
                     <button id="dropdownGalerie" data-dropdown-toggle="dropdownNavbarGalerie"
                             data-dropdown-trigger="hover"
                             class="<?= $classLiDropdown ?>">
-                        Galerie 2024
+                        Galerie
                         <svg class="w-2.5 h-2.5 ms-2.5 <?= $animRotateArrow ?>" aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg"
                              fill="none" viewBox="0 0 10 6">
@@ -158,35 +183,78 @@
                     </button>
                     <!-- Dropdown menu -->
                     <div id="dropdownNavbarGalerie"
-                         class="z-10 hidden font-normal bg-primary-blue divide-y divide-gray-800 rounded-lg shadow-box-dropdown w-44 border-white border-6">
+                         class="<?= $classDivDropdown ?>">
                         <ul class="xl:text-lg divide-y normal-case" aria-labelledby="dropdownLargeButton">
-                            <li>
-                                <a href="#"
-                                   class="block px-4 py-2 leading-7 rounded-t-lg hover:bg-white hover:text-primary-blue">
-                                    Soir&eacute;e Blackminton
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Tournoi
-                                    Annuel</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Soirée
-                                    d'Intégration</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Nouvelle
-                                    Génération</a>
-                            </li>
-                            <li class="bg-white text-primary-blue p-1 rounded-lg">
-                                <a href="#"
-                                   class="block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base">
-                                    Voir toute la galerie
-                                </a>
-                            </li>
+                            <?php
+                            if (isset($seasons) && !empty($seasons) && is_array($seasons)) {
+                                $id = 0; // ID pour les boutons de dropdown
+                                foreach ($gallery as $key => $season) :
+                                    if (isFirstKey($key, $gallery) && isLastKey($key, $gallery)) { // Vérifie s'il n'y a qu'une seule saison
+                                        $rounded = "rounded-lg"; // rounded top and bottom
+                                    } else {
+                                        if (isFirstKey($key, $gallery)) { // Vérifie si la clé est la première
+                                            $rounded = "rounded-t-lg"; // rounded top
+                                        } elseif (isLastKey($key, $gallery)) { // Vérifie si la clé est la dernière
+                                            $rounded = "rounded-b-lg"; // rounded bottom
+                                        } else {
+                                            $rounded = ""; // rounded none
+                                        }
+                                    }
+                                    ?>
+                                    <li class="<?php /*= isLastKey($key, $gallery) ? 'mb-2' : ''; */
+                                    ?>">
+                                        <a href="<?= get_permalink(166); ?>#<?= sanitize_title(str_replace(' ', '-', $key)) ?>"
+                                           id="doubleDropdownButton<?= $id ?>"
+                                           data-dropdown-toggle="doubleDropdown<?= $id ?>"
+                                           type="button"
+                                           data-dropdown-placement="right-start" data-dropdown-trigger="hover"
+                                           class="<?= "$classLiSubDropdown $rounded" ?>">
+                                            <?= str_replace('-', ' - ', $key); ?>
+                                            <svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true"
+                                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                      stroke-linejoin="round"
+                                                      stroke-width="2" d="m1 9 4-4-4-4"/>
+                                            </svg>
+                                        </a>
+                                        <!-- Sub dropdown menu -->
+                                        <div id="doubleDropdown<?= $id ?>"
+                                             class="<?= $classDivDropdown ?>">
+                                            <ul class="xl:text-lg divide-y normal-case"
+                                                aria-labelledby="doubleDropdownButton">
+                                                <?php foreach ($season as $theKey => $event) :
+                                                    if (isFirstKey($theKey, $season)) { // Vérifie si la clé est la première
+                                                        $rounded_ = "rounded-t-lg"; // rounded top
+                                                    } else {
+                                                        $rounded_ = ""; // rounded none
+                                                    }
+                                                    ?>
+                                                    <li>
+                                                        <a href="<?= get_permalink(166); ?>#<?= strtolower($event['anchor']) ?>"
+                                                           class="<?= "$classLiSubDropdown $rounded_" ?>"><?= $event['title'] ?></a>
+                                                    </li>
+                                                <?php endforeach; ?>
+                                                <li class="bg-white text-primary-blue p-1 rounded-lg">
+                                                    <a href="<?= get_permalink(166); ?>#<?= $key ?>"
+                                                       class="block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base">
+                                                        Voir toutes les photos
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <?php $id++;
+                                endforeach; ?>
+                                <li class="bg-white text-primary-blue p-1 rounded-lg">
+                                    <a href="<?= get_permalink(166); ?>"
+                                       class="block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base">
+                                        Voir toute la galerie
+                                    </a>
+                                </li>
+                                <?php
+                            } else {
+                                echo "<li class='block px-4 py-2 leading-7 rounded-lg hover:bg-white hover:text-primary-blue'>Aucune galerie disponible !</li>";
+                            } ?>
                         </ul>
                     </div>
                 </li>
@@ -200,5 +268,10 @@
 </nav>
 
 <div class="container mx-auto w-full sm:w-10/12 p-2 sm:p-0">
+    <?php generate_breadcrumbs();
 
-<?php generate_breadcrumbs(); ?>
+    //    echo "<pre>";
+    //    var_dump($gallery);
+    //    echo "</pre>";
+    ?>
+
