@@ -2,10 +2,7 @@
 /* Template Name: gallery */
 get_header();
 
-// ID de la page => 166
-
-//$theTitle = rwmb_meta('titre_de_l_evenement');
-//$theImages = rwmb_meta('les_images');
+$seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
 ?>
     <style>
         p {
@@ -17,9 +14,8 @@ get_header();
     <h2 class="<?= $classTitle ?>"><?php the_title(); ?></h2>
 
 <?php
-$seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
 
-if (isset($seasons) && !empty($seasons) && is_array($seasons)) {
+if (!empty($seasons) && is_array($seasons)) {
     foreach ($seasons as $season) {
         echo "<div class='mb-4'>";
         echo "<h2 id='{$season['title']}' class='text-3xl font-bold my-12 underline decoration-primary-blue'>Saison " . str_replace('-', ' - ', $season['title']) . "</h2>";

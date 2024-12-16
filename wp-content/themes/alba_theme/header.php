@@ -150,7 +150,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="<?= get_permalink(190); ?>"
                                    class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Interclubs</a>
                             </li>
                             <li>
