@@ -8,10 +8,6 @@
     <!-- link:css fait grâce à wp_head() -->
     <?php wp_head();
 
-    // Class title page
-    global $classTitle;
-    $classTitle = "text-4xl font-bold mb-8";
-
     // Animation cartes d'actualités
     global $animCardNews;
     global $animBase;
@@ -165,7 +161,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="<?= get_permalink(209); ?>"
                        class="<?= $classLi ?>">Calendrier</a>
                 </li>
                 <!-- Dropdown Galerie -->

@@ -1914,6 +1914,14 @@ input:checked + .toggle-bg {
   height: 100%;
 }
 
+.h-\[90vh\] {
+  height: 90vh;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
 .w-1\/2 {
   width: 50%;
 }

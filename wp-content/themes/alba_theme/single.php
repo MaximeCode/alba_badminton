@@ -74,7 +74,7 @@ get_header(); ?>
         <?php
         if (have_posts()) :
             while (have_posts()) : the_post();
-                the_title('<h1 class="<?= $classTitle ?>">', '</h1>'); // Affiche le titre de l'article
+                echo display_titlePage(); // Affiche le titre de l'article
                 echo("<h6 class='subtitle mb-6'>Article publié le " . get_the_date() . "</h6>"); // Affiche la date de publication de l'article
 
                 echo("<div class='prose'>");

@@ -678,3 +678,9 @@ function save_interclub_meta_box($post_id)
 }
 
 add_action('save_post', 'save_interclub_meta_box');
+
+///////// function which displays the title in <h2> tag with a specific class //////////
+function display_titlePage(): string
+{
+    return '<h2 class="text-4xl font-bold mb-8">' . get_the_title() . '</h2>';
+}

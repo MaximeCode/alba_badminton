@@ -83,16 +83,11 @@ function showTraining(bool $training, bool $adults, string $compet, int $difficu
 } ?>
 
     <section class="space-y-8">
-        <h2 class="<?= $classTitle ?>"><?php the_title(); ?></h2>
+        <?= display_titlePage() ?>
 
-        <div><h3 class="text-3xl font-bold mt-12 underline decoration-primary-blue">Les séances d'entraînements</h3>
+        <div>
+            <h3 class="text-3xl font-bold mt-12 underline decoration-primary-blue">Les séances d'entraînements</h3>
         </div>
-
-        <!--img-->
-        <!--                <img src="--><?php //echo get_the_post_thumbnail_url(); ?><!--" alt="-->
-        <?php //the_title(); ?><!--"-->
-        <!--                     class="w-full h-auto">-->
-        <!--Fin img-->
 
         <div class="space-y-12">
             <?php foreach ($seances as $seance) {

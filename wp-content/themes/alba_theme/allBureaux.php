@@ -40,7 +40,7 @@ $oldBureaux = array(
 
 ?>
     <section>
-        <h2 class="<?= $classTitle ?>"><?php the_title(); ?></h2>
+        <?= display_titlePage() ?>
 
         <div class="flex gap-3 sm:gap-6 md:gap-10 xl:gap-16 relative">
             <!--Date (col fixe)-->
