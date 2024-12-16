@@ -2,10 +2,7 @@
 /* Template Name: gallery */
 get_header();
 
-// ID de la page => 166
-
-//$theTitle = rwmb_meta('titre_de_l_evenement');
-//$theImages = rwmb_meta('les_images');
+$seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
 ?>
     <style>
         p {
@@ -14,45 +11,48 @@ get_header();
         }
     </style>
 
-    <h2 class="<?= $classTitle ?>"><?php the_title(); ?></h2>
+    <section>
 
-<?php
-$seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
+        <?= display_titlePage() ?>
 
-if (isset($seasons) && !empty($seasons) && is_array($seasons)) {
-    foreach ($seasons as $season) {
-        echo "<div class='mb-4'>";
-        echo "<h2 id='{$season['title']}' class='text-3xl font-bold my-12 underline decoration-primary-blue'>Saison " . str_replace('-', ' - ', $season['title']) . "</h2>";
+        <?php
 
-        if (isset($season['events']) && is_array($season['events'])) {
-            foreach ($season['events'] as $event) {
+        if (!empty($seasons) && is_array($seasons)) {
+            foreach ($seasons as $season) {
+                echo "<div class='mb-4'>";
+                echo "<h2 id='{$season['title']}' class='text-3xl font-bold my-12 underline decoration-primary-blue'>Saison " . str_replace('-', ' - ', $season['title']) . "</h2>";
 
-                echo "<div>";
-                echo "<h3 class='text-2xl font-bold mt-12 mb-6 underline text-primary-blue' id=" . sanitize_title(str_replace(' ', '-', $event['title'])) . ">{$event['title']}</h3>";
+                if (isset($season['events']) && is_array($season['events'])) {
+                    foreach ($season['events'] as $event) {
 
-                if (isset($event['images'])) {
-                    echo '<div class="flex flex-wrap justify-around gap-2 md:gap-6 gap-y-4 lg:gap-y-12 items-center">';
-                    foreach ($event['images'] as $id_img) {
-                        echo wp_get_attachment_image($id_img, 'medium', false, array(
-                            'loading' => 'lazy',
-                            'class' => 'w-48 sm:w-96 md:w-1/6 rounded-2xl',
-                        ));
+                        echo "<div>";
+                        echo "<h3 class='text-2xl font-bold mt-12 mb-6 underline text-primary-blue' id=" . sanitize_title(str_replace(' ', '-', $event['title'])) . ">{$event['title']}</h3>";
+
+                        if (isset($event['images'])) {
+                            echo '<div class="flex flex-wrap justify-around gap-2 md:gap-6 gap-y-4 lg:gap-y-12 items-center">';
+                            foreach ($event['images'] as $id_img) {
+                                echo wp_get_attachment_image($id_img, 'medium', false, array(
+                                    'loading' => 'lazy',
+                                    'class' => 'w-48 sm:w-96 md:w-1/6 rounded-2xl',
+                                ));
+                            }
+                            echo '</div>';
+                        } else {
+                            echo "<p>Aucune image pour l'événement {$event['title']}</p>";
+                        }
+                        echo "</div>";
                     }
-                    echo '</div>';
                 } else {
-                    echo "<p>Aucune image pour l'événement {$event['title']}</p>";
+                    echo "<p>Aucun événement pour la saison {$season['title']}</p>";
                 }
                 echo "</div>";
             }
         } else {
-            echo "<p>Aucun événement pour la saison {$season['title']}</p>";
+            echo "<p>Aucune saison n'a été définie pour cette galerie.</p>";
         }
-        echo "</div>";
-    }
-} else {
-    echo "<p>Aucune saison n'a été définie pour cette galerie.</p>";
-}
-?>
+        ?>
+
+    </section>
 
 <?php
 //// Vérifiez si ACF est activé

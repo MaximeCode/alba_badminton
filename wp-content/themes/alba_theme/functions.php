@@ -177,21 +177,36 @@ function isLastKey(string $key, array $array): bool
     return array_key_last($array) == $key;
 }
 
-function custom_meta_box()
+////// Custom Meta Box //////
+
+function custom_meta_box(): void
 {
-    add_meta_box(
-        'custom_event_meta_box', // ID de la meta box
-        'Événements',            // Titre
-        'custom_meta_box_callback', // Fonction de rappel
-        'page',                  // Type de contenu (ici : page)
-        'normal',                // Position
-        'default'                // Priorité
-    );
+//    Ajout de la méta box pour les événements
+    if (get_the_ID() == 166) {
+        add_meta_box(
+            'custom_events_meta_box', // ID de la meta box
+            'Événements',            // Titre
+            'events_meta_box_callback', // Fonction de rappel
+            'page',                  // Type de contenu (ici : page)
+            'normal',                // Position
+        );
+    }
+
+//    Ajout de la méta box pour les interclubs
+    if (get_the_ID() == 190) {
+        add_meta_box(
+            'custom_interclubs_meta_box', // ID de la meta box
+            'Interclubs',            // Titre
+            'interclubs_meta_box_callback', // Fonction de rappel
+            'page',                  // Type de contenu (ici : page)
+            'normal',                // Position
+        );
+    }
 }
 
 add_action('add_meta_boxes', 'custom_meta_box');
 
-function custom_meta_box_callback($post)
+function events_meta_box_callback($post): void
 {
     wp_nonce_field('save_custom_meta_box', 'custom_meta_box_nonce'); // Sécurité
 
@@ -203,38 +218,38 @@ function custom_meta_box_callback($post)
         <?php if (!empty($seasons) && is_array($seasons)): ?>
             <?php foreach ($seasons as $season_index => $season): ?>
                 <div class="season-row" style="margin-bottom: 20px; border: 1px solid #555; padding: 10px;">
-                    <label for="custom_seasons[<?php echo $season_index; ?>][title]">Saison :</label>
-                    <input type="text" name="custom_seasons[<?php echo $season_index; ?>][title]"
-                           id="custom_seasons[<?php echo $season_index; ?>][title]"
-                           value="<?php echo esc_attr($season['title']); ?>" style="width: 100%; margin-bottom: 10px;"/>
+                    <label for="custom_seasons[<?= $season_index; ?>][title]">Saison :</label>
+                    <input type="text" name="custom_seasons[<?= $season_index; ?>][title]"
+                           id="custom_seasons[<?= $season_index; ?>][title]"
+                           value="<?= esc_attr($season['title']); ?>" style="width: 100%; margin-bottom: 10px;"/>
 
                     <div class="events-container">
                         <?php if (!empty($season['events']) && is_array($season['events'])): ?>
                             <?php foreach ($season['events'] as $event_index => $event): ?>
                                 <div class="event-row"
                                      style="margin-bottom: 10px; border: 1px solid #ddd; padding: 10px;">
-                                    <label for="custom_seasons[<?php echo $season_index; ?>][events][<?php echo $event_index; ?>][title]">Événement
-                                        :</label>
+                                    <label for="custom_seasons[<?= $season_index; ?>][events][<?= $event_index; ?>][title]">
+                                        Événement :</label>
                                     <input type="text"
-                                           name="custom_seasons[<?php echo $season_index; ?>][events][<?php echo $event_index; ?>][title]"
-                                           id="custom_seasons[<?php echo $season_index; ?>][events][<?php echo $event_index; ?>][title]"
-                                           value="<?php echo esc_attr($event['title']); ?>"
+                                           name="custom_seasons[<?= $season_index; ?>][events][<?= $event_index; ?>][title]"
+                                           id="custom_seasons[<?= $season_index; ?>][events][<?= $event_index; ?>][title]"
+                                           value="<?= esc_attr($event['title']); ?>"
                                            style="width: 100%; margin-bottom: 10px;"/>
 
                                     <label>Images :</label>
                                     <div class="image-wrapper">
                                         <input type="hidden" class="image-field"
-                                               name="custom_seasons[<?php echo $season_index; ?>][events][<?php echo $event_index; ?>][images]"
-                                               value="<?php echo esc_attr(implode(',', $event['images'] ?? [])); ?>"/>
+                                               name="custom_seasons[<?= $season_index; ?>][events][<?= $event_index; ?>][images]"
+                                               value="<?= esc_attr(implode(',', $event['images'] ?? [])); ?>"/>
                                         <button class="button select-images">Choisir des images</button>
                                         <button class="button remove-images"
-                                                style="display: <?php echo !empty($event['images']) ? 'inline-block' : 'none'; ?>; background-color: #f6f7f7; margin-left: 10px; color: red; border: 1px solid red;">
+                                                style="display: <?= !empty($event['images']) ? 'inline-block' : 'none'; ?>; background-color: #f6f7f7; margin-left: 10px; color: red; border: 1px solid red;">
                                             Supprimer les images
                                         </button>
                                         <div class="image-preview" style="margin-top: 10px;">
                                             <?php if (!empty($event['images'])): ?>
                                                 <?php foreach ($event['images'] as $image_id): ?>
-                                                    <img src="<?php echo wp_get_attachment_image_url($image_id, 'thumbnail'); ?>"
+                                                    <img src="<?= wp_get_attachment_image_url($image_id, 'thumbnail'); ?>"
                                                          alt="Image"
                                                          style="max-width: 100px; height: auto; margin-right: 5px;"/>
                                                 <?php endforeach; ?>
@@ -331,7 +346,9 @@ function custom_meta_box_callback($post)
                 // Supprimer une saison
                 removeSeasonButton.addEventListener('click', function (e) {
                     e.preventDefault();
-                    seasonRow.remove();
+                    if (confirm('Êtes-vous sûr de vouloir supprimer cette saison ?')) {
+                        seasonRow.remove();
+                    }
                 });
             }
 
@@ -445,3 +462,225 @@ function save_custom_meta_box($post_id)
 
 add_action('save_post', 'save_custom_meta_box');
 
+function interclubs_meta_box_callback($post): void
+{
+    wp_nonce_field('save_interclub_meta_box', 'interclub_meta_box_nonce'); // Sécurité
+
+    // Récupérer les anciennes valeurs
+    $interclubs = get_post_meta($post->ID, 'custom_interclubs', true);
+    ?>
+
+    <div class="interclubs-container">
+        <?php if (!empty($interclubs) && is_array($interclubs)): ?>
+            <?php foreach ($interclubs as $teamID => $team): ?>
+                <div class="team-row" style="margin-bottom: 10px; border: 1px solid #ddd; padding: 10px;">
+                    <!--Input name-->
+                    <label for="custom_name_team_<?= $teamID ?>">&Eacute;quipe :</label>
+                    <input type="text"
+                           name="custom_name_team_<?= $teamID ?>"
+                           id="custom_name_team_<?= $teamID ?>"
+                           value="<?= esc_attr($team['name']); ?>"
+                           style="width: 100%; margin-bottom: 10px;"/>
+
+                    <!--Input Leader-->
+                    <label for="custom_leader_team_<?= $teamID ?>">Capitaine de l'&eacute;quipe :</label>
+                    <input type="text"
+                           name="custom_leader_team_<?= $teamID ?>"
+                           id="custom_leader_team_<?= $teamID ?>"
+                           value="<?= esc_attr($team['leader']); ?>"
+                           style="width: 100%; margin-bottom: 10px;"/>
+
+                    <label for="custom_img_team_<?= $teamID ?>">Photo de l'&eacute;quipe :</label>
+                    <div class="image-wrapper">
+                        <input type="hidden" class="image-team-field"
+                               name="custom_img_team_<?= $teamID ?>"
+                               value="<?= esc_attr($team['imgId']); ?>"/>
+                        <button class="button select-img-team">Choisir une image</button>
+                        <button class="button remove-img-team"
+                                style="display: <?= !empty($team['imgId']) ? 'inline-block' : 'none'; ?>;
+                                        background-color: #f6f7f7; margin-left: 10px; color: red; border: 1px solid red;">
+                            Supprimer l'image
+                        </button>
+                        <div class="image-preview" style="margin-top: 10px;">
+                            <?php if (!empty($team['imgId'])): ?>
+                                <img src="<?= wp_get_attachment_image_url($team['imgId']); ?>"
+                                     alt="Image"
+                                     style="max-width: 150px; height: auto;"/>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <button class="button remove-team"
+                            style="background-color: #ff4d4d; color: white; margin-top: 10px; border: none;">
+                        Supprimer cette &eacute;quipe
+                    </button>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
+    <button class="button add-team" style="margin-top: 10px;">Ajouter une &eacute;quipe</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.querySelector('.interclubs-container');
+            const addTeamButton = document.querySelector('.add-team');
+
+            let teamIndex = <?= !empty($interclubs) ? count($interclubs) : 0; ?>; // Initialiser l'index des équipes
+
+            // Fonction pour initialiser une équipe
+            function initializeTeamRow(teamRow) {
+                const removeButton = teamRow.querySelector('.remove-team');
+                const selectImageButton = teamRow.querySelector('.select-img-team');
+                const removeImageButton = teamRow.querySelector('.remove-img-team');
+                const imagePreview = teamRow.querySelector('.image-preview');
+                const imageField = teamRow.querySelector('.image-team-field');
+
+                // Supprimer une équipe
+                removeButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (confirm('Êtes-vous sûr de vouloir supprimer cette équipe ?')) {
+                        teamRow.remove();
+                    }
+                });
+
+                let mediaUploader;
+
+                // Ouvrir la Media Library
+                selectImageButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    if (mediaUploader) {
+                        mediaUploader.open();
+                        return;
+                    }
+
+                    mediaUploader = wp.media({
+                        title: 'Sélectionner une image',
+                        button: {text: 'Ajouter l\'image'},
+                        multiple: false,
+                    });
+
+                    mediaUploader.on('select', function () {
+                        const selection = mediaUploader.state().get('selection').first().toJSON();
+                        imageField.value = selection.id;
+                        imagePreview.innerHTML = `<img src="${selection.url}" alt="img" style="max-width: 150px; height: auto;" />`;
+                        removeImageButton.style.display = 'inline-block';
+                    });
+
+                    mediaUploader.open();
+                });
+
+                // Supprimer l'image
+                removeImageButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    imageField.value = '';
+                    imagePreview.innerHTML = '';
+                    removeImageButton.style.display = 'none';
+                });
+            }
+
+            // Ajouter une nouvelle équipe
+            addTeamButton.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const teamRow = document.createElement('div');
+                teamRow.classList.add('team-row');
+                teamRow.style.marginBottom = '10px';
+                teamRow.style.border = '1px solid #ddd';
+                teamRow.style.padding = '10px';
+
+                teamRow.innerHTML = `
+                    <label for="custom_name_team_${teamIndex}">&Eacute;quipe :</label>
+                    <input type="text"
+                           name="custom_name_team_${teamIndex}"
+                           id="custom_name_team_${teamIndex}"
+                           style="width: 100%; margin-bottom: 10px;" />
+
+                    <label for="custom_leader_team_${teamIndex}">Capitaine de l'&eacute;quipe :</label>
+                    <input type="text"
+                           name="custom_leader_team_${teamIndex}"
+                           id="custom_leader_team_${teamIndex}"
+                           style="width: 100%; margin-bottom: 10px;" />
+
+                    <label>Photo de l'&eacute;quipe :</label>
+                    <div class="image-wrapper">
+                        <input type="hidden" class="image-team-field" name="custom_img_team_${teamIndex}" />
+                        <button class="button select-img-team">Choisir une image</button>
+                        <button class="button remove-img-team"
+                                style="display: none; margin-left: 10px;">Supprimer l'image</button>
+                        <div class="image-preview" style="margin-top: 10px;"></div>
+                    </div>
+
+                    <button class="button remove-team"
+                            style="background-color: #ff4d4d; color: white; margin-top: 10px; border: none;">
+                        Supprimer cet &eacute;quipe
+                    </button>
+                `;
+
+                container.appendChild(teamRow);
+                initializeTeamRow(teamRow);
+                teamIndex++;
+            });
+
+            // Initialiser les équipes existantes
+            const existingTeams = container.querySelectorAll('.team-row');
+            existingTeams.forEach(initializeTeamRow);
+        });
+    </script>
+    <?php
+}
+
+function save_interclub_meta_box($post_id)
+{
+    // Vérification du nonce pour la sécurité
+    if (!isset($_POST['interclub_meta_box_nonce']) || !wp_verify_nonce($_POST['interclub_meta_box_nonce'], 'save_interclub_meta_box')) {
+        return;
+    }
+
+    // Éviter les sauvegardes automatiques
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    // Vérification des permissions de l'utilisateur
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+
+    // Validation et nettoyage des données
+    $interclubs = [];
+    foreach ($_POST as $key => $value) {
+        if (strpos($key, 'custom_name_team_') === 0) {
+            $team_id = str_replace('custom_name_team_', '', $key);
+
+            // Nettoyer les données de l'équipe
+            $team_name = isset($_POST["custom_name_team_{$team_id}"]) ? sanitize_text_field($_POST["custom_name_team_{$team_id}"]) : '';
+            $team_leader = isset($_POST["custom_leader_team_{$team_id}"]) ? sanitize_text_field($_POST["custom_leader_team_{$team_id}"]) : '';
+            $team_img_id = isset($_POST["custom_img_team_{$team_id}"]) ? absint($_POST["custom_img_team_{$team_id}"]) : 0;
+
+            // Ajouter l'équipe seulement si le nom ou le capitaine est fourni
+            if (!empty($team_name) || !empty($team_leader)) {
+                $interclubs[$team_id] = [
+                    'name' => $team_name,
+                    'leader' => $team_leader,
+                    'imgId' => $team_img_id,
+                ];
+            }
+        }
+    }
+
+    if (!empty($interclubs)) {
+        // Sauvegarder les données nettoyées dans les méta-données
+        update_post_meta($post_id, 'custom_interclubs', $interclubs);
+    } else {
+        // Si aucune donnée n'est fournie, supprimer la méta-donnée
+        delete_post_meta($post_id, 'custom_interclubs');
+    }
+}
+
+add_action('save_post', 'save_interclub_meta_box');
+
+///////// function which displays the title in <h2> tag with a specific class //////////
+function display_titlePage(): string
+{
+    return '<h2 class="text-4xl font-bold mb-8">' . get_the_title() . '</h2>';
+}

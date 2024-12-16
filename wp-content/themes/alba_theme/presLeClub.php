@@ -68,7 +68,7 @@ function showGridJudges(array $judges): void
 ?>
 
     <section>
-        <h2 class="<?= $classTitle ?>"><?php the_title(); ?></h2>
+        <?= display_titlePage() ?>
 
         <div class="container w-full lg:w-3/4 m-auto">
             <!--ALBA-->
