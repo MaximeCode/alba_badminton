@@ -36,4 +36,4 @@ wp-admin/
 wp-includes/
 
 # Ignorer le fichier style.css car il est généré automatiquement
-/wp-content/themes/alba_theme/style.css
+style.css
