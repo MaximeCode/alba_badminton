@@ -37,12 +37,15 @@ function display_sports_teams(): false|string
                 <div class="team-card">
                     <div class="text-center">
                         <h3 class="text-2xl text-primary-blue underline font-bold"><?php the_title(); ?></h3>
-                        <p class="text-xl"><span class="font-bold">Capitaine : </span> <?php echo esc_html($team_captain); ?></p>
-                        <!--                        <p>Order: --><?php //= $team_order ?><!--</p>-->
+                        <p class="text-xl">
+                            <span class="font-bold">Capitaine : </span> <?php echo esc_html($team_captain); ?>
+                        </p>
+                        <!--<p>Order: <?php /*= $team_order */ ?></p>-->
                     </div>
                     <div class="mt-4">
                         <?php if ($team_image_url) { ?>
-                            <img src="<?php echo esc_url($team_image_url); ?>" alt="<?php the_title(); ?> Team" class="w-full rounded-2xl">
+                            <img src="<?php echo esc_url($team_image_url); ?>" alt="<?php the_title(); ?> Team"
+                                 class="w-full rounded-2xl">
                         <?php } ?>
                     </div>
                 </div>
