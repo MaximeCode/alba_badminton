@@ -68,6 +68,20 @@ function render_team_details_meta_box($post): void
     $team_image_id = get_post_meta($post->ID, '_sports_team_image', true);
     $team_order = get_post_meta($post->ID, '_sports_team_order', true);
 
+    $args = array(
+        'post_type' => 'sports_team',
+        'posts_per_page' => -1,
+        'orderby' => 'meta_value_num',
+        'meta_key' => '_sports_team_order',
+        'order' => 'ASC',
+    );
+
+    $teams = new WP_Query($args);
+    // count the number of teams
+    $teamCount = $teams->post_count;
+
+    $theteamOrderValue = $team_order ? $team_order : $teamCount + 1;
+
 //    var_dump(get_post_meta($post->ID));
     ?>
 
@@ -112,7 +126,7 @@ function render_team_details_meta_box($post): void
                 <th><label for="team_order">Position de l'équipe sur la page</label></th>
                 <td>
                     <input type="number" id="team_order" name="team_order"
-                           value="<?php echo esc_attr($team_order); ?>"
+                           value="<?php echo esc_attr($theteamOrderValue); ?>"
                            class="regular-text">
                 </td>
             </tr>
@@ -121,19 +135,9 @@ function render_team_details_meta_box($post): void
             <p style="font-size: 20px; font-weight: bold">Liste de toutes les équipes actuelles et leur position :</p>
             <!--Show all teams in order of position-->
             <?php
-            $args = array(
-                'post_type' => 'sports_team',
-                'posts_per_page' => -1,
-                'orderby' => 'meta_value_num',
-                'meta_key' => '_sports_team_order',
-                'order' => 'ASC',
-            );
-
-            $teams = new WP_Query($args);
             if ($teams->have_posts()) {
                 while ($teams->have_posts()) {
                     $teams->the_post();
-                    $team_order = get_post_meta(get_the_ID(), '_sports_team_order', true);
                     ?>
                     <li style="margin-left: 20px; font-size: medium">
                         <strong><?php the_title(); ?></strong>

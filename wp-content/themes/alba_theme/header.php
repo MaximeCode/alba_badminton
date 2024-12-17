@@ -154,7 +154,7 @@
                                    class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Horaires</a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="<?= get_permalink(213); ?>"
                                    class="block px-4 py-2 leading-7 rounded-b-lg hover:bg-white hover:text-primary-blue">Palmar&egrave;s</a>
                             </li>
                         </ul>
