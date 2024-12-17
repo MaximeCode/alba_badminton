@@ -154,7 +154,7 @@
                                    class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Horaires</a>
                             </li>
                             <li>
-                                <a href="#"
+                                <a href="<?= get_permalink(213); ?>"
                                    class="block px-4 py-2 leading-7 rounded-b-lg hover:bg-white hover:text-primary-blue">Palmar&egrave;s</a>
                             </li>
                         </ul>
@@ -263,11 +263,6 @@
     </div>
 </nav>
 
-<div class="container mx-auto w-full sm:w-10/12 p-2 sm:p-0">
-    <?php generate_breadcrumbs();
-
-    //    echo "<pre>";
-    //    var_dump($gallery);
-    //    echo "</pre>";
-    ?>
+<div class="xs:container mx-auto w-full sm:w-10/12 p-2 sm:p-0">
+    <?php generate_breadcrumbs(); ?>
 

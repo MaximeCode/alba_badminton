@@ -13,7 +13,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
             <!--Left Col-->
             <div
                     class="col text-primary-blue flex flex-col items-center justify-between space-y-8 text-center bg-white/50 rounded-2xl py-10 px-5">
-                <h1 class="text-3xl md:text-5xl font-bold tracking-wide text-balance">
+                <h1 class="text-3xl md:text-4xl font-bold tracking-wide text-balance">
                     Faisons vivre notre passion commune, rejoignez ALBA 🏸 !
                 </h1>
                 <p class="text-lg md:text-2xl">Depuis 1987, le club ALBA, situ&eacute; au c&oelig;ur
