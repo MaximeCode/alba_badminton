@@ -23,7 +23,7 @@ function display_sports_teams(): false|string
     $teams = new WP_Query($args);
     ob_start();
     ?>
-    <div class="flex flex-wrap justify-around gap-12">
+    <div class="flex flex-wrap justify-around gap-x-24 gap-y-12">
         <?php
         if ($teams->have_posts()) {
             while ($teams->have_posts()) {

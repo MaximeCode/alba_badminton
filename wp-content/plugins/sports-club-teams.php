@@ -156,6 +156,7 @@ function render_team_details_meta_box($post): void
 // Save Meta Box Data
 function save_sports_team_meta_data($post_id): void
 {
+    $new_order = intval($_POST['team_order']);
     // Check nonce for security
     if (!isset($_POST['sports_team_details_nonce']) ||
         !wp_verify_nonce($_POST['sports_team_details_nonce'], 'sports_team_details_nonce')) {
@@ -191,11 +192,46 @@ function save_sports_team_meta_data($post_id): void
     }
 
     // Save Team Order
-    if (isset($_POST['team_order'])) {
+    if (isset($new_order)) {
+        $args = array(
+            'post_type' => 'sports_team',
+            'posts_per_page' => -1,
+            'orderby' => 'meta_value_num',
+            'meta_key' => '_sports_team_order',
+            'order' => 'ASC',
+            'post__not_in' => array($post_id) // Exclude current team
+        );
+
+        $teams_query = new WP_Query($args);
+        $existing_teams = array();
+
+        // Collect existing team orders
+        while ($teams_query->have_posts()) {
+            $teams_query->the_post();
+            $current_team_order = intval(get_post_meta(get_the_ID(), '_sports_team_order', true));
+            $existing_teams[get_the_ID()] = $current_team_order;
+        }
+        wp_reset_postdata();
+
+        // Check if the new order is already taken
+        if (in_array($new_order, $existing_teams)) {
+            // Shift orders for teams at or above the new order
+            foreach ($existing_teams as $team_id => $team_order) {
+                if ($team_order >= $new_order) {
+                    update_post_meta(
+                        $team_id,
+                        '_sports_team_order',
+                        $team_order + 1
+                    );
+                }
+            }
+        }
+
+        // Update the current team's order
         update_post_meta(
             $post_id,
             '_sports_team_order',
-            absint($_POST['team_order'])
+            $new_order
         );
     }
 }
@@ -231,9 +267,9 @@ function sports_team_media_upload_script()
                 var imageIdInput = $('#team_image_id');
 
                 var mediaUploader = wp.media({
-                    title: 'Choose Team Image',
+                    title: 'Choisir une photo pour l\'équipe',
                     button: {
-                        text: 'Select'
+                        text: 'Sélectionner'
                     },
                     multiple: false
                 });
@@ -267,10 +303,10 @@ function sports_team_custom_columns($columns): array
 {
     return array(
         'cb' => $columns['cb'],
+        'team_order' => 'Position',
         'title' => 'Nom de l\'équipe',
         'captain' => 'Capitaine',
         'team_image' => 'Photo',
-        'team_order' => 'Position',
         'date' => 'Date'
     );
 }

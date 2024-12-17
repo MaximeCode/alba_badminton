@@ -263,11 +263,6 @@
     </div>
 </nav>
 
-<div class="container mx-auto w-full sm:w-10/12 p-2 sm:p-0">
-    <?php generate_breadcrumbs();
-
-    //    echo "<pre>";
-    //    var_dump($gallery);
-    //    echo "</pre>";
-    ?>
+<div class="xs:container mx-auto w-full sm:w-10/12 p-2 sm:p-0">
+    <?php generate_breadcrumbs(); ?>
 
