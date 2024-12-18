@@ -33,7 +33,8 @@ $seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
                             foreach ($event['images'] as $id_img) {
                                 echo wp_get_attachment_image($id_img, 'medium', false, array(
                                     'loading' => 'lazy',
-                                    'class' => 'w-48 sm:w-96 md:w-1/6 rounded-2xl',
+                                    'class' => 'w-48 sm:w-96 md:w-1/6 rounded-2xl lightbox-trigger cursor-pointer',
+                                    'data-full-size' => wp_get_attachment_image_src($id_img, 'large')[0]
                                 ));
                             }
                             echo '</div>';

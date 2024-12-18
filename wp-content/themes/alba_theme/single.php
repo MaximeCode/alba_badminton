@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 get_header(); ?>
 
 <style>
@@ -75,7 +75,7 @@ get_header(); ?>
         if (have_posts()) :
             while (have_posts()) : the_post();
                 echo display_titlePage(); // Affiche le titre de l'article
-                echo("<h6 class='subtitle mb-6'>Article publié le " . get_the_date() . "</h6>"); // Affiche la date de publication de l'article
+                echo("<h6 class='text-lg mb-6'>Article publié le " . get_the_date() . "</h6>"); // Affiche la date de publication de l'article
 
                 echo("<div class='prose'>");
                 the_content(); // Affiche le contenu de l'article

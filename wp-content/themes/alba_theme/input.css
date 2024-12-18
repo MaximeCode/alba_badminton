@@ -12,3 +12,24 @@ Text Domain: ALBA_theme
 @tailwind utilities;
 
 /* Styles personnalisés */
+
+/* Lightbox CSS */
+.lightbox {
+    @apply fixed z-[999] top-0 left-0 w-full h-full bg-black bg-opacity-80 hidden justify-center items-center;
+}
+
+.lightbox.show {
+    @apply flex;
+}
+
+.lightbox-content {
+    @apply max-w-[90%] max-h-[90%] relative;
+}
+
+.lightbox-close {
+    @apply absolute -top-10 right-0 text-white cursor-pointer text-3xl;
+}
+
+.lightbox-image {
+    @apply max-w-full max-h-full object-contain;
+}
