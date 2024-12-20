@@ -22,23 +22,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to open lightbox
   function openLightbox(imageSrc) {
-    const img = new Image();
-    img.onload = function () {
-      // Limit image to 1920px wide
-      if (this.width > 1920) {
-        const scaleFactor = 1920 / this.width;
-        lightboxImage.style.maxWidth = "1920px";
-        lightboxImage.style.height = "auto";
-      }
-      lightboxImage.src = imageSrc;
-      lightbox.classList.add("show");
-    };
-    img.src = imageSrc;
+    lightboxImage.src = imageSrc;
+    // Set maxWidth to 80% of viewport width
+    lightboxImage.style.maxHeight = "60vh";
+    lightbox.style.opacity = 0;
+    lightbox.classList.add("show");
+    void lightbox.offsetWidth; // Trigger reflow
+    lightbox.style.opacity = 1;
   }
 
   // Function to close lightbox
   function closeLightbox() {
-    lightbox.classList.remove("show");
+    lightbox.style.opacity = "0";
+    lightboxContent.style.animation = "zoomFade 0.3s ease-out reverse";
+
+    setTimeout(() => {
+      lightbox.classList.remove("show");
+      lightboxContent.style.animation = "";
+    }, 300);
   }
 
   // Add click event to all images you want to make clickable
