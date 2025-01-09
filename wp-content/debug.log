@@ -314,3 +314,105 @@ Stack trace:
 [07-Nov-2024 10:32:47 UTC] PHP Warning:  file_get_contents(D:\laragon\www\alba/wp-content/themes/alba_theme./style.css): Failed to open stream: Permission denied in D:\laragon\www\alba\wp-content\plugins\autoptimize\classes\autoptimizeBase.php on line 680
 [07-Nov-2024 10:33:04 UTC] PHP Warning:  file_get_contents(D:\laragon\www\alba/wp-content/themes/alba_theme./style.css): Failed to open stream: Permission denied in D:\laragon\www\alba\wp-content\plugins\autoptimize\classes\autoptimizeBase.php on line 680
 [07-Nov-2024 10:33:05 UTC] PHP Warning:  file_get_contents(D:\laragon\www\alba/wp-content/themes/alba_theme./style.css): Failed to open stream: Permission denied in D:\laragon\www\alba\wp-content\plugins\autoptimize\classes\autoptimizeBase.php on line 680
+[09-Jan-2025 13:24:22 UTC] PHP Fatal error:  Uncaught TypeError: call_user_func_array(): Argument #1 ($callback) must be a valid callback, function "sports_team_admin_scripts" not found or invalid function name in D:\laragon\www\alba\wp-includes\class-wp-hook.php:324
+Stack trace:
+#0 D:\laragon\www\alba\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters(NULL, Array)
+#1 D:\laragon\www\alba\wp-includes\plugin.php(517): WP_Hook->do_action(Array)
+#2 D:\laragon\www\alba\wp-admin\admin-header.php(118): do_action('admin_enqueue_s...', 'edit.php')
+#3 D:\laragon\www\alba\wp-admin\edit.php(411): require_once('D:\\laragon\\www\\...')
+#4 {main}
+  thrown in D:\laragon\www\alba\wp-includes\class-wp-hook.php on line 324
+[09-Jan-2025 13:32:58 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:34:48 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:36:49 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:11 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:21 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:30 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:40 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:51 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:51 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:52 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:56 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:38:57 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:40:05 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:40:05 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:40:06 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:40:07 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:40:07 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:40:08 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:40:13 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:40:13 UTC] PHP Fatal error:  Cannot redeclare sports_team_admin_scripts() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:97) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 250
+[09-Jan-2025 13:43:33 UTC] PHP Fatal error:  Cannot redeclare set_default_sports_team_query_ordering() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:146) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 346
+[09-Jan-2025 13:43:46 UTC] PHP Fatal error:  Cannot redeclare set_default_sports_team_query_ordering() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:146) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 346
+[09-Jan-2025 13:43:47 UTC] PHP Fatal error:  Cannot redeclare set_default_sports_team_query_ordering() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:146) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 346
+[09-Jan-2025 13:43:47 UTC] PHP Fatal error:  Cannot redeclare set_default_sports_team_query_ordering() (previously declared in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:146) in D:\laragon\www\alba\wp-content\plugins\sports-club-teams.php on line 346
+[09-Jan-2025 13:49:01 UTC] manage_office_member_posts_columns hook triggered.
+[09-Jan-2025 13:50:27 UTC] manage_office_member_posts_columns hook triggered.
+[09-Jan-2025 13:50:35 UTC] manage_office_member_posts_columns hook triggered.
+[09-Jan-2025 13:50:58 UTC] manage_office_member_posts_columns hook triggered.
+[09-Jan-2025 13:51:26 UTC] manage_office_member_posts_columns hook triggered.
+[09-Jan-2025 13:51:32 UTC] manage_office_member_posts_columns hook triggered.
+[09-Jan-2025 13:57:02 UTC] manage_office_member_posts_columns hook triggered.
+[09-Jan-2025 13:57:27 UTC] manage_office_member_posts_columns hook triggered.
+[09-Jan-2025 14:14:33 UTC] PHP Fatal error:  Uncaught TypeError: call_user_func_array(): Argument #1 ($callback) must be a valid callback, function "set_default_office_member_query_ordering" not found or invalid function name in D:\laragon\www\alba\wp-includes\class-wp-hook.php:324
+Stack trace:
+#0 D:\laragon\www\alba\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#1 D:\laragon\www\alba\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#2 D:\laragon\www\alba\wp-includes\class-wp-query.php(1881): do_action_ref_array('pre_get_posts', Array)
+#3 D:\laragon\www\alba\wp-includes\class-wp-query.php(3852): WP_Query->get_posts()
+#4 D:\laragon\www\alba\wp-includes\class-wp.php(696): WP_Query->query(Array)
+#5 D:\laragon\www\alba\wp-includes\class-wp.php(816): WP->query_posts()
+#6 D:\laragon\www\alba\wp-includes\functions.php(1336): WP->main(Array)
+#7 D:\laragon\www\alba\wp-admin\includes\post.php(1306): wp(Array)
+#8 D:\laragon\www\alba\wp-admin\includes\class-wp-posts-list-table.php(165): wp_edit_posts_query()
+#9 D:\laragon\www\alba\wp-admin\edit.php(235): WP_Posts_List_Table->prepare_items()
+#10 {main}
+  thrown in D:\laragon\www\alba\wp-includes\class-wp-hook.php on line 324
+[09-Jan-2025 14:14:33 UTC] PHP Fatal error:  Uncaught TypeError: call_user_func_array(): Argument #1 ($callback) must be a valid callback, function "set_default_office_member_query_ordering" not found or invalid function name in D:\laragon\www\alba\wp-includes\class-wp-hook.php:324
+Stack trace:
+#0 D:\laragon\www\alba\wp-includes\class-wp-hook.php(348): WP_Hook->apply_filters('', Array)
+#1 D:\laragon\www\alba\wp-includes\plugin.php(565): WP_Hook->do_action(Array)
+#2 D:\laragon\www\alba\wp-includes\class-wp-query.php(1881): do_action_ref_array('pre_get_posts', Array)
+#3 D:\laragon\www\alba\wp-includes\class-wp-query.php(3852): WP_Query->get_posts()
+#4 D:\laragon\www\alba\wp-includes\class-wp.php(696): WP_Query->query(Array)
+#5 D:\laragon\www\alba\wp-includes\class-wp.php(816): WP->query_posts()
+#6 D:\laragon\www\alba\wp-includes\functions.php(1336): WP->main('')
+#7 D:\laragon\www\alba\wp-blog-header.php(16): wp()
+#8 D:\laragon\www\alba\index.php(17): require('D:\\laragon\\www\\...')
+#9 {main}
+  thrown in D:\laragon\www\alba\wp-includes\class-wp-hook.php on line 324
+[09-Jan-2025 14:20:57 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:21:03 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:21:04 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:21:04 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:21:06 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:21:07 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:21:07 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:21:08 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:21:09 UTC] PHP Warning:  foreach() argument must be of type array|object, string given in D:\laragon\www\alba\wp-includes\class-wp-post-type.php on line 665
+[09-Jan-2025 14:58:52 UTC] PHP Warning:  Undefined array key "id" in D:\laragon\www\alba\wp-content\themes\alba_theme\allBureaux.php on line 47
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:33 UTC] PHP Warning:  Attempt to read property "name" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 209
+[09-Jan-2025 15:53:38 UTC] PHP Warning:  Attempt to read property "term_id" on array in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 85
+[09-Jan-2025 15:53:38 UTC] PHP Fatal error:  Uncaught TypeError: in_array(): Argument #2 ($haystack) must be of type array, WP_Error given in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php:85
+Stack trace:
+#0 D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php(85): in_array(NULL, Object(WP_Error))
+#1 D:\laragon\www\alba\wp-admin\includes\template.php(1456): render_years_meta_box(Object(WP_Post), Array)
+#2 D:\laragon\www\alba\wp-admin\edit-form-advanced.php(715): do_meta_boxes(Object(WP_Screen), 'side', Object(WP_Post))
+#3 D:\laragon\www\alba\wp-admin\post-new.php(75): require('D:\\laragon\\www\\...')
+#4 {main}
+  thrown in D:\laragon\www\alba\wp-content\plugins\old_members_plugin.php on line 85

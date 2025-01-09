@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 
 /* Template Name: allBureaux */
 
@@ -38,6 +38,12 @@ $oldBureaux = array(
     '2021-2022' => $members_23_24,
 );
 
+$allMembers = get_office_members_by_year();
+//echo '<pre>';
+//var_dump($allMembers);
+//echo '</pre>';
+//die();
+
 ?>
     <section>
         <?= display_titlePage() ?>
@@ -52,11 +58,11 @@ $oldBureaux = array(
 
                     <!-- Liens avec espace entre eux -->
                     <div class="space-y-12 z-50">
-                        <?php foreach ($oldBureaux as $key => $bureau) {
+                        <?php foreach ($allMembers as $key => $bureau) {
                             echo sprintf('
         <a class="flex items-center bg-white rounded-xl shadow-2xl p-1 sm:p-2 md:p-3 space-x-3 lg:space-x-5 border hover:border-primary-blue focus:border-primary-blue" href="#%s" onclick="goToOldManagers(this, \'%s\')">
             <div class="w-5 h-5 sm:w-7 sm:h-7 lg:w-10 lg:h-10 rounded-full bg-primary-blue relative"></div>
-            <div>%s</div>
+            <div class="text-xl">%s</div>
         </a>
         ', $key, $key, str_replace('-', ' - ', $key));
                         } ?>
@@ -66,7 +72,7 @@ $oldBureaux = array(
             </div>
             <!--Grille des informations-->
             <div class="basis-4/6 md:basis-5/6 space-y-10">
-                <?php foreach ($oldBureaux as $key => $bureau) {
+                <?php foreach ($allMembers as $key => $bureau) {
                     echo sprintf('
                 <div id="%s">
                     <h3 class="text-2xl font-bold mb-4">%s</h3>
@@ -79,12 +85,12 @@ $oldBureaux = array(
                             <div class="row-span-1">%s</div>
                             <p class="row-span-1 italic text-xl">%s</p>
                         </div>',
-                            ucwords(strtolower($keyB)),
-                            wp_get_attachment_image($member['img'], '', false, array(
+                            ucwords($member['position']),
+                            wp_get_attachment_image(151, '', false, array(
                                 'loading' => 'lazy',
                                 'class' => "w-1/2 max-w-56 m-auto rounded-2xl transform transition duration-300 ease-in-out hover:scale-105 row-span-2",
                             )),
-                            ucwords(strtolower($member['name']))
+                            ucwords($member['name'])
                         );
                     }
                     echo '</div></div>';

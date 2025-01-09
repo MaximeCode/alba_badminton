@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 /* Template Name: presLeClub */
 
 get_header();
@@ -72,9 +72,10 @@ function showGridJudges(array $judges): void
 
         <div class="container w-full lg:w-3/4 m-auto">
             <!--ALBA-->
-            <h2 class="text-center italic text-4xl font-bold mb-12 text-balance">
-                <span class="<?= $letters ?>">A</span>micale de <span class="<?= $letters ?>">L</span>uc&eacute; de
-                <span class="<?= $letters ?>">BA</span>dminton
+            <h2 class="text-center italic text-4xl font-bold mb-12 text-balance opacity-0 animate-fade-in hover:animate-pulse">
+                <span class="<?= $letters ?> animate-letter">A</span>micale de
+                <span class="<?= $letters ?> animate-letter">L</span>uc&eacute; de
+                <span class="<?= $letters ?> animate-letter">BA</span>dminton
             </h2>
 
             <div class="mb-12 w-full h-48 md:h-72 bg-gray-900/50 rounded-2xl grid place-content-center">

@@ -8,58 +8,9 @@
     <!-- link:css fait grâce à wp_head() -->
     <?php wp_head();
 
-    // Animation cartes d'actualités
-    global $animCardNews;
-    global $animBase;
-    $animCardNews = "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-10 hover:scale-105";
-    $animRotateArrow = "transform transition-transform duration-500 group-hover:rotate-180";
-    // <li> animation on hover
-    $animBase = "transform transition duration-200 ease-in-out";
-    // Class of each <li> in the navbar
-    $classLi = "block py-2 px-3 rounded $animBase hover:bg-white hover:text-primary-blue md:py-3";
-    // Class of div of each dropdown in the navbar
-    $classDivDropdown = "z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6";
-    // Class of each dropdown <li> in the navbar
-    $classLiDropdown = "flex items-center justify-between w-full py-2 px-3 rounded $animBase group-hover:bg-white 
-	group-hover:text-primary-blue lg:w-auto lg:py-3 uppercase";
-    // Class of each sub dropdown <li> in the navbar
-    $classLiSubDropdown = "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue";
-
-    // Classes of all btn (sauf "envoyer" du form de contact)
-    global $classBtn;
-    $classBtn = "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out";
-
-    global $members;
-    // bureau actuel
-    $members = array(
-        'pr&eacute;sident' => array(
-            'name' => 'Jean Dupont',
-            'img' => 151,
-        ),
-        'vice-pr&eacute;sident' => array(
-            'name' => 'Jeanne Dupont',
-            'img' => 151,
-        ),
-        'tr&eacute;sorier' => array(
-            'name' => 'Jean Dupont',
-            'img' => 151,
-        ),
-        'secr&eacute;taire' => array(
-            'name' => 'Jeanne Dupont',
-            'img' => 151,
-        ),
-        'membre' => array(
-            'name' => 'Jean Dupont',
-            'img' => 151,
-        ),
-        'membre 2' => array(
-            'name' => 'MaximE bauDe',
-            'img' => 151,
-        ),
-    );
-
     $seasons = get_post_meta(166, 'custom_seasons', true);
 
+    global $alba_theme_variables;
 
     // Préparation des données pour le menu Galerie
     $gallery = [];
@@ -92,7 +43,7 @@
         <!-- Btn open navbar in mobile -->
         <button data-collapse-toggle="navbar-dropdown" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center lg:text-lg text-gray-500 rounded-lg lg:hidden
-            focus:outline-none hover:ring-2 hover:ring-white focus:ring-2 focus:ring-gray-200 <?= $animBase ?>"
+            focus:outline-none hover:ring-2 hover:ring-white focus:ring-2 focus:ring-gray-200 <?= $alba_theme_variables['animBase'] ?>"
                 aria-controls="navbar-dropdown" aria-expanded="false">
             <span class="sr-only text-white">Open main menu</span>
             <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -110,20 +61,20 @@
                     class="w-10/12 mx-auto lg:w-full flex flex-col font-medium mt-4 xl:px-4 xl:text-lg text-white rounded-lg uppercase xl:space-x-8 lg:flex-row lg:mt-0">
                 <li>
                     <a href="/"
-                       class="<?= $classLi ?>"
+                       class="<?= $alba_theme_variables['classLi'] ?>"
                        aria-current="page">Accueil</a>
                 </li>
                 <li>
                     <a href="<?= get_permalink(26); ?>"
-                       class="<?= $classLi ?>">Actualit&eacute;s</a>
+                       class="<?= $alba_theme_variables['classLi'] ?>">Actualit&eacute;s</a>
                 </li>
                 <!-- Dropdown Le club -->
                 <li class="group">
                     <button id="dropdownClub" data-dropdown-toggle="dropdownNavbarClub"
                             data-dropdown-trigger="hover"
-                            class="<?= $classLiDropdown ?>">
+                            class="<?= $alba_theme_variables['classLiDropdown'] ?>">
                         Le club
-                        <svg class="w-2.5 h-2.5 ms-2.5 <?= $animRotateArrow ?>"
+                        <svg class="w-2.5 h-2.5 ms-2.5 <?= $alba_theme_variables['animRotateArrow'] ?>"
                              aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                              fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -133,44 +84,45 @@
                     </button>
                     <!-- Dropdown menu -->
                     <div id="dropdownNavbarClub"
-                         class="<?= $classDivDropdown ?>">
+                         class="<?= $alba_theme_variables['classDivDropdown'] ?>">
                         <ul class="xl:text-lg normal-case divide-y" aria-labelledby="dropdownLargeButton">
                             <li>
                                 <a href="<?= get_permalink(149); ?>"
-                                   class="block px-4 py-2 leading-7 rounded-t-lg hover:bg-white hover:text-primary-blue">Pr&eacute;sentation</a>
+                                   class="<?= $alba_theme_variables['subLi'] ?> rounded-t-lg">Pr&eacute;sentation</a>
                             </li>
                             <li>
                                 <a href="<?= get_permalink(153); ?>"
-                                   class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">
+                                   class="<?= $alba_theme_variables['subLi'] ?>">
                                     Historique du Bureau
                                 </a>
                             </li>
                             <li>
                                 <a href="<?= get_permalink(190); ?>"
-                                   class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Interclubs</a>
+                                   class="<?= $alba_theme_variables['subLi'] ?>">Interclubs</a>
                             </li>
                             <li>
                                 <a href="<?= get_permalink(164); ?>"
-                                   class="block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue">Horaires</a>
+                                   class="<?= $alba_theme_variables['subLi'] ?>">Horaires</a>
                             </li>
                             <li>
                                 <a href="<?= get_permalink(213); ?>"
-                                   class="block px-4 py-2 leading-7 rounded-b-lg hover:bg-white hover:text-primary-blue">Palmar&egrave;s</a>
+                                   class="<?= $alba_theme_variables['subLi'] ?> rounded-b-lg">Palmar&egrave;s</a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li>
                     <a href="<?= get_permalink(209); ?>"
-                       class="<?= $classLi ?>">Calendrier</a>
+                       class="<?= $alba_theme_variables['classLi'] ?>">Calendrier</a>
                 </li>
                 <!-- Dropdown Galerie -->
                 <li class="group">
                     <button id="dropdownGalerie" data-dropdown-toggle="dropdownNavbarGalerie"
                             data-dropdown-trigger="hover"
-                            class="<?= $classLiDropdown ?>">
+                            class="<?= $alba_theme_variables['classLiDropdown'] ?>">
                         Galerie
-                        <svg class="w-2.5 h-2.5 ms-2.5 <?= $animRotateArrow ?>" aria-hidden="true"
+                        <svg class="w-2.5 h-2.5 ms-2.5 <?= $alba_theme_variables['animRotateArrow'] ?>"
+                             aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg"
                              fill="none" viewBox="0 0 10 6">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -179,10 +131,10 @@
                     </button>
                     <!-- Dropdown menu -->
                     <div id="dropdownNavbarGalerie"
-                         class="<?= $classDivDropdown ?>">
+                         class="<?= $alba_theme_variables['classDivDropdown'] ?>">
                         <ul class="xl:text-lg divide-y normal-case" aria-labelledby="dropdownLargeButton">
                             <?php
-                            if (isset($seasons) && !empty($seasons) && is_array($seasons)) {
+                            if (!empty($seasons) && is_array($seasons)) {
                                 $id = 0; // ID pour les boutons de dropdown
                                 foreach ($gallery as $key => $season) :
                                     if (isFirstKey($key, $gallery) && isLastKey($key, $gallery)) { // Vérifie s'il n'y a qu'une seule saison
@@ -204,7 +156,7 @@
                                            data-dropdown-toggle="doubleDropdown<?= $id ?>"
                                            type="button"
                                            data-dropdown-placement="right-start" data-dropdown-trigger="hover"
-                                           class="<?= "$classLiSubDropdown $rounded" ?>">
+                                           class="<?= $alba_theme_variables['classLiSubDropdown'] . " " . $rounded ?>">
                                             <?= str_replace('-', ' - ', $key); ?>
                                             <svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true"
                                                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -215,7 +167,7 @@
                                         </a>
                                         <!-- Sub dropdown menu -->
                                         <div id="doubleDropdown<?= $id ?>"
-                                             class="<?= $classDivDropdown ?>">
+                                             class="<?= $alba_theme_variables['classDivDropdown'] ?>">
                                             <ul class="xl:text-lg divide-y normal-case"
                                                 aria-labelledby="doubleDropdownButton">
                                                 <?php foreach ($season as $theKey => $event) :
@@ -227,12 +179,12 @@
                                                     ?>
                                                     <li>
                                                         <a href="<?= get_permalink(166); ?>#<?= strtolower($event['anchor']) ?>"
-                                                           class="<?= "$classLiSubDropdown $rounded_" ?>"><?= $event['title'] ?></a>
+                                                           class="<?= $alba_theme_variables['classLiSubDropdown'] . $rounded_ ?>"><?= $event['title'] ?></a>
                                                     </li>
                                                 <?php endforeach; ?>
                                                 <li class="bg-white text-primary-blue p-1 rounded-lg">
                                                     <a href="<?= get_permalink(166); ?>#<?= $key ?>"
-                                                       class="block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base">
+                                                       class="<?= $alba_theme_variables['seeAllThings'] ?>">
                                                         Voir toutes les photos
                                                     </a>
                                                 </li>
@@ -243,7 +195,7 @@
                                 endforeach; ?>
                                 <li class="bg-white text-primary-blue p-1 rounded-lg">
                                     <a href="<?= get_permalink(166); ?>"
-                                       class="block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base">
+                                       class="<?= $alba_theme_variables['seeAllThings'] ?>">
                                         Voir toute la galerie
                                     </a>
                                 </li>
@@ -256,7 +208,7 @@
                 </li>
                 <li>
                     <a href="<?= get_permalink(134); ?>"
-                       class="<?= $classLi ?>">Contact</a>
+                       class="<?= $alba_theme_variables['classLi'] ?>">Contact</a>
                 </li>
             </ul>
         </div>

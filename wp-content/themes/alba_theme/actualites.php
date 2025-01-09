@@ -1,5 +1,7 @@
-<?php /** @noinspection ALL */
+<?php
 /* Template Name: actualites */
+
+global $alba_theme_variables;
 get_header(); ?>
 
     <section>
@@ -16,11 +18,11 @@ get_header(); ?>
             if ($query->have_posts()) :
                 $i = 0;
                 while ($query->have_posts()) : $query->the_post(); ?>
-                    <div class="bg-white rounded-lg shadow-lg overflow-hidden <?= $animCardNews ?>">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden <?= $alba_theme_variables['animCardNews'] ?>">
                         <a href="<?php the_permalink(); ?>">
                             <?php if (has_post_thumbnail()) : ?>
                                 <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>"
-                                     class="object-cover object-top top-20 w-full h-48 md:h-64" loading="lazy">
+                                     class="object-cover object-center w-full h-48 md:h-64" loading="lazy">
                             <?php endif; ?>
                             <div class="p-4">
                                 <h2 class="text-xl font-bold text-primary-blue underline"><?php the_title(); ?></h2>

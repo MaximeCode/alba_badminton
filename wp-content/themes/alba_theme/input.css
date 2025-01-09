@@ -46,3 +46,47 @@ Text Domain: ALBA_theme
 .lightbox-image {
     @apply max-w-full max-h-full object-contain;
 }
+
+/* Animation of club title in presLeClub.php */
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0) translateY(-100px);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1.5);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes letterReveal {
+    0% {
+        transform: scale(0) rotate(-25deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(2) rotate(25deg);
+    }
+    100% {
+        transform: scale(1) rotate(0);
+        opacity: 1;
+    }
+}
+
+@layer utilities {
+    .animate-fade-in {
+        animation: fadeIn 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .animate-letter {
+        display: inline-block;
+        opacity: 0;
+        animation: letterReveal 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        animation-delay: 0.5s;
+    }
+}

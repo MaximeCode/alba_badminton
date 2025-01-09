@@ -1,4 +1,4 @@
-<?php /** @noinspection ALL */
+<?php
 /* Template Name: pdc */
 get_header();
 ?>

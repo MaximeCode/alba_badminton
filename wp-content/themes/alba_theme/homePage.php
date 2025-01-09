@@ -1,11 +1,13 @@
-<?php /** @noinspection ALL */
+<?php
 
 get_header();
 /* Template Name: Page d'accueil ALBA */
 $nb_mainActus = 1;
 
+global $alba_theme_variables;
+
 // classes des img des partners
-$imgPartners = array(205, 143, 206, 198, 207);
+$imgPartners = array(205, 143, 206, 198, 257);
 ?>
 
     <section>
@@ -25,7 +27,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
                     Que vous soyez d&eacute;butant ou v&eacute;t&eacute;ran, rejoignez-nous pour des entra&icirc;nements
                     dynamiques et des tournois passionnants &agrave; travers la r&eacute;gion Centre-Val de Loire.
                 </p>
-                <button type="button" class="<?= $classBtn ?>">
+                <button type="button" class="<?= $alba_theme_variables['classBtn'] ?>">
                     <a href="#">En savoirs plus sur le club</a>
                 </button>
             </div>
@@ -42,7 +44,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
                         'class' => "rounded-2xl transform transition duration-300 ease-in-out hover:scale-105",
                     )); ?>
                 </a>
-                <button type="button" class="<?= $classBtn ?>">
+                <button type="button" class="<?= $alba_theme_variables['classBtn'] ?>">
                     <a href="<?php the_permalink($nb_mainActus); ?>">Voir l'article complet</a>
                 </button>
             </div>
@@ -67,7 +69,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
                 // Paramètres pour récupérer les 3 derniers articles
                 $args = array(
                     'post_type' => 'post',
-                    'posts_per_page' => 4,
+                    'posts_per_page' => 3,
                     'orderby' => 'date',
                     'order' => 'DESC',
                 );
@@ -79,7 +81,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
                         <!-- Template de carte horizontale avec un lien vers l'article -->
                         <a href="<?php the_permalink(); ?>"
                            class="flex flex-col md:flex-row xl:gap-6 justify-between bg-white rounded-2xl
-                           overflow-hidden shadow-card lg:w-3/4 mx-auto <?= $animCardNews ?>">
+                           overflow-hidden shadow-card lg:w-3/4 mx-auto <?= $alba_theme_variables['animCardNews'] ?>">
 
                             <!-- Titre et extrait de l'article -->
                             <div class="flex flex-col justify-around p-4 leading-normal">

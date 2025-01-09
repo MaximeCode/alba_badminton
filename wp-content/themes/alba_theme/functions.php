@@ -1,5 +1,54 @@
 <?php
 
+// Toutes les variables globales de mon thème sont déclarées ici
+function alba_theme_variables(): array
+{
+    return [
+        'animCardNews' => "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-10 hover:scale-105",
+        'animRotateArrow' => "transform transition-transform duration-500 group-hover:rotate-180",
+        'animBase' => "transform transition duration-200 ease-in-out",
+        'classLi' => "block py-2 px-3 rounded transform transition duration-200 ease-in-out hover:bg-white hover:text-primary-blue md:py-3",
+        'classDivDropdown' => "z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6",
+        'classLiDropdown' => "flex items-center justify-between w-full py-2 px-3 rounded transform transition duration-200 ease-in-out group-hover:bg-white group-hover:text-primary-blue lg:w-auto lg:py-3 uppercase",
+        'classLiSubDropdown' => "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
+        'classBtn' => "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out",
+        'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base",
+        'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
+        'members' => [
+            'pr&eacute;sident' => [
+                'name' => 'Jean Dupont',
+                'img' => 151,
+            ],
+            'vice-pr&eacute;sident' => [
+                'name' => 'Jeanne Dupont',
+                'img' => 151,
+            ],
+            'tr&eacute;sorier' => [
+                'name' => 'Jean Dupont',
+                'img' => 151,
+            ],
+            'secr&eacute;taire' => [
+                'name' => 'Jeanne Dupont',
+                'img' => 151,
+            ],
+            'membre' => [
+                'name' => 'Jean Dupont',
+                'img' => 151,
+            ],
+            'membre 2' => [
+                'name' => 'MaximE bauDe',
+                'img' => 151,
+            ],
+        ],
+    ];
+}
+
+add_action('wp_head', function () {
+    global $alba_theme_variables;
+    $alba_theme_variables = alba_theme_variables();
+});
+
+
 // Désactiver la barre d'administration pour tous les utilisateurs
 add_filter('show_admin_bar', '__return_false');
 

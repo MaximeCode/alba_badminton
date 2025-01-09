@@ -338,7 +338,7 @@ function sports_team_custom_column_content($column, $post_id): void
 
 add_action('manage_sports_team_posts_custom_column', 'sports_team_custom_column_content', 10, 2);
 
-function set_default_sports_team_query_ordering($query)
+function set_default_sports_team_query_ordering($query): void
 {
     if (is_admin() && $query->get('post_type') === 'sports_team') {
         $query->set('meta_key', '_sports_team_order');
