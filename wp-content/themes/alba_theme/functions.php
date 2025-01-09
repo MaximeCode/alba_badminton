@@ -144,21 +144,20 @@ add_filter('comment_form_defaults', 'my_custom_comment_form');
 function showGridBureau(array $members): void
 {
     echo '<div class="bg-white rounded-2xl p-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y divide-primary-blue sm:divide-none">';
-    foreach ($members as $key => $member) {
-
-        // Afficher un membre du bureau
+    foreach ($members as $key => $bureau) {
         echo sprintf(
-            '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center text-center text-lg p-4">
-                    <p class="underline font-bold text-xl">%s</p>
-                    <div class="row-span-1">%s</div>
-                    <p class="row-span-1 italic text-xl">%s</p>
-                </div>',
-            ucwords(strtolower($key)),
-            wp_get_attachment_image($member['img'], '', false, array(
+            '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center items-center text-center text-lg p-3">
+                            <p class="underline font-bold text-xl">%s</p>
+                            <div class="row-span-1">%s</div>
+                            <p class="row-span-1 italic text-xl">%s</p>
+                        </div>',
+            ucwords($bureau['position']),
+            wp_get_attachment_image(151, '', false, array(
                 'loading' => 'lazy',
                 'class' => "w-1/2 max-w-56 m-auto rounded-2xl transform transition duration-300 ease-in-out hover:scale-105 row-span-2",
             )),
-            ucwords(strtolower($member['name'])));
+            ucwords($bureau['name'])
+        );
     }
     echo '</div>';
 }
