@@ -39,10 +39,6 @@ $oldBureaux = array(
 );
 
 $allMembers = get_office_members_by_year();
-//echo '<pre>';
-//var_dump($allMembers);
-//echo '</pre>';
-//die();
 
 ?>
     <section>

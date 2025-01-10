@@ -3,9 +3,18 @@
 
 get_header();
 
+global $alba_theme_variables;
+
 $h3 = "mb-4 text-3xl underline decoration-primary-blue";
 $p = "text-justify text-lg md:text-xl text-balance";
 $letters = "text-primary-blue text-6xl";
+
+// bureau actuel
+$currentOffice = get_office_members_by_year('2024-2025');
+//echo '<pre>';
+//var_dump($currentOffice);
+//echo '</pre>';
+//die();
 
 // membre de la ligue
 $judgeType = array(
@@ -125,12 +134,12 @@ function showGridJudges(array $judges): void
             <!--Le bureau-->
             <h3 class="<?= $h3 ?>">Le bureau 2024 - 2025</h3>
             <!--Tous les membres-->
-            <?php showGridBureau($members); ?>
+            <?php showGridBureau($currentOffice); ?>
 
             <!--Btn voir all bureaux-->
             <div class="grid place-items-center">
                 <button type="button"
-                        class="<?= $classBtn ?> my-16">
+                        class="<?= $alba_theme_variables['classBtn'] ?> my-16">
                     <a href="<?php the_permalink(153); ?>" class="flex items-center">Voir les bureaux des années
                         précédentes
                         <svg class="w-[30px] h-[30px]" aria-hidden="true"
