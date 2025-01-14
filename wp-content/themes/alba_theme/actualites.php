@@ -2,7 +2,10 @@
 /* Template Name: actualites */
 
 global $alba_theme_variables;
-get_header(); ?>
+get_header();
+
+$category = $_GET['categoryName'] ?? null;
+?>
 
     <section>
         <?= display_titlePage() ?>
@@ -12,6 +15,7 @@ get_header(); ?>
             $args = array(
                 'post_type' => 'post',
                 'posts_per_page' => 10,
+                'category_name' => $category,
             );
             $query = new WP_Query($args);
 

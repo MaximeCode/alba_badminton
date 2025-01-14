@@ -3,6 +3,13 @@
 session_start();
 get_header();
 
+global $alba_theme_variables;
+
+// data for contact form
+$mailAlba = 'mailbureau@alba.fr';
+$telAlba = '06 12 34 56 78';
+$addressAlba = '6 Rue Jean Boudrie, Luc&eacute; 28110';
+
 $base_svg = 8;
 $md_svg = 10;
 $size_svg = "w-$base_svg h-$base_svg md:w-$md_svg md:h-$md_svg";
@@ -11,11 +18,11 @@ $size_svg = "w-$base_svg h-$base_svg md:w-$md_svg md:h-$md_svg";
 $animbase = "transform transition duration-100 ease-in-out";
 
 // add value in form only if error
-$first_name = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']['first_name'] : '';
-$name = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']['name'] : '';
-$email = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']['email'] : '';
-$object = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']['object'] : '';
-$message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']['message'] : '';
+$first_name = $_SESSION['contact_form']['first_name'] ?? '';
+$name = $_SESSION['contact_form']['name'] ?? '';
+$email = $_SESSION['contact_form']['email'] ?? '';
+$object = $_SESSION['contact_form']['object'] ?? '';
+$message = $_SESSION['contact_form']['message'] ?? '';
 ?>
 
     <!--Appliquer un fond transparent et ajuster le texte lors de l'autocomplétion des champs de formulaire-->
@@ -55,9 +62,9 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
                                   d="M21 8v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8m18 0-8.029-4.46a2 2 0 0 0-1.942 0L3 8m18 0-9 6.5L3 8"/>
                         </svg>
                         <span class="font-bold basis-5/12 md:basis-4/12">Par mail :</span>
-                        <a href="mailto:#"
+                        <a href="mailto:<?= $mailAlba ?>"
                            class="text-lg md:text-xl italic basis-6/12 md:basis-6/12 hover:text-primary-blue hover:underline"
-                           target="_blank">mailbureau@alba.fr</a>
+                           target="_blank"><?= $mailAlba ?></a>
                     </p>
                     <!--Téléphone-->
                     <p class="inline-flex items-center">
@@ -69,10 +76,10 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
                                   d="M18.427 14.768 17.2 13.542a1.733 1.733 0 0 0-2.45 0l-.613.613a1.732 1.732 0 0 1-2.45 0l-1.838-1.84a1.735 1.735 0 0 1 0-2.452l.612-.613a1.735 1.735 0 0 0 0-2.452L9.237 5.572a1.6 1.6 0 0 0-2.45 0c-3.223 3.2-1.702 6.896 1.519 10.117 3.22 3.221 6.914 4.745 10.12 1.535a1.601 1.601 0 0 0 0-2.456Z"/>
                         </svg>
                         <span class="font-bold basis-5/12 md:basis-4/12">Par téléphone :</span>
-                        <a href="tel:#" target="_blank"
-                           class="text-lg md:text-xl italic basis-6/12 md:basis-6/12 hover:text-primary-blue hover:underline">06
-                            12 34 56
-                            78</a>
+                        <a href="tel:+33<?= str_replace(' ', '', substr($telAlba, 1)) ?>" target="_blank"
+                           class="text-lg md:text-xl italic basis-6/12 md:basis-6/12 hover:text-primary-blue hover:underline">
+                            <?= $telAlba ?>
+                        </a>
                     </p>
                     <!--Adresse Postale-->
                     <div class="inline-flex items-center">
@@ -86,7 +93,8 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
                         <span class="font-bold basis-5/12 md:basis-4/12">Par courrier :</span>
                         <a href="https://maps.app.goo.gl/Y1Sjv7R973MWP3ga6" target="_blank"
                            class="text-lg md:text-xl italic basis-6/12 md:basis-6/12 text-balance hover:text-primary-blue hover:underline">
-                            6 Rue Jean Boudrie, Lucé 28110</a>
+                            <?= $addressAlba ?>
+                        </a>
                     </div>
                 </address>
             </section>
@@ -102,10 +110,10 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
 
         <!--Button to contact form below-->
         <div class="grid place-items-center">
-            <button type="button"
-                    class="<?= $classBtn ?> my-16">
-                <a href="#contact-form" class="inline-flex items-center" id="btnGoToForm">Ou via le formulaire
-                    ci-dessous
+            <button type="button" class="my-16">
+                <a href="#contact-form" class="<?= $alba_theme_variables['classBtn'] ?> inline-flex items-center"
+                   id="btnGoToForm">
+                    Ou via le formulaire ci-dessous
                     <svg class="w-6 h-6 text-white ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                          width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -153,7 +161,7 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
                         </svg>
                     </button>
                 </div>
-            <?php elseif (!$_SESSION['contact_form']['success']): ?> <!--If ERROR-->
+            <?php else: ?> <!--If ERROR-->
                 <div id="alert-2"
                      class="w-1/2 m-auto flex items-start p-4 mb-4 text-red-800 rounded-lg bg-red-100 border border-red-400"
                      role="alert">
@@ -262,7 +270,8 @@ $message = isset($_SESSION['contact_form']['error']) ? $_SESSION['contact_form']
             <div class="w-full lg:w-3/4 mx-auto flex flex-col md:flex-row justify-center items-center mt-10 cursor-pointer">
                 <input id="checkbox-1" type="checkbox" required
                        class="w-5 h-5 text-primary-blue focus:ring-0 bg-gray-100 border-gray-300 rounded-full cursor-pointer">
-                <label for="checkbox-1" class="mt-5 md:mt-0 md:ms-5 text-sm font-medium text-gray-700 cursor-pointer">
+                <label for="checkbox-1"
+                       class="mt-5 md:mt-0 md:ms-5 text-sm font-medium text-gray-700 cursor-pointer text-balance text-center md:text-left">
                     J'autorise ce site à utiliser mes données personnelles saisies ci-dessus pour répondre à ma demande
                     de
                     contact. Pour en savoir plus sur la gestion de vos données personnelles, veuillez consulter notre

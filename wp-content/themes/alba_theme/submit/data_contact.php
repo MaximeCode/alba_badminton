@@ -23,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['contact_form']['error'] = 'Erreur de vérification du formulaire.';
     } else {
         echo 'test nonce OK';
-        if (!isset($_POST['first_name']) || !isset($_POST['name']) || !isset($_POST['email']) || !isset($_POST['object']) || !isset($_POST['message'])
-            || empty($_POST['first_name']) || empty($_POST['name']) || empty($_POST['email']) || empty($_POST['object']) || empty($_POST['message'])) {
+        if (empty($_POST['first_name']) || empty($_POST['name']) || empty($_POST['email']) || empty($_POST['object']) || empty($_POST['message'])) {
             $_SESSION['contact_form']['error'] = "Tous les champs sont obligatoires.<br>Merci de remplir entièrement le formulaire.";
             $_SESSION['contact_form']['test_fn'] = $_POST['first_name'];
         } else {
@@ -54,11 +53,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $mail = mail($to, $subject, $body);
 
-            echo "$body\n
-			Mail envoyé à l'@ mail : $to";
-
             if ($mail) {
                 $_SESSION['contact_form']['success'] = true;
+                echo "$body\n
+			Mail envoyé à l'@ mail : $to";
+            } else {
+                $_SESSION['contact_form']['error'] = 'Erreur lors de l\'envoi du mail.';
             }
         }
         // Redirection pour éviter la resoumission du formulaire

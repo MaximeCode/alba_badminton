@@ -87,12 +87,16 @@ function showGridJudges(array $judges): void
                 <span class="<?= $letters ?> animate-letter">BA</span>dminton
             </h2>
 
-            <div class="mb-12 w-full h-48 md:h-72 bg-gray-900/50 rounded-2xl grid place-content-center">
-                Photo du club
-                <!--                <img src="--><?php //echo get_the_post_thumbnail_url(); ?><!--" alt="-->
-                <?php //the_title(); ?><!--"-->
-                <!--                     class="w-full h-auto">-->
-            </div>
+            <figure class="mb-12 relative">
+                <?= wp_get_attachment_image(319, '', false, array(
+                    'loading' => 'lazy',
+                    'class' => "w-full h-full rounded-2xl object-cover object-center",
+                )); ?>
+                <figcaption
+                        class="leading-none p-2 md:p-6 text-center text-lg md:text-2xl italic font-bold text-white absolute bottom-0 z-20 w-full bg-primary-blue/50 rounded-b-2xl">
+                    Photo de famille suite au tournoi organisé à domicile les 23 & 24 novembre 2024
+                </figcaption>
+            </figure>
 
             <h3 class="<?= $h3 ?>">Présentation</h3>
 
@@ -137,18 +141,13 @@ function showGridJudges(array $judges): void
             <?php showGridBureau($currentOffice); ?>
 
             <!--Btn voir all bureaux-->
-            <div class="grid place-items-center">
-                <button type="button"
-                        class="<?= $alba_theme_variables['classBtn'] ?> my-16">
-                    <a href="<?php the_permalink(153); ?>" class="flex items-center">Voir les bureaux des années
-                        précédentes
-                        <svg class="w-[30px] h-[30px]" aria-hidden="true"
+            <?php $svg = '<svg class="w-[30px] h-[30px]" aria-hidden="true"
                              xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                   stroke-width="2.5" d="M19 12H5m14 0-4 4m4-4-4-4"/>
-                        </svg>
-                    </a>
-                </button>
+                        </svg>'; ?>
+            <div class="grid place-items-center">
+                <?= primaryButton(153, "Voir les bureaux des années précédentes $svg", null, null, "flex items-center my-16") ?>
             </div>
 
             <!--Les membres officiels de la ligue-->
@@ -162,8 +161,7 @@ function showGridJudges(array $judges): void
                         ucwords(strtolower($key)));
                     // Afficher les membres du groupe
                     showGridJudges($judges);
-                    echo '</div>';
-                    echo '</div>';
+                    echo '</div></div>';
                 }
                 ?>
             </div>

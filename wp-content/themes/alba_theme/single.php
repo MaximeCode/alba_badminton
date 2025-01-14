@@ -71,7 +71,7 @@ get_header(); ?>
     }
 </style>
 
-<main>
+<main class="space-y-16">
     <article>
         <?php
         if (have_posts()) :
@@ -82,30 +82,45 @@ get_header(); ?>
                 echo("<div class='prose'>");
                 the_content(); // Affiche le contenu de l'article
                 echo("</div>");
+
+                // get the post id
+                $post_id = get_the_ID();
+
+                // get the post category
+                $categories = get_the_category();
+                $category = $categories[0]->slug;
+                //get the parent category
+                $parentCategory = get_category($categories[0]->parent);
+                $parentCategorySlug = $parentCategory->slug;
+                $parentCategoryName = $parentCategory->name;
             endwhile;
         endif;
         ?>
     </article>
-
-    <!--Affichage des articles avec la catégorie "R1"-->
-    <section class="py-10">
+    <section>
         <div>
-            <h2 id="lastNews" class="mb-8 text-3xl font-extrabold underline">Articles concernant l'équipe :</h2>
-            <div class="grid gap-y-12">
-                <?php
-                // Paramètres pour récupérer les 3 derniers articles
-                $args = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 4,
-                    'orderby' => 'date',
-                    'order' => 'DESC',
-                    'category_name' => 'r1',
-                );
+            <!--Si d'autres articles ont la même catégorie-->
+            <?php
+            // Check if there are other posts in the same category
+            $args = array(
+                'post_type' => 'post',
+                'posts_per_page' => 4,
+                'orderby' => 'date',
+                'order' => 'DESC',
+                'category_name' => $category,
+                'post__not_in' => array($post_id) // Exclude current post
+            );
 
-                $query = new WP_Query($args);
+            $query = new WP_Query($args);
 
-                if ($query->have_posts()) :
-                    while ($query->have_posts()) : $query->the_post(); ?>
+            // Only display the section if there are other posts
+            if ($query->have_posts()) : ?>
+
+                <h2 id="lastNews" class="mb-8 text-3xl font-extrabold underline">Articles concernant l'équipe :</h2>
+                <div class="grid gap-y-12">
+                    <?php
+                    while ($query->have_posts()) : $query->the_post();
+                        ?>
                         <!-- Template de carte horizontale avec un lien vers l'article -->
                         <a href="<?php the_permalink(); ?>"
                            class="flex flex-col md:flex-row xl:gap-6 justify-between bg-white rounded-2xl
@@ -124,30 +139,52 @@ get_header(); ?>
                                      class="h-48 w-full mx-auto lg:mx-0 object-cover object-center">
                             </div>
                         </a>
-                    <?php endwhile;
-                    wp_reset_postdata();
-                else : ?>
-                    <p>Aucun article trouvé.</p>
-                <?php endif; ?>
-            </div>
+                    <?php endwhile; ?>
+                </div>
+                <?php
+                wp_reset_postdata();
+            else :
+                ?>
+                <h4 class="text-xl">Aucun autre article trouvé à propos de la catégorie <?= $category ?></h4>
+            <?php endif; ?>
         </div>
     </section>
+    <?php
+    if ($parentCategory->slug && $parentCategory->slug !== '') {
+        // Check if there are other posts with the same parent category
+        $args_parent = array(
+            'post_type' => 'post',
+            'posts_per_page' => 1,
+            'category_name' => $parentCategory->slug,
+            'post__not_in' => array($post_id)
+        );
+
+        $query_parent = new WP_Query($args_parent);
+
+        // Only display the button if there are other posts in the parent category
+        if ($query_parent->have_posts()) :
+            ?>
+            <div class="grid place-content-center">
+                <?= primaryButton(26, "Voir d'autres articles concernant la catégorie $parentCategoryName", "categoryName", $parentCategory->slug) ?>
+            </div>
+        <?php endif;
+        wp_reset_postdata();
+    }
+    ?>
 
     <!-- Section pour afficher les commentaires -->
-    <section class="comments-section w-3/4 m-auto">
+    <section class="comments-section w-full md:w-3/4 m-auto">
         <?php
         if (comments_open() || get_comments_number()) :
             comments_template(); // Charge le template des commentaires
         endif;
         ?>
     </section>
+
+    <div class="grid place-content-center">
+        <?= primaryButton(26, "Voir d'autres articles") ?>
+    </div>
 </main>
 
-<div class="grid place-content-center mt-12">
-    <button type="button"
-            class="<?= $alba_theme_variables['classBtn'] ?>">
-        <a href="<?= get_permalink(26); ?>">Voir d'autres articles </a>
-    </button>
-</div>
 
 <?php get_footer(); ?>

@@ -16,7 +16,7 @@
                 <a href="#" class="underline md:no-underline hover:underline">Mentions l&eacute;gales</a>
             </li>
         </ul>
-        <span class="block text-sm text-gray-500 sm:text-center py-1">© 2024
+        <span class="block text-sm text-gray-500 sm:text-center py-1">© <?= date('Y') ?>
             <a href="/" class="underline md:no-underline hover:underline">ALBA Badminton</a>.
             Tous droits r&eacute;serv&eacute;s</span>
     </div>

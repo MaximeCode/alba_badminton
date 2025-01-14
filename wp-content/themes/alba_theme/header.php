@@ -54,11 +54,9 @@
         </button>
 
         <!-- Mobile menu (hidden by default) -->
-        <div
-                class="hidden absolute top-24 left-0 w-full bg-primary-blue lg:static lg:w-auto lg:block z-50 transform transition-all duration-300 ease-in-out"
-                id="navbar-dropdown">
-            <ul
-                    class="w-10/12 mx-auto lg:w-full flex flex-col font-medium mt-4 xl:px-4 xl:text-lg text-white rounded-lg uppercase xl:space-x-8 lg:flex-row lg:mt-0">
+        <div class="hidden absolute top-24 left-0 w-full bg-primary-blue lg:static lg:w-auto lg:block z-50 transform transition-all duration-300 ease-in-out"
+             id="navbar-dropdown">
+            <ul class="w-10/12 mx-auto lg:w-full flex flex-col font-medium mt-4 mb-4 lg:mb-0 xl:px-4 xl:text-lg text-white rounded-lg uppercase xl:space-x-8 lg:flex-row lg:mt-0">
                 <li>
                     <a href="/"
                        class="<?= $alba_theme_variables['classLi'] ?>"
@@ -84,7 +82,7 @@
                     </button>
                     <!-- Dropdown menu -->
                     <div id="dropdownNavbarClub"
-                         class="<?= $alba_theme_variables['classDivDropdown'] ?>">
+                         class="<?= $alba_theme_variables['classDivDropdown'] ?> border border-white">
                         <ul class="xl:text-lg normal-case divide-y" aria-labelledby="dropdownLargeButton">
                             <li>
                                 <a href="<?= get_permalink(149); ?>"
@@ -118,6 +116,7 @@
                 <!-- Dropdown Galerie -->
                 <li class="group">
                     <button id="dropdownGalerie" data-dropdown-toggle="dropdownNavbarGalerie"
+                            data-dropdown-placement="bottom"
                             data-dropdown-trigger="hover"
                             class="<?= $alba_theme_variables['classLiDropdown'] ?>">
                         Galerie
@@ -131,7 +130,7 @@
                     </button>
                     <!-- Dropdown menu -->
                     <div id="dropdownNavbarGalerie"
-                         class="<?= $alba_theme_variables['classDivDropdown'] ?>">
+                         class="<?= $alba_theme_variables['classDivDropdown'] ?> border border-white">
                         <ul class="xl:text-lg divide-y normal-case" aria-labelledby="dropdownLargeButton">
                             <?php
                             if (!empty($seasons) && is_array($seasons)) {
@@ -151,12 +150,12 @@
                                     ?>
                                     <li class="<?php /*= isLastKey($key, $gallery) ? 'mb-2' : ''; */
                                     ?>">
-                                        <a href="<?= get_permalink(166); ?>#<?= sanitize_title(str_replace(' ', '-', $key)) ?>"
-                                           id="doubleDropdownButton<?= $id ?>"
-                                           data-dropdown-toggle="doubleDropdown<?= $id ?>"
-                                           type="button"
-                                           data-dropdown-placement="right-start" data-dropdown-trigger="hover"
-                                           class="<?= $alba_theme_variables['classLiSubDropdown'] . " " . $rounded ?>">
+                                        <button id="doubleDropdownButton<?= $id ?>"
+                                                data-dropdown-toggle="doubleDropdown<?= $id ?>"
+                                                type="button"
+                                                data-dropdown-placement="right-start"
+                                                data-dropdown-trigger="hover"
+                                                class="<?= $alba_theme_variables['classLiSubDropdown'] . " " . $rounded ?>">
                                             <?= str_replace('-', ' - ', $key); ?>
                                             <svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true"
                                                  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -164,10 +163,10 @@
                                                       stroke-linejoin="round"
                                                       stroke-width="2" d="m1 9 4-4-4-4"/>
                                             </svg>
-                                        </a>
+                                        </button>
                                         <!-- Sub dropdown menu -->
                                         <div id="doubleDropdown<?= $id ?>"
-                                             class="<?= $alba_theme_variables['classDivDropdown'] ?>">
+                                             class="<?= $alba_theme_variables['classDivDropdown'] ?> border border-white">
                                             <ul class="xl:text-lg divide-y normal-case"
                                                 aria-labelledby="doubleDropdownButton">
                                                 <?php foreach ($season as $theKey => $event) :
@@ -179,7 +178,7 @@
                                                     ?>
                                                     <li>
                                                         <a href="<?= get_permalink(166); ?>#<?= strtolower($event['anchor']) ?>"
-                                                           class="<?= $alba_theme_variables['classLiSubDropdown'] . $rounded_ ?>"><?= $event['title'] ?></a>
+                                                           class="<?= $alba_theme_variables['classLiSubDropdown'] . ' ' . $rounded_ ?>"><?= $event['title'] ?></a>
                                                     </li>
                                                 <?php endforeach; ?>
                                                 <li class="bg-white text-primary-blue p-1 rounded-lg">
@@ -214,6 +213,26 @@
         </div>
     </div>
 </nav>
+
+<script>
+    // Fonction pour ajuster la position du dropdown
+    function adjustDropdownPlacement() {
+        const ddGallery = document.getElementById('dropdownGalerie');
+        // Si la taille de l'écran est inférieure à 768px, le placement est "bottom"
+        if (window.innerWidth < 768) {
+            ddGallery.setAttribute('data-dropdown-offset-skidding', '-100');
+        } else {
+            // Sinon, le placement est "right-end"
+            ddGallery.setAttribute('data-dropdown-offset-skidding', '0');
+        }
+    }
+
+    // Écouteur pour charger la bonne position au chargement de la page
+    document.addEventListener('DOMContentLoaded', adjustDropdownPlacement);
+
+    // Écouteur pour ajuster la position lorsque la taille de l'écran change
+    window.addEventListener('resize', adjustDropdownPlacement);
+</script>
 
 <div class="xs:container mx-auto w-full sm:w-10/12 p-2 sm:p-0">
     <?php generate_breadcrumbs(); ?>
