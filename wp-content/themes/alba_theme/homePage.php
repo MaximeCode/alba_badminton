@@ -1,11 +1,13 @@
-<?php /** @noinspection ALL */
+<?php
 
 get_header();
 /* Template Name: Page d'accueil ALBA */
 $nb_mainActus = 1;
 
+global $alba_theme_variables;
+
 // classes des img des partners
-$imgPartners = array(205, 143, 206, 198, 207);
+$imgPartners = array(205, 143, 206, 198, 257);
 ?>
 
     <section>
@@ -25,9 +27,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
                     Que vous soyez d&eacute;butant ou v&eacute;t&eacute;ran, rejoignez-nous pour des entra&icirc;nements
                     dynamiques et des tournois passionnants &agrave; travers la r&eacute;gion Centre-Val de Loire.
                 </p>
-                <button type="button" class="<?= $classBtn ?>">
-                    <a href="#">En savoirs plus sur le club</a>
-                </button>
+                <?= primaryButton(149, "En savoir plus sur le club") ?>
             </div>
 
             <!--Right Col-->
@@ -42,9 +42,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
                         'class' => "rounded-2xl transform transition duration-300 ease-in-out hover:scale-105",
                     )); ?>
                 </a>
-                <button type="button" class="<?= $classBtn ?>">
-                    <a href="<?php the_permalink($nb_mainActus); ?>">Voir l'article complet</a>
-                </button>
+                <?= primaryButton($nb_mainActus, "Voir l'article complet") ?>
             </div>
         </div>
 
@@ -67,7 +65,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
                 // Paramètres pour récupérer les 3 derniers articles
                 $args = array(
                     'post_type' => 'post',
-                    'posts_per_page' => 4,
+                    'posts_per_page' => 3,
                     'orderby' => 'date',
                     'order' => 'DESC',
                 );
@@ -79,7 +77,7 @@ $imgPartners = array(205, 143, 206, 198, 207);
                         <!-- Template de carte horizontale avec un lien vers l'article -->
                         <a href="<?php the_permalink(); ?>"
                            class="flex flex-col md:flex-row xl:gap-6 justify-between bg-white rounded-2xl
-                           overflow-hidden shadow-card lg:w-3/4 mx-auto <?= $animCardNews ?>">
+                           overflow-hidden shadow-card lg:w-3/4 mx-auto <?= $alba_theme_variables['animCardNews'] ?>">
 
                             <!-- Titre et extrait de l'article -->
                             <div class="flex flex-col justify-around p-4 leading-normal">
@@ -102,6 +100,18 @@ $imgPartners = array(205, 143, 206, 198, 207);
                     wp_reset_postdata();
                 endif; ?>
             </div>
+            <!--Btn see all posts-->
+            <div class="grid place-items-center">
+                <?php
+                $svg = '<svg class="w-[30px] h-[30px]" aria-hidden="true"
+                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                              stroke-width="2.5" d="M19 12H5m14 0-4 4m4-4-4-4"/></svg>';
+                $classSup = "mt-16 flex items-center";
+                echo primaryButton(26, "Voir tous les articles $svg", null, null, $classSup);
+                ?>
+            </div>
+
         </div>
     </section>
 

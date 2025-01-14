@@ -1,11 +1,68 @@
 <?php
 
+// Button used a lot of times
+function primaryButton(int $idPage, string $text, ?string $paramName = null, ?string $paramValue = null, ?string $classSup = null): string
+{
+    global $alba_theme_variables;
+    $class = $alba_theme_variables['classBtn'] . ($classSup ? " $classSup" : '');
+    $url = get_permalink($idPage) . ($paramName && $paramValue ? "?$paramName=$paramValue" : '');
+    return "<a class=\"$class\" href=\"$url\">$text</a>";
+}
+
+// Toutes les variables globales de mon thème sont déclarées ici
+function alba_theme_variables(): array
+{
+    return [
+        'animCardNews' => "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-10 hover:scale-105",
+        'animRotateArrow' => "transform transition-transform duration-500 group-hover:rotate-180",
+        'animBase' => "transform transition duration-200 ease-in-out",
+        'classLi' => "block py-2 px-3 rounded transform transition duration-200 ease-in-out hover:bg-white hover:text-primary-blue md:py-3",
+        'classDivDropdown' => "z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6",
+        'classLiDropdown' => "flex items-center justify-between w-full py-2 px-3 rounded transform transition duration-200 ease-in-out group-hover:bg-white group-hover:text-primary-blue lg:w-auto lg:py-3 uppercase",
+        'classLiSubDropdown' => "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
+        'classBtn' => "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out",
+        'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base",
+        'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
+        'members' => [
+            'pr&eacute;sident' => [
+                'name' => 'Jean Dupont',
+                'img' => 151,
+            ],
+            'vice-pr&eacute;sident' => [
+                'name' => 'Jeanne Dupont',
+                'img' => 151,
+            ],
+            'tr&eacute;sorier' => [
+                'name' => 'Jean Dupont',
+                'img' => 151,
+            ],
+            'secr&eacute;taire' => [
+                'name' => 'Jeanne Dupont',
+                'img' => 151,
+            ],
+            'membre' => [
+                'name' => 'Jean Dupont',
+                'img' => 151,
+            ],
+            'membre 2' => [
+                'name' => 'MaximE bauDe',
+                'img' => 151,
+            ],
+        ],
+    ];
+}
+
+add_action('wp_head', function () {
+    global $alba_theme_variables;
+    $alba_theme_variables = alba_theme_variables();
+});
+
+
 // Désactiver la barre d'administration pour tous les utilisateurs
 add_filter('show_admin_bar', '__return_false');
 
 function alba_theme_enqueue_styles(): void
 {
-
     // Enregistrer le fichier CSS personnalisé de votre thème
     wp_enqueue_style('alba-style', get_stylesheet_directory_uri() . './style.css');
 }
@@ -31,6 +88,9 @@ function alba_theme_enqueue_scripts(): void
         'jquery',
         'slick-js'
     ), null, true);
+
+    // Equeue Lightbox JS (agrandissement des images au clic)
+    wp_enqueue_script('custom-lightbox-js', get_template_directory_uri() . '/assets/js/lightBox.js', array(), null, true);
 
     // Enqueue JQuery (si nécessaire)
     wp_enqueue_script('jquery');
@@ -92,21 +152,20 @@ add_filter('comment_form_defaults', 'my_custom_comment_form');
 function showGridBureau(array $members): void
 {
     echo '<div class="bg-white rounded-2xl p-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y divide-primary-blue sm:divide-none">';
-    foreach ($members as $key => $member) {
-
-        // Afficher un membre du bureau
+    foreach ($members as $key => $bureau) {
         echo sprintf(
-            '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center text-center text-lg p-4">
-                    <p class="underline font-bold text-xl">%s</p>
-                    <div class="row-span-1">%s</div>
-                    <p class="row-span-1 italic text-xl">%s</p>
-                </div>',
-            ucwords(strtolower($key)),
-            wp_get_attachment_image($member['img'], '', false, array(
+            '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center items-center text-center text-lg p-3">
+                            <p class="underline font-bold text-xl">%s</p>
+                            <div class="row-span-1">%s</div>
+                            <p class="row-span-1 italic text-xl">%s</p>
+                        </div>',
+            ucwords($bureau['position']),
+            wp_get_attachment_image(151, '', false, array(
                 'loading' => 'lazy',
                 'class' => "w-1/2 max-w-56 m-auto rounded-2xl transform transition duration-300 ease-in-out hover:scale-105 row-span-2",
             )),
-            ucwords(strtolower($member['name'])));
+            ucwords($bureau['name'])
+        );
     }
     echo '</div>';
 }
@@ -114,11 +173,12 @@ function showGridBureau(array $members): void
 // fonction de génération du breadcrumb sur chaque page (ajouté ds le header.php)
 function generate_breadcrumbs(): void
 {
-    if (!is_front_page()) {
-        $breadcrumb = '<nav class="max-w-max text-md mb-8 flex justify-center items-center px-5 py-3 text-primary-blue border border-primary-blue/50 rounded-xl bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">';
+    if (!is_front_page() && !is_404() && !is_search()) {
+        $mb = !is_404() ? 'mb-8' : '';
+        $breadcrumb = '<nav class="' . $mb . ' max-w-max text-md flex justify-center items-center px-5 py-3 text-primary-blue border border-primary-blue/50 rounded-xl bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">';
         // Lien vers la page d'accueil >> svg = Home
         $breadcrumb .= '<li class="inline-flex items-center">
-            <a href="' . home_url() . '" title="Accueil" class="inline-flex items-center font-medium hover:text-secondary-blue dark:text-gray-400 dark:hover:text-white">
+            <a href="/" title="Accueil" class="inline-flex items-center font-medium hover:text-secondary-blue dark:text-gray-400 dark:hover:text-white">
                 <svg class="w-5 h-5 md:w-6 md:h-6 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 1 1 1-1h2a1 1 0 1 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
                         </svg>
@@ -187,17 +247,6 @@ function custom_meta_box(): void
             'custom_events_meta_box', // ID de la meta box
             'Événements',            // Titre
             'events_meta_box_callback', // Fonction de rappel
-            'page',                  // Type de contenu (ici : page)
-            'normal',                // Position
-        );
-    }
-
-//    Ajout de la méta box pour les interclubs
-    if (get_the_ID() == 190) {
-        add_meta_box(
-            'custom_interclubs_meta_box', // ID de la meta box
-            'Interclubs',            // Titre
-            'interclubs_meta_box_callback', // Fonction de rappel
             'page',                  // Type de contenu (ici : page)
             'normal',                // Position
         );
@@ -383,7 +432,7 @@ function events_meta_box_callback($post): void
 
                         imageField.value = imageIDs.join(',');
                         imagePreview.innerHTML = selection.map(image =>
-                            `<img src="${image.url}" style="max-width: 100px; height: auto; margin-right: 5px;" />`
+                            `<img src="${image.url}" style="max-width: 100px; height: auto; margin-right: 5px;" alt="an img" />`
                         ).join('');
                         removeImagesButton.style.display = 'inline-block';
                     });
@@ -462,222 +511,6 @@ function save_custom_meta_box($post_id)
 
 add_action('save_post', 'save_custom_meta_box');
 
-function interclubs_meta_box_callback($post): void
-{
-    wp_nonce_field('save_interclub_meta_box', 'interclub_meta_box_nonce'); // Sécurité
-
-    // Récupérer les anciennes valeurs
-    $interclubs = get_post_meta($post->ID, 'custom_interclubs', true);
-    ?>
-
-    <div class="interclubs-container">
-        <?php if (!empty($interclubs) && is_array($interclubs)): ?>
-            <?php foreach ($interclubs as $teamID => $team): ?>
-                <div class="team-row" style="margin-bottom: 10px; border: 1px solid #ddd; padding: 10px;">
-                    <!--Input name-->
-                    <label for="custom_name_team_<?= $teamID ?>">&Eacute;quipe :</label>
-                    <input type="text"
-                           name="custom_name_team_<?= $teamID ?>"
-                           id="custom_name_team_<?= $teamID ?>"
-                           value="<?= esc_attr($team['name']); ?>"
-                           style="width: 100%; margin-bottom: 10px;"/>
-
-                    <!--Input Leader-->
-                    <label for="custom_leader_team_<?= $teamID ?>">Capitaine de l'&eacute;quipe :</label>
-                    <input type="text"
-                           name="custom_leader_team_<?= $teamID ?>"
-                           id="custom_leader_team_<?= $teamID ?>"
-                           value="<?= esc_attr($team['leader']); ?>"
-                           style="width: 100%; margin-bottom: 10px;"/>
-
-                    <label for="custom_img_team_<?= $teamID ?>">Photo de l'&eacute;quipe :</label>
-                    <div class="image-wrapper">
-                        <input type="hidden" class="image-team-field"
-                               name="custom_img_team_<?= $teamID ?>"
-                               value="<?= esc_attr($team['imgId']); ?>"/>
-                        <button class="button select-img-team">Choisir une image</button>
-                        <button class="button remove-img-team"
-                                style="display: <?= !empty($team['imgId']) ? 'inline-block' : 'none'; ?>;
-                                        background-color: #f6f7f7; margin-left: 10px; color: red; border: 1px solid red;">
-                            Supprimer l'image
-                        </button>
-                        <div class="image-preview" style="margin-top: 10px;">
-                            <?php if (!empty($team['imgId'])): ?>
-                                <img src="<?= wp_get_attachment_image_url($team['imgId']); ?>"
-                                     alt="Image"
-                                     style="max-width: 150px; height: auto;"/>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-                    <button class="button remove-team"
-                            style="background-color: #ff4d4d; color: white; margin-top: 10px; border: none;">
-                        Supprimer cette &eacute;quipe
-                    </button>
-                </div>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
-    <button class="button add-team" style="margin-top: 10px;">Ajouter une &eacute;quipe</button>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const container = document.querySelector('.interclubs-container');
-            const addTeamButton = document.querySelector('.add-team');
-
-            let teamIndex = <?= !empty($interclubs) ? count($interclubs) : 0; ?>; // Initialiser l'index des équipes
-
-            // Fonction pour initialiser une équipe
-            function initializeTeamRow(teamRow) {
-                const removeButton = teamRow.querySelector('.remove-team');
-                const selectImageButton = teamRow.querySelector('.select-img-team');
-                const removeImageButton = teamRow.querySelector('.remove-img-team');
-                const imagePreview = teamRow.querySelector('.image-preview');
-                const imageField = teamRow.querySelector('.image-team-field');
-
-                // Supprimer une équipe
-                removeButton.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    if (confirm('Êtes-vous sûr de vouloir supprimer cette équipe ?')) {
-                        teamRow.remove();
-                    }
-                });
-
-                let mediaUploader;
-
-                // Ouvrir la Media Library
-                selectImageButton.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    if (mediaUploader) {
-                        mediaUploader.open();
-                        return;
-                    }
-
-                    mediaUploader = wp.media({
-                        title: 'Sélectionner une image',
-                        button: {text: 'Ajouter l\'image'},
-                        multiple: false,
-                    });
-
-                    mediaUploader.on('select', function () {
-                        const selection = mediaUploader.state().get('selection').first().toJSON();
-                        imageField.value = selection.id;
-                        imagePreview.innerHTML = `<img src="${selection.url}" alt="img" style="max-width: 150px; height: auto;" />`;
-                        removeImageButton.style.display = 'inline-block';
-                    });
-
-                    mediaUploader.open();
-                });
-
-                // Supprimer l'image
-                removeImageButton.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    imageField.value = '';
-                    imagePreview.innerHTML = '';
-                    removeImageButton.style.display = 'none';
-                });
-            }
-
-            // Ajouter une nouvelle équipe
-            addTeamButton.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const teamRow = document.createElement('div');
-                teamRow.classList.add('team-row');
-                teamRow.style.marginBottom = '10px';
-                teamRow.style.border = '1px solid #ddd';
-                teamRow.style.padding = '10px';
-
-                teamRow.innerHTML = `
-                    <label for="custom_name_team_${teamIndex}">&Eacute;quipe :</label>
-                    <input type="text"
-                           name="custom_name_team_${teamIndex}"
-                           id="custom_name_team_${teamIndex}"
-                           style="width: 100%; margin-bottom: 10px;" />
-
-                    <label for="custom_leader_team_${teamIndex}">Capitaine de l'&eacute;quipe :</label>
-                    <input type="text"
-                           name="custom_leader_team_${teamIndex}"
-                           id="custom_leader_team_${teamIndex}"
-                           style="width: 100%; margin-bottom: 10px;" />
-
-                    <label>Photo de l'&eacute;quipe :</label>
-                    <div class="image-wrapper">
-                        <input type="hidden" class="image-team-field" name="custom_img_team_${teamIndex}" />
-                        <button class="button select-img-team">Choisir une image</button>
-                        <button class="button remove-img-team"
-                                style="display: none; margin-left: 10px;">Supprimer l'image</button>
-                        <div class="image-preview" style="margin-top: 10px;"></div>
-                    </div>
-
-                    <button class="button remove-team"
-                            style="background-color: #ff4d4d; color: white; margin-top: 10px; border: none;">
-                        Supprimer cet &eacute;quipe
-                    </button>
-                `;
-
-                container.appendChild(teamRow);
-                initializeTeamRow(teamRow);
-                teamIndex++;
-            });
-
-            // Initialiser les équipes existantes
-            const existingTeams = container.querySelectorAll('.team-row');
-            existingTeams.forEach(initializeTeamRow);
-        });
-    </script>
-    <?php
-}
-
-function save_interclub_meta_box($post_id)
-{
-    // Vérification du nonce pour la sécurité
-    if (!isset($_POST['interclub_meta_box_nonce']) || !wp_verify_nonce($_POST['interclub_meta_box_nonce'], 'save_interclub_meta_box')) {
-        return;
-    }
-
-    // Éviter les sauvegardes automatiques
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-        return;
-    }
-
-    // Vérification des permissions de l'utilisateur
-    if (!current_user_can('edit_post', $post_id)) {
-        return;
-    }
-
-    // Validation et nettoyage des données
-    $interclubs = [];
-    foreach ($_POST as $key => $value) {
-        if (strpos($key, 'custom_name_team_') === 0) {
-            $team_id = str_replace('custom_name_team_', '', $key);
-
-            // Nettoyer les données de l'équipe
-            $team_name = isset($_POST["custom_name_team_{$team_id}"]) ? sanitize_text_field($_POST["custom_name_team_{$team_id}"]) : '';
-            $team_leader = isset($_POST["custom_leader_team_{$team_id}"]) ? sanitize_text_field($_POST["custom_leader_team_{$team_id}"]) : '';
-            $team_img_id = isset($_POST["custom_img_team_{$team_id}"]) ? absint($_POST["custom_img_team_{$team_id}"]) : 0;
-
-            // Ajouter l'équipe seulement si le nom ou le capitaine est fourni
-            if (!empty($team_name) || !empty($team_leader)) {
-                $interclubs[$team_id] = [
-                    'name' => $team_name,
-                    'leader' => $team_leader,
-                    'imgId' => $team_img_id,
-                ];
-            }
-        }
-    }
-
-    if (!empty($interclubs)) {
-        // Sauvegarder les données nettoyées dans les méta-données
-        update_post_meta($post_id, 'custom_interclubs', $interclubs);
-    } else {
-        // Si aucune donnée n'est fournie, supprimer la méta-donnée
-        delete_post_meta($post_id, 'custom_interclubs');
-    }
-}
-
-add_action('save_post', 'save_interclub_meta_box');
 
 ///////// function which displays the title in <h2> tag with a specific class //////////
 function display_titlePage(): string

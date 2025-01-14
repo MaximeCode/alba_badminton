@@ -33,7 +33,8 @@ $seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
                             foreach ($event['images'] as $id_img) {
                                 echo wp_get_attachment_image($id_img, 'medium', false, array(
                                     'loading' => 'lazy',
-                                    'class' => 'w-48 sm:w-96 md:w-1/6 rounded-2xl',
+                                    'class' => 'w-48 sm:w-96 md:w-1/6 rounded-2xl lightbox-trigger cursor-pointer',
+                                    'data-full-size' => wp_get_attachment_image_src($id_img, 'large')[0]
                                 ));
                             }
                             echo '</div>';
@@ -55,26 +56,5 @@ $seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
     </section>
 
 <?php
-//// Vérifiez si ACF est activé
-//if (function_exists('get_field')) {
-//    // Récupérer les données du champ ACF
-//    $categories_evenements = get_field('categories_evenements');
-//
-//    if (is_array($categories_evenements)) {
-//        // Récupération du titre de la catégorie
-//        $titre_categorie = $categories_evenements['titre_categorie'] ?? 'Titre non défini';
-//        echo '<h3>' . esc_html($titre_categorie) . '</h3>';
-//
-//        // Récupération des images de la catégorie
-//        $image_id = $categories_evenements['images_categorie'];
-//        if ($image_id) {
-//            echo wp_get_attachment_image($image_id, 'large');
-//        } else {
-//            echo 'Les images de la catégorie ne sont pas disponibles.';
-//        }
-//    } else {
-//        echo 'Les données de la catégorie ne sont pas disponibles.';
-//    }
-//}
 
 get_footer();

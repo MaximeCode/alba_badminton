@@ -1,18 +1,19 @@
 {
-     "devDependencies": {
-          "@angular-eslint/template-parser": "^18.3.1",
-          "@tailwindcss/typography": "^0.5.15",
-          "eslint": "^8.57.1",
-          "eslint-plugin-tailwindcss": "^3.17.4",
-          "prettier": "^3.3.3",
-          "tailwindcss": "^3.4.13"
-     },
-     "dependencies": {
-          "flowbite": "^2.5.2"
-     },
-     "scripts": {
-          "lint": "eslint ./src",
-          "lint:debug": "eslint ./src --debug",
-          "lint:fix": "eslint ./src --fix"
-     }
+  "devDependencies": {
+    "@angular-eslint/template-parser": "^18.3.1",
+    "@tailwindcss/typography": "^0.5.15",
+    "eslint": "^8.57.1",
+    "eslint-plugin-tailwindcss": "^3.17.4",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.13"
+  },
+  "dependencies": {
+    "flowbite": "^2.5.2"
+  },
+  "scripts": {
+    "lint": "eslint ./src",
+    "lint:debug": "eslint ./src --debug",
+    "lint:fix": "eslint ./src --fix",
+    "watch:css": "npx tailwindcss -i .\\wp-content\\themes\\alba_theme\\input.css -o .\\wp-content\\themes\\alba_theme\\style.css --watch"
+  }
 }

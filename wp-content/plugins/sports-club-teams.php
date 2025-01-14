@@ -51,7 +51,6 @@ function sports_club_team_meta_boxes(): void
         'render_team_details_meta_box',
         'sports_team',
         'normal',
-        'default'
     );
 }
 
@@ -66,7 +65,6 @@ function render_team_details_meta_box($post): void
     // Retrieve existing meta values
     $captain = get_post_meta($post->ID, '_sports_team_captain', true);
     $team_image_id = get_post_meta($post->ID, '_sports_team_image', true);
-    $team_order = get_post_meta($post->ID, '_sports_team_order', true);
 
     $args = array(
         'post_type' => 'sports_team',
@@ -80,9 +78,9 @@ function render_team_details_meta_box($post): void
     // count the number of teams
     $teamCount = $teams->post_count;
 
+    $team_order = get_post_meta($post->ID, '_sports_team_order', true);
     $theteamOrderValue = $team_order ? $team_order : $teamCount + 1;
 
-//    var_dump(get_post_meta($post->ID));
     ?>
 
     <div style="display: flex; justify-content: space-around">
@@ -110,15 +108,17 @@ function render_team_details_meta_box($post): void
                     </div>
                     <input type="hidden" id="team_image_id"
                            name="team_image_id"
-                           value="<?php echo esc_attr($team_image_id); ?>">
+                           value="<?php echo esc_attr($team_image_id); ?>"
+                           style="margin-top: 10px;"
+                    >
                     <button type="button"
                             class="button sports-team-upload-image">
                         Sélectionner une image
                     </button>
                     <button type="button"
                             class="button sports-team-remove-image"
-                            style="<?php echo $image ? 'display:inline-block;' : 'display:none;'; ?>">
-                        <?php echo $image ? "Sélectionner une autre image" : "Sélectionner une image"; ?>
+                            style="color: red; border: 1px solid red; display:<?php echo $image ? 'inline-block' : 'none'; ?>;">
+                        Supprimer l'image
                     </button>
                 </td>
             </tr>
@@ -156,7 +156,6 @@ function render_team_details_meta_box($post): void
 // Save Meta Box Data
 function save_sports_team_meta_data($post_id): void
 {
-    $new_order = intval($_POST['team_order']);
     // Check nonce for security
     if (!isset($_POST['sports_team_details_nonce']) ||
         !wp_verify_nonce($_POST['sports_team_details_nonce'], 'sports_team_details_nonce')) {
@@ -187,12 +186,13 @@ function save_sports_team_meta_data($post_id): void
         update_post_meta(
             $post_id,
             '_sports_team_image',
-            sanitize_text_field($_POST['team_image_id'])
+            $_POST['team_image_id'] ? intval($_POST['team_image_id']) : 'Aucune image renseignée'
         );
     }
 
     // Save Team Order
-    if (isset($new_order)) {
+    if (isset($_POST['team_order'])) {
+        $new_order = intval($_POST['team_order']);
         $args = array(
             'post_type' => 'sports_team',
             'posts_per_page' => -1,
@@ -338,7 +338,7 @@ function sports_team_custom_column_content($column, $post_id): void
 
 add_action('manage_sports_team_posts_custom_column', 'sports_team_custom_column_content', 10, 2);
 
-function set_default_sports_team_query_ordering($query)
+function set_default_sports_team_query_ordering($query): void
 {
     if (is_admin() && $query->get('post_type') === 'sports_team') {
         $query->set('meta_key', '_sports_team_order');
