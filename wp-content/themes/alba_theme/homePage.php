@@ -7,7 +7,12 @@ $nb_mainActus = 1;
 global $alba_theme_variables;
 
 // classes des img des partners
-$imgPartners = array(205, 143, 206, 198, 257);
+// Récupération des données de la Meta Box
+$prefix = 'home_';
+$default = 'Aucune donnée renseignée';
+
+// Récupération des images des partenaires
+$partners = rwmb_meta($prefix . 'img_id');
 ?>
 
     <section>
@@ -123,12 +128,18 @@ $imgPartners = array(205, 143, 206, 198, 257);
             <div class="container">
                 <section class="partners-logo slider">
                     <?php
-                    foreach ($imgPartners as $imgPartner) {
-                        echo "<div class='slide'>";
-                        echo wp_get_attachment_image($imgPartner, 'large', false, array(
-                            'class' => 'w-4/5 h-48 object-contain mx-auto',
-                        ));
-                        echo "</div>";
+                    if (empty($partners)) {
+                        echo "<p class='text-center text-lg md:text-2xl italic'>$default</p>";
+                    } else {
+                        foreach ($partners as $key) {
+                            foreach ($key as $img_id) {
+                                echo "<div class='slide'>";
+                                echo wp_get_attachment_image($img_id, 'large', false, array(
+                                    'class' => 'w-4/5 h-48 object-contain mx-auto',
+                                ));
+                                echo "</div>";
+                            }
+                        }
                     }
                     ?>
                 </section>

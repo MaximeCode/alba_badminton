@@ -524,7 +524,7 @@ function alba_register_all_meta_boxes($meta_boxes): array
             $prefix_contact = 'infos_';
             $meta_boxes[] = [
                 'title' => esc_html__('Informations de la page contact', 'alba_theme'),
-                'id' => 'contact_info',
+                'id' => $prefix_contact . 'contact',
                 'post_types' => ['page'],
                 'show' => [
                     'template' => ['contact.php'],
@@ -564,7 +564,7 @@ function alba_register_all_meta_boxes($meta_boxes): array
             $prefix_judge = 'judge_';
             $meta_boxes[] = [
                 'title' => esc_html__('Ajout des juges officiels du club', 'alba_theme'),
-                'id' => 'judge_info',
+                'id' => $prefix_judge . 'info',
                 'post_types' => ['page'],
                 'show' => [
                     'template' => ['presLeCLub.php'],
@@ -586,6 +586,30 @@ function alba_register_all_meta_boxes($meta_boxes): array
                         'id' => $prefix_judge . 'juge_de_lignes',
                         'placeholder' => esc_html__('NOM Prénom', 'alba_theme'),
                         'size' => 60,
+                        'clone' => true,
+                    ],
+                ],
+            ];
+        }
+
+        // post id of Homepage page : 53
+        if ($post_id === 53) {
+            // Meta Box for Homepage
+            $prefix_home = 'home_';
+            $meta_boxes[] = [
+                'title' => esc_html__('Les partenaires du club pour la saison 2024 - 2025', 'alba_theme'),
+                'id' => $prefix_home . 'info',
+                'post_types' => ['page'],
+                'show' => [
+                    'template' => ['homePage.php'],
+                ],
+                'context' => 'normal',
+                'priority' => 'high',
+                'fields' => [
+                    [
+                        'type' => 'image_advanced',
+                        'name' => __('Logo des partenaires', 'alba_theme'),
+                        'id' => $prefix_home . 'img_id',
                         'clone' => true,
                     ],
                 ],
