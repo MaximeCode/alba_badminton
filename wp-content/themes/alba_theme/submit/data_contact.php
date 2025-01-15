@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['contact_form']['message'] = sanitize_textarea_field($_POST['message']);
 
             // Envoi du mail
-            $to = 'exemple@gmail.com';
+            $to = $_SESSION['mailForm'];
             $subject = 'Nouveau message de ' . $_SESSION['contact_form']['first_name'] . ' ' . $_SESSION['contact_form']['name'];
 //            $headers = array(
 //                'From' => "$_SESSION['contact_form']['email']",

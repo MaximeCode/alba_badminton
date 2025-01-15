@@ -5,10 +5,21 @@ get_header();
 
 global $alba_theme_variables;
 
-// data for contact form
-$mailAlba = 'mailbureau@alba.fr';
-$telAlba = '06 12 34 56 78';
-$addressAlba = '6 Rue Jean Boudrie, Luc&eacute; 28110';
+// Récupération des données de la Meta Box
+$prefix = 'infos_';
+$default = 'Aucune donnée renseignée';
+
+$mailAlba = rwmb_meta($prefix . 'email_bureau') ?: $default;
+$telAlba = rwmb_meta($prefix . 'num_tel') ?: $default;
+$addressAlba = rwmb_meta($prefix . 'adresse_postale') ?: $default;
+$_SESSION['mailForm'] = rwmb_meta($prefix . 'email_form') ?: $mailAlba; // si le mail du form n'est pas le même
+
+$noLink = '#';
+$inLink = [];
+$inLink['mail'] = $mailAlba !== $default ? $mailAlba : $noLink;
+$inLink['tel'] = $telAlba !== $default ? $telAlba : $noLink;
+// L'adresse postale ne changera jamais (sauf en cas de changement de gymnase, mais bon...)
+// Donc je ne change pas le lien Google Maps.
 
 $base_svg = 8;
 $md_svg = 10;
@@ -50,8 +61,9 @@ $message = $_SESSION['contact_form']['message'] ?? '';
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-12 justify-center items-center">
             <!--Contact-->
             <section class="w-full md:w-10/12 lg:max-xl:w-full xl:w-10/12 mx-auto bg-white px-5 py-3 rounded-2xl">
-                <h4 class="text-2xl font-bold mb-12">Contactez-nous :</h4>
-                <address class="flex flex-col not-italic gap-y-12 md:text-lg text-center md:text-left">
+                <h4 class="text-2xl font-bold">Contactez-nous :</h4>
+                <address
+                        class="flex flex-col not-italic gap-y-8 md:gap-y-12 my-8 md:my-12 md:text-lg text-center md:text-left">
                     <!--Email-->
                     <p class="inline-flex items-center">
                         <svg class="<?= $size_svg ?> text-primary-blue basis-1/12 md:basis-2/12" aria-hidden="true"
@@ -62,7 +74,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                                   d="M21 8v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8m18 0-8.029-4.46a2 2 0 0 0-1.942 0L3 8m18 0-9 6.5L3 8"/>
                         </svg>
                         <span class="font-bold basis-5/12 md:basis-4/12">Par mail :</span>
-                        <a href="mailto:<?= $mailAlba ?>"
+                        <a href="mailto:<?= $inLink['mail'] ?>"
                            class="text-lg md:text-xl italic basis-6/12 md:basis-6/12 hover:text-primary-blue hover:underline"
                            target="_blank"><?= $mailAlba ?></a>
                     </p>
@@ -76,9 +88,9 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                                   d="M18.427 14.768 17.2 13.542a1.733 1.733 0 0 0-2.45 0l-.613.613a1.732 1.732 0 0 1-2.45 0l-1.838-1.84a1.735 1.735 0 0 1 0-2.452l.612-.613a1.735 1.735 0 0 0 0-2.452L9.237 5.572a1.6 1.6 0 0 0-2.45 0c-3.223 3.2-1.702 6.896 1.519 10.117 3.22 3.221 6.914 4.745 10.12 1.535a1.601 1.601 0 0 0 0-2.456Z"/>
                         </svg>
                         <span class="font-bold basis-5/12 md:basis-4/12">Par téléphone :</span>
-                        <a href="tel:+33<?= str_replace(' ', '', substr($telAlba, 1)) ?>" target="_blank"
+                        <a href="tel:<?= str_replace(' ', '', $inLink['tel']) ?>" target="_blank"
                            class="text-lg md:text-xl italic basis-6/12 md:basis-6/12 hover:text-primary-blue hover:underline">
-                            <?= $telAlba ?>
+                            <?= str_replace('+33', '0', $telAlba) ?>
                         </a>
                     </p>
                     <!--Adresse Postale-->
