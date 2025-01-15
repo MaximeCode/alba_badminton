@@ -56,20 +56,42 @@ $judgeType = array(
     ),
 );
 
+// Récupération des données de la Meta Box
+$prefix = 'judge_';
+$default = 'Aucune donnée renseignée';
+
+// Juge Arbitre
+$judges = [];
+$judges['arbitre'] = rwmb_meta($prefix . 'juge_arbitres') ?: $default;
+$judges['arbitre']['title'] = 'Juge Arbitre';
+// Juge de lignes
+$judges['lines'] = rwmb_meta($prefix . 'juge_de_lignes') ?: $default;
+$judges['lines']['title'] = 'Juge de Lignes';
+//echo '<pre>';
+//var_dump($judges);
+//echo '</pre>';
+//die();
+
 function showGridJudges(array $judges): void
 {
     // Itérer sur chaque membre du groupe
-    foreach ($judges as $judge) {
+    foreach ($judges as $key => $judge) {
+        if ($key === 'title') {
+            continue;
+        }
+
+        $name = explode(' ', $judge, 2);
+
         echo sprintf(
             '<div class="grid grid-rows-[2fr_auto] gap-4 justify-center text-center text-lg p-4">
                         <div class="row-span-1">%s</div>
                         <p class="row-span-1 italic text-xl">%s</p>
                     </div>',
-            wp_get_attachment_image($judge['img'], '', false, array(
+            wp_get_attachment_image(151, '', false, array(
                 'loading' => 'lazy',
                 'class' => "w-1/2 max-w-56 m-auto rounded-2xl transform transition duration-300 ease-in-out hover:scale-105 row-span-2",
             )),
-            ucwords(strtolower($judge['name']))
+            strtoupper($name[0]) . ' ' . ucwords($name[1])
         );
     }
 }
@@ -153,14 +175,14 @@ function showGridJudges(array $judges): void
             <!--Les membres officiels de la ligue-->
             <h3 class="<?= $h3 ?>">Les membres officiels de la Ligue</h3>
             <div class="space-y-8">
-                <?php foreach ($judgeType as $key => $judges) {
+                <?php foreach ($judges as $judge) {
                     echo sprintf('<div class="bg-white rounded-2xl p-5">
                     <!--Afficher le titre du groupe-->
                     <h4 class="mb-3 text-2xl underline decoration-primary-blue" >%s</h4>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y divide-primary-blue sm:divide-none">',
-                        ucwords(strtolower($key)));
+                        $judge['title']);
                     // Afficher les membres du groupe
-                    showGridJudges($judges);
+                    showGridJudges($judge);
                     echo '</div></div>';
                 }
                 ?>
