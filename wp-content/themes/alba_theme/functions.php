@@ -511,6 +511,57 @@ function save_custom_meta_box($post_id)
 
 add_action('save_post', 'save_custom_meta_box');
 
+// Ajout de la méta box pour les infos de la page contact //
+add_filter('rwmb_meta_boxes', 'infos_register_meta_boxes');
+
+function infos_register_meta_boxes($meta_boxes)
+{
+    $prefix = 'infos_';
+
+    $meta_boxes[] = [
+        'title' => esc_html__('Informations de la page contact', 'alba_theme'),
+        'id' => 'contact_info',
+        'post_types' => ['page'], // This will show the meta box on pages
+        'show' => [
+            'template' => ['contact.php'], // Appear only on contact page
+        ],
+        'context' => 'normal',
+        'priority' => 'high',
+        'fields' => [
+            [
+                'type' => 'email',
+                'name' => esc_html__('Email du bureau', 'alba_theme'),
+                'id' => $prefix . 'email_bureau',
+                'desc' => esc_html__('Email où recevoir les demandes / questions des visiteurs', 'alba_theme'),
+                'size' => 60,
+            ],
+            [
+                'type' => 'text',
+                'name' => esc_html__('Numéro de téléphone', 'alba_theme'),
+                'id' => $prefix . 'num_tel',
+                'std' => '+33',
+                'size' => 60,
+                'pattern' => '\+[0-9]{2}[0-9\s]*', // This will enforce the +XX format
+            ],
+            [
+                'type' => 'text',
+                'name' => esc_html__('Adresse postale', 'alba_theme'),
+                'id' => $prefix . 'adresse_postale',
+                'placeholder' => esc_html__('Adresse du gymnase', 'alba_theme'),
+                'size' => 60,
+            ],
+//            [
+//                'type' => 'email',
+//                'name' => esc_html__('Email du formulaire', 'alba_theme'),
+//                'id' => $prefix . 'email_form',
+//                'desc' => esc_html__('Email où recevoir les infos du formulaire', 'alba_theme'),
+//                'size' => 60,
+//            ],
+        ],
+    ];
+
+    return $meta_boxes;
+}
 
 ///////// function which displays the title in <h2> tag with a specific class //////////
 function display_titlePage(): string
