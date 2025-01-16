@@ -511,55 +511,111 @@ function save_custom_meta_box($post_id)
 
 add_action('save_post', 'save_custom_meta_box');
 
-// Ajout de la méta box pour les infos de la page contact //
-add_filter('rwmb_meta_boxes', 'infos_register_meta_boxes');
+// Main function to register all meta boxes
+add_filter('rwmb_meta_boxes', 'alba_register_all_meta_boxes');
 
-function infos_register_meta_boxes($meta_boxes)
+function alba_register_all_meta_boxes($meta_boxes): array
 {
-    $prefix = 'infos_';
+    if (is_admin() && isset($_GET['post'])) {
+        $post_id = (int)$_GET['post'];
+        // post id of contact page : 134
+        if ($post_id === 134) {
+            // Meta Box for contact page
+            $prefix_contact = 'infos_';
+            $meta_boxes[] = [
+                'title' => esc_html__('Informations de la page contact', 'alba_theme'),
+                'id' => $prefix_contact . 'contact',
+                'post_types' => ['page'],
+                'show' => [
+                    'template' => ['contact.php'],
+                ],
+                'context' => 'normal',
+                'priority' => 'high',
+                'fields' => [
+                    [
+                        'type' => 'email',
+                        'name' => esc_html__('Email du bureau', 'alba_theme'),
+                        'id' => $prefix_contact . 'email_bureau',
+                        'desc' => esc_html__('Email où recevoir les demandes / questions des visiteurs', 'alba_theme'),
+                        'size' => 60,
+                    ],
+                    [
+                        'type' => 'text',
+                        'name' => esc_html__('Numéro de téléphone', 'alba_theme'),
+                        'id' => $prefix_contact . 'num_tel',
+                        'std' => '+33',
+                        'size' => 60,
+                        'pattern' => '\+[0-9]{2}[0-9\s]*',
+                    ],
+                    [
+                        'type' => 'text',
+                        'name' => esc_html__('Adresse postale', 'alba_theme'),
+                        'id' => $prefix_contact . 'adresse_postale',
+                        'placeholder' => esc_html__('Adresse du gymnase', 'alba_theme'),
+                        'size' => 60,
+                    ],
+                ],
+            ];
+        }
 
-    $meta_boxes[] = [
-        'title' => esc_html__('Informations de la page contact', 'alba_theme'),
-        'id' => 'contact_info',
-        'post_types' => ['page'], // This will show the meta box on pages
-        'show' => [
-            'template' => ['contact.php'], // Appear only on contact page
-        ],
-        'context' => 'normal',
-        'priority' => 'high',
-        'fields' => [
-            [
-                'type' => 'email',
-                'name' => esc_html__('Email du bureau', 'alba_theme'),
-                'id' => $prefix . 'email_bureau',
-                'desc' => esc_html__('Email où recevoir les demandes / questions des visiteurs', 'alba_theme'),
-                'size' => 60,
-            ],
-            [
-                'type' => 'text',
-                'name' => esc_html__('Numéro de téléphone', 'alba_theme'),
-                'id' => $prefix . 'num_tel',
-                'std' => '+33',
-                'size' => 60,
-                'pattern' => '\+[0-9]{2}[0-9\s]*', // This will enforce the +XX format
-            ],
-            [
-                'type' => 'text',
-                'name' => esc_html__('Adresse postale', 'alba_theme'),
-                'id' => $prefix . 'adresse_postale',
-                'placeholder' => esc_html__('Adresse du gymnase', 'alba_theme'),
-                'size' => 60,
-            ],
-//            [
-//                'type' => 'email',
-//                'name' => esc_html__('Email du formulaire', 'alba_theme'),
-//                'id' => $prefix . 'email_form',
-//                'desc' => esc_html__('Email où recevoir les infos du formulaire', 'alba_theme'),
-//                'size' => 60,
-//            ],
-        ],
-    ];
+        // post id of presLeClub page : 149
+        if ($post_id === 149) {
+            // Meta Box for judges
+            $prefix_judge = 'judge_';
+            $meta_boxes[] = [
+                'title' => esc_html__('Ajout des juges officiels du club', 'alba_theme'),
+                'id' => $prefix_judge . 'info',
+                'post_types' => ['page'],
+                'show' => [
+                    'template' => ['presLeCLub.php'],
+                ],
+                'context' => 'normal',
+                'priority' => 'high',
+                'fields' => [
+                    [
+                        'type' => 'text',
+                        'name' => esc_html__('Juge Arbitres', 'alba_theme'),
+                        'id' => $prefix_judge . 'juge_arbitres',
+                        'placeholder' => esc_html__('NOM Prénom', 'alba_theme'),
+                        'size' => 60,
+                        'clone' => true,
+                    ],
+                    [
+                        'type' => 'text',
+                        'name' => esc_html__('Juge de Lignes', 'alba_theme'),
+                        'id' => $prefix_judge . 'juge_de_lignes',
+                        'placeholder' => esc_html__('NOM Prénom', 'alba_theme'),
+                        'size' => 60,
+                        'clone' => true,
+                    ],
+                ],
+            ];
+        }
 
+        // post id of Homepage page : 53
+        if ($post_id === 53) {
+            // Meta Box for Homepage
+            $prefix_home = 'home_';
+            $meta_boxes[] = [
+                'title' => esc_html__('Les partenaires du club pour la saison 2024 - 2025', 'alba_theme'),
+                'id' => $prefix_home . 'info',
+                'post_types' => ['page'],
+                'show' => [
+                    'template' => ['homePage.php'],
+                ],
+                'context' => 'normal',
+                'priority' => 'high',
+                'fields' => [
+                    [
+                        'type' => 'image_advanced',
+                        'name' => __('Logo des partenaires', 'alba_theme'),
+                        'id' => $prefix_home . 'img_id',
+                        'clone' => true,
+                    ],
+                ],
+            ];
+        }
+    }
     return $meta_boxes;
 }
 
