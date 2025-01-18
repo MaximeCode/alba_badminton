@@ -91,8 +91,10 @@ get_header(); ?>
                 $category = $categories[0]->slug;
                 //get the parent category
                 $parentCategory = get_category($categories[0]->parent);
-                $parentCategorySlug = $parentCategory->slug;
-                $parentCategoryName = $parentCategory->name;
+                if (!$parentCategory->errors) {
+                    $parentCategorySlug = $parentCategory->slug;
+                    $parentCategoryName = $parentCategory->name;
+                }
             endwhile;
         endif;
         ?>
@@ -150,7 +152,7 @@ get_header(); ?>
         </div>
     </section>
     <?php
-    if ($parentCategory->slug && $parentCategory->slug !== '') {
+    if (isset($parentCategorySlug)) {
         // Check if there are other posts with the same parent category
         $args_parent = array(
             'post_type' => 'post',

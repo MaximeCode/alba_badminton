@@ -38,16 +38,34 @@ $partners = rwmb_meta($prefix . 'img_id');
             <!--Right Col-->
             <div
                     class="col text-primary-blue flex flex-col items-center justify-between space-y-8 bg-white/50 rounded-2xl p-10">
-                <h1 class="text-3xl md:text-4xl italic text-center font-bold tracking-wide underline">Actualité
-                    populaire :</h1>
-                <a href="<?php the_permalink($nb_mainActus); ?>" class="w-5/6 max-w-96 md:max-w-md lg:max-w-lg
-                 md:w-3/4">
-                    <?php echo wp_get_attachment_image(146, '', false, array(
-                        'loading' => 'lazy',
-                        'class' => "rounded-2xl transform transition duration-300 ease-in-out hover:scale-105",
-                    )); ?>
-                </a>
-                <?= primaryButton($nb_mainActus, "Voir l'article complet") ?>
+                <h1 class="text-3xl md:text-4xl italic text-center font-bold tracking-wide underline">
+                    Derni&egrave;re actualit&eacute; :
+                </h1>
+                <?php
+                // Paramètres pour récupérer les 3 derniers articles
+                $args = array(
+                    'post_type' => 'post',
+                    'posts_per_page' => 1,
+                    'orderby' => 'date',
+                    'order' => 'DESC',
+                );
+
+                $query = new WP_Query($args);
+
+                if ($query->have_posts()) :
+                    while ($query->have_posts()) : $query->the_post(); ?>
+                        <a href="<?php the_permalink(); ?>"
+                           class="w-5/6 max-w-96 md:max-w-md md:w-3/4 lg:max-w-lg">
+                            <?php echo wp_get_attachment_image(get_post_thumbnail_id(), '', false, array(
+                                'loading' => 'lazy',
+                                'class' => "lg:max-h-[450px] object-scale-down rounded-2xl transform transition duration-300 ease-in-out hover:scale-105",
+                            )); ?>
+                        </a>
+                        <?= primaryButton(get_the_ID(), "Voir l'article complet");
+                    endwhile;
+                    wp_reset_postdata();
+                endif;
+                ?>
             </div>
         </div>
 
@@ -67,12 +85,28 @@ $partners = rwmb_meta($prefix . 'img_id');
             <h2 id="lastNews" class="mb-8 text-3xl font-extrabold underline">Les derniers articles publiés :</h2>
             <div class="grid gap-y-12">
                 <?php
-                // Paramètres pour récupérer les 3 derniers articles
+                // Paramètres pour récupérer les 3 derniers articles sans le dernier article
+                $arguments = array(
+                    'post_type' => 'post',
+                    'posts_per_page' => 1,
+                    'orderby' => 'date',
+                    'order' => 'DESC',
+                );
+                $theQuery = new WP_Query($arguments);
+
+                if ($theQuery->have_posts()) :
+                    while ($theQuery->have_posts()) : $theQuery->the_post();
+                        $idOfLastPost = get_the_ID();
+                    endwhile;
+                    wp_reset_postdata();
+                endif;
+
                 $args = array(
                     'post_type' => 'post',
                     'posts_per_page' => 3,
                     'orderby' => 'date',
                     'order' => 'DESC',
+                    'post__not_in' => array($idOfLastPost),
                 );
 
                 $query = new WP_Query($args);
