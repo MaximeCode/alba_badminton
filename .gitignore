@@ -38,3 +38,6 @@ wp-includes/
 
 # Ignorer le fichier style.css car il est généré automatiquement
 style.css
+
+# Ignorer le thème par défaut de WordPress
+wp-content/themes/twenty*
