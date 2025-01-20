@@ -25,8 +25,8 @@ $category = $_GET['categoryName'] ?? null;
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden <?= $alba_theme_variables['animCardNews'] ?>">
                         <a href="<?php the_permalink(); ?>">
                             <?php if (has_post_thumbnail()) : ?>
-                                <img src="<?php the_post_thumbnail_url('medium'); ?>" alt="<?php the_title(); ?>"
-                                     class="object-cover object-center w-full h-48 md:h-64" loading="lazy">
+                                <img src="<?php the_post_thumbnail_url(); ?>" alt="<?php the_title(); ?>"
+                                     class="object-cover object-center w-full h-64 md:h-96" loading="lazy">
                             <?php endif; ?>
                             <div class="p-4">
                                 <h2 class="text-xl font-bold text-primary-blue underline"><?php the_title(); ?></h2>

@@ -49,10 +49,10 @@
     };
 
     // Fonction pour faire défiler vers la section des dernières actualités
-    const goToLastNews = document.getElementById("goToLastNews");
-    goToLastNews.addEventListener("click", function (e) {
+    const goToStats = document.getElementById("goToStats");
+    goToStats.addEventListener("click", function (e) {
         e.preventDefault();
-        document.getElementById("lastNews").scrollIntoView({behavior: "smooth"});
+        document.getElementById("stats").scrollIntoView({behavior: "smooth"});
     });
 
     // Fonction pour faire défiler vers les bureaux précédents

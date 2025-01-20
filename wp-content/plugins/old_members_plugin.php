@@ -159,18 +159,6 @@ function old_members_custom_column_content($column, $post_id): void
 
 add_action('manage_office_member_posts_custom_column', 'old_members_custom_column_content', 10, 2);
 
-//function set_default_office_member_query_ordering($query): void
-//{
-//    // trie par défaut par année
-//    if (is_admin() && $query->get('post_type') === 'office_member') {
-//        $query->set('meta_key', '_office_year');
-//        $query->set('orderby', 'meta_value');
-//        $query->set('order', 'DESC');
-//    }
-//}
-
-//add_action('pre_get_posts', 'set_default_office_member_query_ordering');
-
 // Function to get office members by year
 function get_office_members_by_year($year = null): array
 {

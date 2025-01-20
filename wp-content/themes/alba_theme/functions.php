@@ -152,7 +152,7 @@ add_filter('comment_form_defaults', 'my_custom_comment_form');
 function showGridBureau(array $members): void
 {
     echo '<div class="bg-white rounded-2xl p-5 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y divide-primary-blue sm:divide-none">';
-    foreach ($members as $key => $bureau) {
+    foreach ($members as $bureau) {
         echo sprintf(
             '<div class="grid grid-rows-[auto_2fr_auto] gap-4 justify-center items-center text-center text-lg p-3">
                             <p class="underline font-bold text-xl">%s</p>

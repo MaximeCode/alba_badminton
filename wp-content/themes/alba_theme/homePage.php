@@ -18,8 +18,7 @@ $partners = rwmb_meta($prefix . 'img_id');
     <section>
         <div class="grid grid-cols-1 gap-y-16 xl:gap-x-28 xl:grid-cols-2 2xl:gap-x-48">
             <!--Left Col-->
-            <div
-                    class="col text-primary-blue flex flex-col items-center justify-between space-y-8 text-center bg-white/50 rounded-2xl py-10 px-5">
+            <div class="col text-primary-blue flex flex-col items-center justify-between space-y-8 text-center bg-white rounded-2xl py-10 px-5">
                 <h1 class="text-3xl md:text-4xl font-bold tracking-wide text-balance">
                     Faisons vivre notre passion commune, rejoignez ALBA 🏸 !
                 </h1>
@@ -36,8 +35,7 @@ $partners = rwmb_meta($prefix . 'img_id');
             </div>
 
             <!--Right Col-->
-            <div
-                    class="col text-primary-blue flex flex-col items-center justify-between space-y-8 bg-white/50 rounded-2xl p-10">
+            <div class="col text-primary-blue flex flex-col items-center justify-between space-y-8 bg-white rounded-2xl p-10">
                 <h1 class="text-3xl md:text-4xl italic text-center font-bold tracking-wide underline">
                     Derni&egrave;re actualit&eacute; :
                 </h1>
@@ -69,7 +67,7 @@ $partners = rwmb_meta($prefix . 'img_id');
             </div>
         </div>
 
-        <a href="#lastNews" class="flex items-center justify-center mt-6" id="goToLastNews">
+        <a href="#stats" class="flex items-center justify-center mt-6" id="goToLastNews">
             <svg class="w-8 h-8 text-primary-blue rounded-full hover:bg-primary-blue/50 animate-bounce"
                  aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                  width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -79,10 +77,29 @@ $partners = rwmb_meta($prefix . 'img_id');
         </a>
     </section>
 
+    <!-- Number and stats section -->
+    <section class="mt-8 py-8 md:py-16" id="stats">
+        <div class="container mx-auto w-full md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
+            <?php
+            $stats = [
+                ['100+', 'Membres'],
+                ['7', 'Terrains'],
+                ['35', 'Ans'],
+                ['6', 'Équipes']
+            ];
+            foreach ($stats as $stat) : ?>
+                <div class="bg-white p-6 rounded-lg text-center">
+                    <span class="text-5xl font-bold text-primary-blue"><?= $stat[0] ?></span>
+                    <p class="text-2xl text-secondary-blue"><?= $stat[1] ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </section>
+
     <!-- Add section with the 3 last articles published --> <!-- ! FINISHED !-->
     <section class="py-10">
         <div>
-            <h2 id="lastNews" class="mb-8 text-3xl font-extrabold underline">Les derniers articles publiés :</h2>
+            <h2 class="mb-8 text-3xl font-extrabold underline">Les derniers articles publiés :</h2>
             <div class="grid gap-y-12">
                 <?php
                 // Paramètres pour récupérer les 3 derniers articles sans le dernier article
@@ -115,8 +132,7 @@ $partners = rwmb_meta($prefix . 'img_id');
                     while ($query->have_posts()) : $query->the_post(); ?>
                         <!-- Template de carte horizontale avec un lien vers l'article -->
                         <a href="<?php the_permalink(); ?>"
-                           class="flex flex-col md:flex-row xl:gap-6 justify-between bg-white rounded-2xl
-                           overflow-hidden shadow-card lg:w-3/4 mx-auto <?= $alba_theme_variables['animCardNews'] ?>">
+                           class="flex flex-col md:flex-row xl:gap-6 justify-between bg-white rounded-2xl overflow-hidden shadow-card lg:w-3/4 mx-auto <?= $alba_theme_variables['animCardNews'] ?>">
 
                             <!-- Titre et extrait de l'article -->
                             <div class="flex flex-col justify-around p-4 leading-normal">

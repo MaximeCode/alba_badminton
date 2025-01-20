@@ -4,40 +4,6 @@
 
 get_header();
 
-$members_23_24 = array(
-    'pr&eacute;sident' => array(
-        'name' => 'Jean Dupont',
-        'img' => 151,
-    ),
-    'vice-pr&eacute;sident' => array(
-        'name' => 'Jeanne Dupont',
-        'img' => 151,
-    ),
-    'tr&eacute;sorier' => array(
-        'name' => 'Jean Dupont',
-        'img' => 151,
-    ),
-    'secr&eacute;taire' => array(
-        'name' => 'Jeanne Dupont',
-        'img' => 151,
-    ),
-    'membre' => array(
-        'name' => 'Jean Dupont',
-        'img' => 151,
-    ),
-    'membre 2' => array(
-        'name' => 'MaximE bauDe',
-        'img' => 151,
-    ),
-);
-
-$oldBureaux = array(
-    '2024-2025' => $members_23_24,
-    '2023-2024' => $members_23_24,
-    '2022-2023' => $members_23_24,
-    '2021-2022' => $members_23_24,
-);
-
 $allMembers = get_office_members_by_year();
 
 ?>

@@ -32,7 +32,7 @@
     ?>
 </head>
 
-<body class="bg-gradient-to-b from-back-blue to-white font-crimson selection:bg-primary-blue selection:text-white">
+<body class="bg-back-blue font-crimson selection:bg-primary-blue selection:text-white">
 
 <!-- Navbar wrapper -->
 <nav class="bg-primary-blue mb-10 z-50 font-personal relative shadow-xl">
