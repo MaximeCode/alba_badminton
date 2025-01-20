@@ -88,24 +88,25 @@
                                 <a href="<?= get_permalink(149); ?>"
                                    class="<?= $alba_theme_variables['subLi'] ?> rounded-t-lg">Pr&eacute;sentation</a>
                             </li>
-                            <li>
-                                <a href="<?= get_permalink(153); ?>"
-                                   class="<?= $alba_theme_variables['subLi'] ?>">
-                                    Historique du Bureau
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?= get_permalink(190); ?>"
-                                   class="<?= $alba_theme_variables['subLi'] ?>">Interclubs</a>
-                            </li>
-                            <li>
-                                <a href="<?= get_permalink(164); ?>"
-                                   class="<?= $alba_theme_variables['subLi'] ?>">Horaires</a>
-                            </li>
-                            <li>
-                                <a href="<?= get_permalink(213); ?>"
-                                   class="<?= $alba_theme_variables['subLi'] ?> rounded-b-lg">Palmar&egrave;s</a>
-                            </li>
+                            <?php
+                            // Répertoire des pages enfants
+                            $children = get_pages('child_of=149');
+                            if (!empty($children) && is_array($children)) {
+                                foreach ($children as $child) {
+                                    $menu_title = get_post_meta($child->ID, 'menu_title', true);
+                                    ?>
+                                    <li>
+                                        <a href="<?= get_permalink($child->ID); ?>"
+                                           class="<?= $alba_theme_variables['subLi'] ?>">
+                                            <?= $menu_title ?: $child->post_title ?>
+                                        </a>
+                                    </li>
+                                    <?php
+                                }
+                            } else {
+                                echo "<li class='block px-4 py-2 leading-7 rounded-lg hover:bg-white hover:text-primary-blue'>Aucune page enfant disponible !</li>";
+                            }
+                            ?>
                         </ul>
                     </div>
                 </li>

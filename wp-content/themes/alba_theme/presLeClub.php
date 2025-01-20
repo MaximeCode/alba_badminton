@@ -5,7 +5,6 @@ get_header();
 
 global $alba_theme_variables;
 
-$h3 = "mb-4 text-3xl underline decoration-primary-blue";
 $p = "text-justify text-lg md:text-xl text-balance";
 $letters = "text-primary-blue text-6xl";
 
@@ -15,86 +14,6 @@ $currentOffice = get_office_members_by_year('2024-2025');
 //var_dump($currentOffice);
 //echo '</pre>';
 //die();
-
-// membre de la ligue
-$judgeType = array(
-    'Juge Arbitre' => array(
-        'm1' => array(
-            'name' => 'Jean Dupont',
-            'img' => 151,
-        ),
-        'm2' => array(
-            'name' => 'Jeanne Dupont',
-            'img' => 151,
-        ),
-        'm3' => array(
-            'name' => 'Jean Dupont',
-            'img' => 151,
-        ),
-        'm4' => array(
-            'name' => 'Jeanne Dupont',
-            'img' => 151,
-        ),
-    ),
-    'Juge de lignes' => array(
-        'm1' => array(
-            'name' => 'Jean Dupont',
-            'img' => 151,
-        ),
-        'm2' => array(
-            'name' => 'Jeanne Dupont',
-            'img' => 151,
-        ),
-        'm3' => array(
-            'name' => 'Jean Dupont',
-            'img' => 151,
-        ),
-        'm4' => array(
-            'name' => 'Jeanne Dupont',
-            'img' => 151,
-        ),
-    ),
-);
-
-// Récupération des données de la Meta Box
-$prefix = 'judge_';
-$default = 'Aucune donnée renseignée';
-
-// Juge Arbitre
-$judges = [];
-$judges['arbitre'] = rwmb_meta($prefix . 'juge_arbitres') ?: $default;
-$judges['arbitre']['title'] = 'Juge Arbitre';
-// Juge de lignes
-$judges['lines'] = rwmb_meta($prefix . 'juge_de_lignes') ?: $default;
-$judges['lines']['title'] = 'Juge de Lignes';
-//echo '<pre>';
-//var_dump($judges);
-//echo '</pre>';
-//die();
-
-function showGridJudges(array $judges): void
-{
-    // Itérer sur chaque membre du groupe
-    foreach ($judges as $key => $judge) {
-        if ($key === 'title') {
-            continue;
-        }
-
-        $name = explode(' ', $judge, 2);
-
-        echo sprintf(
-            '<div class="grid grid-rows-[2fr_auto] gap-4 justify-center text-center text-lg p-4">
-                        <div class="row-span-1">%s</div>
-                        <p class="row-span-1 italic text-xl">%s</p>
-                    </div>',
-            wp_get_attachment_image(151, '', false, array(
-                'loading' => 'lazy',
-                'class' => "w-1/2 max-w-56 m-auto rounded-2xl transform transition duration-300 ease-in-out hover:scale-105 row-span-2",
-            )),
-            strtoupper($name[0]) . ' ' . ucwords($name[1])
-        );
-    }
-}
 
 ?>
 
@@ -120,7 +39,7 @@ function showGridJudges(array $judges): void
                 </figcaption>
             </figure>
 
-            <h3 class="<?= $h3 ?>">Présentation</h3>
+            <h3 class="<?= $alba_theme_variables['h3'] ?>">Présentation</h3>
 
             <!--Paragraphe de présentation-->
             <p class="mb-8 <?= $p ?>">
@@ -150,7 +69,7 @@ function showGridJudges(array $judges): void
             </p>
 
             <!--Le tournoi annuel-->
-            <h3 class="<?= $h3 ?>">Notre tournoi annuel</h3>
+            <h3 class="<?= $alba_theme_variables['h3'] ?>">Notre tournoi annuel</h3>
             <p class="mb-12 <?= $p ?>">
                 Organis&eacute; tous les ans au mois de novembre, le tournoi inter-r&eacute;gional du club r&eacute;unit
                 pas moins de 200
@@ -158,7 +77,7 @@ function showGridJudges(array $judges): void
             </p>
 
             <!--Le bureau-->
-            <h3 class="<?= $h3 ?>">Le bureau 2024 - 2025</h3>
+            <h3 class="<?= $alba_theme_variables['h3'] ?>">Le bureau 2024 - 2025</h3>
             <!--Tous les membres-->
             <?php showGridBureau($currentOffice); ?>
 
@@ -170,22 +89,6 @@ function showGridJudges(array $judges): void
                         </svg>'; ?>
             <div class="grid place-items-center">
                 <?= primaryButton(153, "Voir les bureaux des années précédentes $svg", null, null, "flex items-center my-16") ?>
-            </div>
-
-            <!--Les membres officiels de la ligue-->
-            <h3 class="<?= $h3 ?>">Les membres officiels de la Ligue</h3>
-            <div class="space-y-8">
-                <?php foreach ($judges as $judge) {
-                    echo sprintf('<div class="bg-white rounded-2xl p-5">
-                    <!--Afficher le titre du groupe-->
-                    <h4 class="mb-3 text-2xl underline decoration-primary-blue" >%s</h4>
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 divide-y divide-primary-blue sm:divide-none">',
-                        $judge['title']);
-                    // Afficher les membres du groupe
-                    showGridJudges($judge);
-                    echo '</div></div>';
-                }
-                ?>
             </div>
         </div>
     </section>

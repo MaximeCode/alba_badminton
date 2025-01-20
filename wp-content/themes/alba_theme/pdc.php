@@ -5,7 +5,7 @@ get_header();
 
 <?= display_titlePage() ?>
 
-  <div class="prose">
+  <div class="prose text-justify">
 	  <?php the_content(); ?>
   </div>
 

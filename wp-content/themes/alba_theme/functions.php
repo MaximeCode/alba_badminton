@@ -13,6 +13,7 @@ function primaryButton(int $idPage, string $text, ?string $paramName = null, ?st
 function alba_theme_variables(): array
 {
     return [
+        'h3' => "mb-4 text-3xl underline decoration-primary-blue",
         'animCardNews' => "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-10 hover:scale-105",
         'animRotateArrow' => "transform transition-transform duration-500 group-hover:rotate-180",
         'animBase' => "transform transition duration-200 ease-in-out",
@@ -23,32 +24,6 @@ function alba_theme_variables(): array
         'classBtn' => "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out",
         'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base",
         'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
-        'members' => [
-            'pr&eacute;sident' => [
-                'name' => 'Jean Dupont',
-                'img' => 151,
-            ],
-            'vice-pr&eacute;sident' => [
-                'name' => 'Jeanne Dupont',
-                'img' => 151,
-            ],
-            'tr&eacute;sorier' => [
-                'name' => 'Jean Dupont',
-                'img' => 151,
-            ],
-            'secr&eacute;taire' => [
-                'name' => 'Jeanne Dupont',
-                'img' => 151,
-            ],
-            'membre' => [
-                'name' => 'Jean Dupont',
-                'img' => 151,
-            ],
-            'membre 2' => [
-                'name' => 'MaximE bauDe',
-                'img' => 151,
-            ],
-        ],
     ];
 }
 
@@ -559,7 +534,7 @@ function alba_register_all_meta_boxes($meta_boxes): array
         }
 
         // post id of presLeClub page : 149
-        if ($post_id === 149) {
+        if ($post_id === 341) {
             // Meta Box for judges
             $prefix_judge = 'judge_';
             $meta_boxes[] = [
@@ -618,6 +593,95 @@ function alba_register_all_meta_boxes($meta_boxes): array
     }
     return $meta_boxes;
 }
+
+// Custom dropdown title page //
+// Add custom field for menu title only on child pages
+function add_menu_title_meta_box()
+{
+    // Get the current post ID
+    $post_id = isset($_GET['post']) ? $_GET['post'] : null;
+
+    // Only proceed if we have a post ID
+    if ($post_id) {
+        // Get the post's parent ID
+        $post_parent = wp_get_post_parent_id($post_id);
+
+        // Only add the meta box if this is a child page (has a parent)
+        if ($post_parent > 0) {
+            add_meta_box(
+                'menu_title_meta_box',
+                'Menu Title',
+                'menu_title_meta_box_html',
+                'page'
+            );
+        }
+    } else {
+        // For new pages, we'll add the meta box and hide it with JavaScript if it's not a child page
+        add_meta_box(
+            'menu_title_meta_box',
+            'Menu Title',
+            'menu_title_meta_box_html',
+            'page'
+        );
+        add_action('admin_footer', 'menu_title_visibility_script');
+    }
+}
+
+add_action('add_meta_boxes', 'add_menu_title_meta_box');
+
+// Meta box HTML
+function menu_title_meta_box_html($post)
+{
+    $value = get_post_meta($post->ID, 'menu_title', true);
+    ?>
+    <label for="menu_title">Court titre pour le menu de la barre de navigation</label>
+    <input type="text" id="menu_title" name="menu_title" value="<?= esc_attr($value) ?>" class="widefat">
+    <p class="description">Laissez vide pour utiliser le titre complet de la page</p>
+    <?php
+}
+
+// JavaScript to hide/show meta box based on parent selection
+function menu_title_visibility_script()
+{
+    ?>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            // Function to toggle meta box visibility
+            function toggleMenuTitleMetaBox() {
+                var parentId = $('#parent_id').val();
+                if (parentId && parentId > 0) {
+                    $('#menu_title_meta_box').show();
+                } else {
+                    $('#menu_title_meta_box').hide();
+                }
+            }
+
+            // Initial check
+            toggleMenuTitleMetaBox();
+
+            // Watch for changes to the parent dropdown
+            $('#parent_id').on('change', toggleMenuTitleMetaBox);
+        });
+    </script>
+    <?php
+}
+
+// Save meta box data
+function save_menu_title_meta_box($post_id)
+{
+    // Only save if this is a child page
+    if (wp_get_post_parent_id($post_id) > 0) {
+        if (array_key_exists('menu_title', $_POST)) {
+            update_post_meta(
+                $post_id,
+                'menu_title',
+                sanitize_text_field($_POST['menu_title'])
+            );
+        }
+    }
+}
+
+add_action('save_post', 'save_menu_title_meta_box');
 
 ///////// function which displays the title in <h2> tag with a specific class //////////
 function display_titlePage(): string

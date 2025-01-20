@@ -48,13 +48,6 @@
         window.scrollTo({top: 0, behavior: "smooth"}); // Scroll smooth vers le haut
     };
 
-    // Fonction pour faire défiler vers la section des dernières actualités
-    const goToStats = document.getElementById("goToStats");
-    goToStats.addEventListener("click", function (e) {
-        e.preventDefault();
-        document.getElementById("stats").scrollIntoView({behavior: "smooth"});
-    });
-
     // Fonction pour faire défiler vers les bureaux précédents
     function goToOldManagers(theLink, goThere) {
         // enlever l'évènement par défaut

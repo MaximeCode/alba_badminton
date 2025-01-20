@@ -197,4 +197,13 @@ $partners = rwmb_meta($prefix . 'img_id');
         </div>
     </section>
 
+    <script>
+        // Fonction pour faire défiler vers la section des dernières actualités
+        const goToStats = document.getElementById("goToStats");
+        goToStats.addEventListener("click", function (e) {
+            e.preventDefault();
+            document.getElementById("stats").scrollIntoView({behavior: "smooth"});
+        });
+    </script>
+
 <?php get_footer() ?>
