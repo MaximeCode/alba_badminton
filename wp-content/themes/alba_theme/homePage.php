@@ -16,7 +16,7 @@ $partners = rwmb_meta($prefix . 'img_id');
 ?>
 
     <section>
-        <div class="grid grid-cols-1 gap-y-16 xl:gap-x-28 xl:grid-cols-2 2xl:gap-x-48">
+        <div class="grid grid-cols-1 gap-y-16 xl:gap-x-28 xl:grid-cols-2 2xl:gap-x-48 min-h-[75vh]">
             <!--Left Col-->
             <div class="col text-primary-blue flex flex-col items-center justify-between space-y-8 text-center bg-white rounded-2xl py-10 px-5">
                 <h1 class="text-3xl md:text-4xl font-bold tracking-wide text-balance">
@@ -35,7 +35,7 @@ $partners = rwmb_meta($prefix . 'img_id');
             </div>
 
             <!--Right Col-->
-            <div class="col text-primary-blue flex flex-col items-center justify-between space-y-8 bg-white rounded-2xl p-10">
+            <div class="col text-primary-blue flex flex-col items-center justify-between space-y-8 bg-white rounded-2xl p-10 px-5">
                 <h1 class="text-3xl md:text-4xl italic text-center font-bold tracking-wide underline">
                     Derni&egrave;re actualit&eacute; :
                 </h1>
@@ -52,8 +52,8 @@ $partners = rwmb_meta($prefix . 'img_id');
 
                 if ($query->have_posts()) :
                     while ($query->have_posts()) : $query->the_post(); ?>
-                        <a href="<?php the_permalink(); ?>"
-                           class="w-5/6 max-w-96 md:max-w-md md:w-3/4 lg:max-w-lg">
+                        <a href="<?php the_permalink(); ?>" class="w-full md:max-w-lg">
+                            <h3 class="text-center mb-4 text-2xl"><?= get_the_title() ?></h3>
                             <?php echo wp_get_attachment_image(get_post_thumbnail_id(), '', false, array(
                                 'loading' => 'lazy',
                                 'class' => "lg:max-h-[450px] object-scale-down rounded-2xl transform transition duration-300 ease-in-out hover:scale-105",
@@ -67,14 +67,16 @@ $partners = rwmb_meta($prefix . 'img_id');
             </div>
         </div>
 
-        <a href="#stats" class="flex items-center justify-center mt-6" id="goToLastNews">
-            <svg class="w-8 h-8 text-primary-blue rounded-full hover:bg-primary-blue/50 animate-bounce"
-                 aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                 width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="m19 9-7 7-7-7"/>
-            </svg>
-        </a>
+        <div class="flex items-center justify-center">
+            <a href="#stats" class="mt-6" id="goToStats">
+                <svg class="w-8 h-8 text-primary-blue rounded-full hover:bg-primary-blue/50 animate-bounce"
+                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                     width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="m19 9-7 7-7-7"/>
+                </svg>
+            </a>
+        </div>
     </section>
 
     <!-- Number and stats section -->

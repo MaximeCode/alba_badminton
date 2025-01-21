@@ -4,6 +4,12 @@ global $alba_theme_variables;
 get_header(); ?>
 
 <style>
+    .prose, .prose img {
+        max-width: 100%;
+        margin: auto;
+        text-align: center;
+    }
+
     .comments-section {
         padding: 1rem;
         background-color: rgb(255 255 255);
@@ -72,6 +78,8 @@ get_header(); ?>
 </style>
 
 <main class="space-y-16">
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0"></script>
     <article>
         <?php
         if (have_posts()) :
