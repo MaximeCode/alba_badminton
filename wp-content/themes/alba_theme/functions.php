@@ -449,7 +449,7 @@ function events_meta_box_callback($post): void
     <?php
 }
 
-function save_custom_meta_box($post_id)
+function save_custom_meta_box($post_id): void
 {
     // Vérification du nonce pour la sécurité
     if (!isset($_POST['custom_meta_box_nonce']) || !wp_verify_nonce($_POST['custom_meta_box_nonce'], 'save_custom_meta_box')) {
@@ -545,38 +545,77 @@ function alba_register_all_meta_boxes($meta_boxes): array
             ];
         }
 
-        // post id of presLeClub page : 149
+        // post id of judges : 341
         if ($post_id === 341) {
             // Meta Box for judges
             $prefix_judge = 'judge_';
+
+            // Retrieve judge types dynamically
+            $types_juges = get_post_meta(341, 'judge_type_field', true);
+
+            // Check if there are any judge types saved
+            $options = [];
+            if (!empty($types_juges)) {
+                foreach ($types_juges as $type) {
+                    $options[$type] = esc_html__($type, 'alba_theme');
+                }
+            } else {
+                $options['non'] = esc_html__('Ca marche pas...', 'alba_theme');
+            }
+
+            // Single Meta Box with two columns
             $meta_boxes[] = [
                 'title' => esc_html__('Ajout des juges officiels du club', 'alba_theme'),
                 'id' => $prefix_judge . 'info',
                 'post_types' => ['page'],
                 'show' => [
-                    'template' => ['presLeCLub.php'],
+                    'template' => ['judges.php'],
                 ],
                 'context' => 'normal',
                 'priority' => 'high',
                 'fields' => [
                     [
                         'type' => 'text',
-                        'name' => esc_html__('Juge Arbitres', 'alba_theme'),
-                        'id' => $prefix_judge . 'juge_arbitres',
+                        'name' => esc_html__('Nom du Juge', 'alba_theme'),
+                        'id' => 'lePtnDeNom',
                         'placeholder' => esc_html__('NOM Prénom', 'alba_theme'),
-                        'size' => 60,
+                        'size' => 40,
                         'clone' => true,
                     ],
                     [
-                        'type' => 'text',
-                        'name' => esc_html__('Juge de Lignes', 'alba_theme'),
-                        'id' => $prefix_judge . 'juge_de_lignes',
-                        'placeholder' => esc_html__('NOM Prénom', 'alba_theme'),
-                        'size' => 60,
+                        'type' => 'select_advanced',
+                        'name' => esc_html__('Type de juge', 'alba_theme'),
+                        'id' => 'lePtnDeType',
+                        'options' => $options,
+                        'multiple' => true,
                         'clone' => true,
                     ],
                 ],
             ];
+
+            // Add the meta box for types of judges
+            $meta_boxes[] = [
+                'title' => esc_html__('Ajout des types de juges', 'alba_theme'),
+                'id' => $prefix_judge . 'type_meta_box',
+                'post_types' => ['page'],
+                'show' => [
+                    'template' => ['judges.php'],
+                ],
+                'context' => 'normal',
+                'priority' => 'high',
+                'fields' => [
+                    [
+                        'type' => 'text',
+                        'name' => esc_html__('Type de Juge', 'alba_theme'),
+                        'id' => 'judge_type_field',
+                        'placeholder' => esc_html__('Juge Arbitre', 'alba_theme'),
+                        'size' => 50,
+                        'clone' => true,
+                    ],
+                ],
+            ];
+            // Add custom CSS for the admin
+            add_action('admin_head', 'alba_add_judge_admin_styles');
         }
 
         // post id of Homepage page : 53
@@ -606,9 +645,26 @@ function alba_register_all_meta_boxes($meta_boxes): array
     return $meta_boxes;
 }
 
+// Add custom CSS to style the meta box layout
+function alba_add_judge_admin_styles()
+{
+    ?>
+    <style>
+        #judge_info .inside .rwmb-meta-box {
+            display: flex;
+        }
+
+        #judge_info .inside .rwmb-meta-box .rwmb-field {
+            flex: 1;
+            margin-right: 20px;
+        }
+    </style>
+    <?php
+}
+
 // Custom dropdown title page //
 // Add custom field for menu title only on child pages
-function add_menu_title_meta_box()
+function add_menu_title_meta_box(): void
 {
     // Get the current post ID
     $post_id = isset($_GET['post']) ? $_GET['post'] : null;
@@ -642,7 +698,7 @@ function add_menu_title_meta_box()
 add_action('add_meta_boxes', 'add_menu_title_meta_box');
 
 // Meta box HTML
-function menu_title_meta_box_html($post)
+function menu_title_meta_box_html($post): void
 {
     $value = get_post_meta($post->ID, 'menu_title', true);
     ?>
@@ -658,9 +714,11 @@ function menu_title_visibility_script()
     ?>
     <script type="text/javascript">
         jQuery(document).ready(function ($) {
+            const theparentId = $('#parent_id');
+
             // Function to toggle meta box visibility
             function toggleMenuTitleMetaBox() {
-                var parentId = $('#parent_id').val();
+                var parentId = theparentId.val();
                 if (parentId && parentId > 0) {
                     $('#menu_title_meta_box').show();
                 } else {
@@ -672,14 +730,14 @@ function menu_title_visibility_script()
             toggleMenuTitleMetaBox();
 
             // Watch for changes to the parent dropdown
-            $('#parent_id').on('change', toggleMenuTitleMetaBox);
+            theparentId.on('change', toggleMenuTitleMetaBox);
         });
     </script>
     <?php
 }
 
 // Save meta box data
-function save_menu_title_meta_box($post_id)
+function save_menu_title_meta_box($post_id): void
 {
     // Only save if this is a child page
     if (wp_get_post_parent_id($post_id) > 0) {

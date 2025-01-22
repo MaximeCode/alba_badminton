@@ -52,11 +52,12 @@ $partners = rwmb_meta($prefix . 'img_id');
 
                 if ($query->have_posts()) :
                     while ($query->have_posts()) : $query->the_post(); ?>
-                        <a href="<?php the_permalink(); ?>" class="w-full md:max-w-lg">
+                        <a href="<?php the_permalink(); ?>"
+                           class="w-full md:max-w-lg transform transition duration-300 ease-in-out hover:scale-105">
                             <h3 class="text-center mb-4 text-2xl"><?= get_the_title() ?></h3>
                             <?php echo wp_get_attachment_image(get_post_thumbnail_id(), '', false, array(
                                 'loading' => 'lazy',
-                                'class' => "lg:max-h-[450px] object-scale-down rounded-2xl transform transition duration-300 ease-in-out hover:scale-105",
+                                'class' => "lg:max-h-[450px] object-scale-down rounded-2xl",
                             )); ?>
                         </a>
                         <?= primaryButton(get_the_ID(), "Voir l'article complet");
