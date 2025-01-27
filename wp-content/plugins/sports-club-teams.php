@@ -10,9 +10,9 @@ Author: M.B.
 function sports_club_team_post_type(): void
 {
     $labels = array(
-        'name' => 'Les équipes',
+        'name' => "Les équipes d'interclubs",
         'singular_name' => 'Team',
-        'menu_name' => 'Les équipes',
+        'menu_name' => "Les équipes d'interclubs",
         'add_new' => 'Ajouter une équipe',
         'add_new_item' => 'Ajouter une équipe',
         'edit_item' => 'Modifier une équipe',
@@ -186,7 +186,7 @@ function save_sports_team_meta_data($post_id): void
         update_post_meta(
             $post_id,
             '_sports_team_image',
-            $_POST['team_image_id'] ? intval($_POST['team_image_id']) : 'Aucune image renseignée'
+            $_POST['team_image_id'] && intval($_POST['team_image_id'])
         );
     }
 

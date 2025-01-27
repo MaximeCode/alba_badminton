@@ -2,13 +2,6 @@
 /* Template Name: interclub */
 get_header();
 
-//$interclubs = get_post_meta(get_the_ID(), 'custom_interclubs', true);
-//
-//echo "Les interclubs ICI : <pre>";
-//var_dump($interclubs);
-//echo "</pre>";
-//die();
-
 // Display Teams on the Frontend
 function display_sports_teams(): false|string
 {
@@ -23,7 +16,7 @@ function display_sports_teams(): false|string
     $teams = new WP_Query($args);
     ob_start();
     ?>
-    <div class="flex flex-wrap justify-around gap-x-24 gap-y-12">
+    <div class="flex flex-wrap justify-around gap-x-12 lg:gap-x-24 gap-y-12">
         <?php
         if ($teams->have_posts()) {
             while ($teams->have_posts()) {
@@ -31,8 +24,6 @@ function display_sports_teams(): false|string
 
                 $team_captain = get_post_meta(get_the_ID(), '_sports_team_captain', true);
                 $team_image_id = get_post_meta(get_the_ID(), '_sports_team_image', true);
-//                $team_order = get_post_meta(get_the_ID(), '_sports_team_order', true);
-                $team_image_url = wp_get_attachment_image_url($team_image_id, 'medium');
                 ?>
                 <div class="team-card">
                     <div class="text-center">
@@ -40,12 +31,17 @@ function display_sports_teams(): false|string
                         <p class="text-xl">
                             <span class="font-bold">Capitaine : </span> <?php echo esc_html($team_captain); ?>
                         </p>
-                        <!--<p>Order: <?php /*= $team_order */ ?></p>-->
                     </div>
-                    <div class="mt-4">
-                        <?php if ($team_image_url) { ?>
-                            <img src="<?php echo esc_url($team_image_url); ?>" alt="<?php the_title(); ?> Team"
-                                 class="w-full rounded-2xl">
+                    <div class="mt-4 flex justify-center">
+                        <?php if (!empty($team_image_id)) {
+                            echo wp_get_attachment_image($team_image_id, 'large', false, [
+                                'loading' => 'lazy',
+                                'class' => 'lightbox-trigger cursor-pointer rounded-xl w-full h-96 object-cover object-center',
+                                'data-full-size' => wp_get_attachment_image_src($team_image_id, 'full')[0]
+                            ]);
+                        } else { ?>
+                            <img src="https://placehold.co/500x500?text=Aucune+image+renseignée" alt="Placeholder Image"
+                                 class="w-full h-96 object-cover object-center">
                         <?php } ?>
                     </div>
                 </div>
@@ -62,6 +58,7 @@ function display_sports_teams(): false|string
 }
 
 add_shortcode('sports-teams', 'display_sports_teams');
+
 ?>
 
     <section>

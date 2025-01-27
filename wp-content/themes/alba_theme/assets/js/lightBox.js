@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function openLightbox(imageSrc) {
     lightboxImage.src = imageSrc;
     // Set maxWidth to 80% of viewport width
-    lightboxImage.style.maxHeight = "60vh";
+    lightboxImage.style.maxHeight = "80vh";
     lightbox.style.opacity = 0;
     lightbox.classList.add("show");
     void lightbox.offsetWidth; // Trigger reflow
