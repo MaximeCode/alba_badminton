@@ -174,10 +174,17 @@ function save_sports_team_meta_data($post_id): void
 
     // Save Captain Name
     if (isset($_POST['team_captain'])) {
+        // mot 1 (firstname) : first letter in Upper
+        // mot 2 (name) : all in UPPER
+        $fullName = explode(' ', $_POST['team_captain'], 2);
+        $fullName[0] = ucwords(strtolower($fullName[0]));
+        $fullName[1] = strtoupper($fullName[1]);
+        $name = implode(' ', $fullName);
+
         update_post_meta(
             $post_id,
             '_sports_team_captain',
-            sanitize_text_field($_POST['team_captain'])
+            sanitize_text_field($name)
         );
     }
 
@@ -186,7 +193,7 @@ function save_sports_team_meta_data($post_id): void
         update_post_meta(
             $post_id,
             '_sports_team_image',
-            $_POST['team_image_id'] && intval($_POST['team_image_id'])
+            $_POST['team_image_id'] ? intval($_POST['team_image_id']) : ''
         );
     }
 

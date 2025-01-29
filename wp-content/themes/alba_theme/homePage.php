@@ -6,6 +6,9 @@ $nb_mainActus = 1;
 
 global $alba_theme_variables;
 
+// Récupération des données des options (paramètres du club menu)
+$mainTitle = get_option('club_title_homepage');
+$mainDesc = get_option('club_paragraph_homepage');
 // classes des img des partners
 // Récupération des données de la Meta Box
 $prefix = 'home_';
@@ -20,17 +23,9 @@ $partners = rwmb_meta($prefix . 'img_id');
             <!--Left Col-->
             <div class="col text-primary-blue flex flex-col items-center justify-between space-y-8 text-center bg-white rounded-2xl py-10 px-5">
                 <h1 class="text-3xl md:text-4xl font-bold tracking-wide text-balance">
-                    Faisons vivre notre passion commune, rejoignez ALBA 🏸 !
+                    <?= $mainTitle ?>
                 </h1>
-                <p class="text-lg md:text-2xl">Depuis 1987, le club ALBA, situ&eacute; au c&oelig;ur
-                    de Luc&eacute;,
-                    rassemble les amoureux du badminton de tous &acirc;ges et niveaux. Avec plus de 100 membres actifs,
-                    nous nous retrouvons
-                    chaque semaine dans une ambiance conviviale au gymnase Jean Boudrie, &eacute;quip&eacute; de
-                    7 terrains de jeu aux standards professionnels.
-                    Que vous soyez d&eacute;butant ou v&eacute;t&eacute;ran, rejoignez-nous pour des entra&icirc;nements
-                    dynamiques et des tournois passionnants &agrave; travers la r&eacute;gion Centre-Val de Loire.
-                </p>
+                <p class="text-lg md:text-2xl"><?= $mainDesc ?></p>
                 <?= primaryButton(149, "En savoir plus sur le club") ?>
             </div>
 
@@ -84,12 +79,26 @@ $partners = rwmb_meta($prefix . 'img_id');
     <section class="mt-8 py-8 md:py-16" id="stats">
         <div class="container mx-auto w-full md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
             <?php
+            $nbCourts = get_option('club_courts_number');
+            $nbMembers = get_option('club_members_count');
+            $age = date('Y') - 1987;
+            $args = array(
+                'post_type' => 'sports_team',
+                'posts_per_page' => -1,
+                'orderby' => 'meta_value_num',
+                'meta_key' => '_sports_team_order',
+                'order' => 'ASC',
+            );
+            $teams = new WP_Query($args);
+            $nbInterclubs = $teams->post_count;
+
             $stats = [
-                ['100+', 'Membres'],
-                ['7', 'Terrains'],
-                ['35', 'Ans'],
-                ['6', 'Équipes']
+                ["$nbMembers+", 'Membres'],
+                [$nbCourts, 'Terrains'],
+                [$age, 'Ans'],
+                [$nbInterclubs, 'Équipes']
             ];
+
             foreach ($stats as $stat) : ?>
                 <div class="bg-white p-6 rounded-lg text-center">
                     <span class="text-5xl font-bold text-primary-blue"><?= $stat[0] ?></span>

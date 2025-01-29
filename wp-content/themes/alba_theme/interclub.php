@@ -41,7 +41,7 @@ function display_sports_teams(): false|string
                             ]);
                         } else { ?>
                             <img src="https://placehold.co/500x500?text=Aucune+image+renseignée" alt="Placeholder Image"
-                                 class="w-full h-96 object-cover object-center">
+                                 class="w-full h-96 object-cover object-center rounded-xl">
                         <?php } ?>
                     </div>
                 </div>

@@ -8,6 +8,9 @@ global $alba_theme_variables;
 $p = "text-justify text-lg md:text-xl text-balance";
 $letters = "text-primary-blue text-6xl";
 
+$image_id = get_option('club_family_img');
+$legend = get_option('club_legend_img');
+
 // bureau actuel
 $currentOffice = get_office_members_by_year('2024-2025');
 //echo '<pre>';
@@ -29,13 +32,13 @@ $currentOffice = get_office_members_by_year('2024-2025');
             </h2>
 
             <figure class="mb-12 relative">
-                <?= wp_get_attachment_image(319, '', false, array(
+                <?= wp_get_attachment_image($image_id, '', false, array(
                     'loading' => 'lazy',
                     'class' => "w-full h-full rounded-2xl object-cover object-center",
                 )); ?>
-                <figcaption
-                        class="leading-none p-2 md:p-6 text-center text-lg md:text-2xl italic font-bold text-white absolute bottom-0 z-20 w-full bg-primary-blue/50 rounded-b-2xl">
-                    Photo de famille suite au tournoi organisé à domicile les 23 & 24 novembre 2024
+                <figcaption class="leading-none p-2 md:p-6 text-center text-lg md:text-2xl italic font-bold
+                        text-white absolute bottom-0 z-20 w-full bg-primary-blue/50 rounded-b-2xl">
+                    <?= $legend ?>
                 </figcaption>
             </figure>
 

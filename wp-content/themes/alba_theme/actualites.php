@@ -5,7 +5,7 @@ global $alba_theme_variables;
 get_header();
 
 $category = $_GET['categoryName'] ?? null;
-var_dump($category);
+//var_dump($category);
 //echo '<pre>';
 //var_dump(get_categories());
 //echo '</pre>';
@@ -19,7 +19,11 @@ $actif = ' bg-primary-blue text-white ';
         <h2 class="text-2xl underline decoration-primary-blue">Filtrer les actualités par catégories :</h2>
 
         <div class="my-8 font-semibold">
-            <?php foreach (get_categories() as $cat) : ?>
+            <?php foreach (get_categories() as $cat) :
+                if ($cat->slug == 'non-classe')  {
+                    continue;
+                }
+                    ?>
                 <a href="<?= get_permalink(26) ?>?categoryName=<?= $cat->slug ?>"
                    class="<?php echo $alba_theme_variables['animBase'];
                    echo $category == $cat->slug ? $actif : '' ?>

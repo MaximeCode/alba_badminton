@@ -2,29 +2,35 @@
 
 <footer class="bg-white shadow mt-16 font-personal selection:bg-white selection:text-primary-blue">
     <div class="w-full mx-auto flex flex-col items-center justify-center">
-        <ul
-                class="flex flex-wrap flex-col sm:flex-row items-center justify-center text-md font-medium w-full bg-primary-blue text-white py-1 space-x-0 sm:space-x-8 lg:space-x-20">
+        <ul class="flex flex-wrap flex-col sm:flex-row items-center justify-center text-md font-medium
+         w-full bg-primary-blue text-white py-1 space-x-0 sm:space-x-8 lg:space-x-20">
             <li>
                 <a href="<?= get_permalink(3); ?>" class="underline md:no-underline hover:underline">
                     Politique de confidentialit&eacute;
                 </a>
             </li>
             <li>
-                <a href="#" class="underline md:no-underline hover:underline">Cookies</a>
-            </li>
-            <li>
-                <a href="#" class="underline md:no-underline hover:underline">Mentions l&eacute;gales</a>
+                <a href="<?= get_permalink(402); ?>" class="underline md:no-underline hover:underline">Mentions l&eacute;gales</a>
             </li>
         </ul>
-        <span class="block text-sm text-gray-500 sm:text-center py-1">© <?= date('Y') ?>
-            <a href="/" class="underline md:no-underline hover:underline">ALBA Badminton</a>.
-            Tous droits r&eacute;serv&eacute;s</span>
+        <div class="py-1 flex flex-col items-center text-sm text-gray-500 sm:text-center">
+            <span class="block">© <?= date('Y') ?>
+                <a href="/" class="underline md:no-underline hover:underline">ALBA Badminton</a> —
+                Tous droits r&eacute;serv&eacute;s
+            </span>
+            <hr class="w-3/4 border-primary-blue">
+            <span class="block">Site réalisé par
+                <a href="https://maximecode.github.io/Portfolio/" target="_blank" rel="noopener noreferrer"
+                   class="underline md:no-underline hover:underline">Maxime BAUDE</a>
+            </span>
+        </div>
     </div>
 </footer>
 
 <!-- Bouton de retour en haut -->
 <a href="#" id="backToTop"
-   class="fixed bottom-7 right-7 bg-secondary-blue text-white rounded-full p-5 shadow-box-dropdown transition duration-300 ease-in-out opacity-0 hover:opacity-100 transform hover:scale-110">
+   class="fixed bottom-7 right-7 bg-secondary-blue text-white rounded-full p-5 shadow-box-dropdown
+   transition duration-300 ease-in-out opacity-0 hover:opacity-100 transform hover:scale-110">
     <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
         <path stroke="currentColor" stroke-width="2" d="M8 12V4m0 0L4 8m4-4l4 4"/>
     </svg>

@@ -758,3 +758,284 @@ function display_titlePage(): string
 {
     return '<h2 class="text-4xl font-bold mb-8">' . get_the_title() . '</h2>';
 }
+
+//////// Menu in Admin panel to settings details like number of courts, members...
+
+// Add the menu page
+add_action('admin_menu', function () {
+    add_menu_page(
+        esc_html__('Paramètres du club', 'alba_theme'),
+        esc_html__('Paramètres du club', 'alba_theme'),
+        'manage_options',
+        'club-settings',
+        'render_club_settings_page',
+        'dashicons-admin-settings',
+        25
+    );
+});
+
+// Register settings
+add_action('admin_init', function () {
+    //// Homepage section ///////////////////////////////////////
+    add_settings_section(
+        'club_homepage_settings',
+        "",
+        'render_title_section',
+        'club-settings',
+        ['theTitle' => "Page d'accueil"]
+    );
+
+    // 1st title of homepage
+    add_settings_field(
+        'club_title_homepage',
+        esc_html__('Titre principal', 'alba_theme'),
+        'render_text_field',
+        'club-settings',
+        'club_homepage_settings',
+        ['field_name' => 'club_title_homepage']
+    );
+
+    // 1st paragraph in homepage
+    add_settings_field(
+        'club_paragraph_homepage',
+        esc_html__('Paragraphe de pr&eacute;sentation', 'alba_theme'),
+        'render_textarea_field',
+        'club-settings',
+        'club_homepage_settings',
+        ['field_name' => 'club_paragraph_homepage']
+    );
+
+    // Nb of members
+    add_settings_field(
+        'club_members_count',
+        esc_html__('Nombre de membres', 'alba_theme'),
+        'render_number_field',
+        'club-settings',
+        'club_homepage_settings',
+        ['field_name' => 'club_members_count']
+    );
+
+    // Nb of courts
+    add_settings_field(
+        'club_courts_number',
+        esc_html__('Nombre de terrains', 'alba_theme'),
+        'render_number_field',
+        'club-settings',
+        'club_homepage_settings',
+        ['field_name' => 'club_courts_number']
+    );
+
+    //// PresLeClub section ///////////////////////////////////////
+    add_settings_section(
+        'club_pres_settings',
+        "",
+        'render_title_section',
+        'club-settings',
+        ['theTitle' => "Page de pr&eacute;sentation du club"]
+    );
+
+    // Add image field
+    add_settings_field(
+        'club_family_img',
+        esc_html__('Photo de famille ', 'alba_theme'),
+        'render_image_field',
+        'club-settings',
+        'club_pres_settings',
+        ['field_name' => 'club_family_img']
+    );
+
+    // caption below image
+    add_settings_field(
+        'club_legend_img',
+        esc_html__("L&eacute;gende sous l'image", 'alba_theme'),
+        'render_textarea_field',
+        'club-settings',
+        'club_pres_settings',
+        ['field_name' => 'club_legend_img']
+    );
+
+    // text of presentation of club
+    add_settings_field(
+        'club_pres_text',
+        esc_html__("Texte de pr&eacute;sentation du club", 'alba_theme'),
+        'render_textarea_field',
+        'club-settings',
+        'club_pres_settings',
+        ['field_name' => 'club_pres_text']
+    );
+
+
+    // Register the settings [save]
+    //// Homepage section
+    register_setting('club_settings', 'club_title_homepage');
+    register_setting('club_settings', 'club_paragraph_homepage');
+    register_setting('club_settings', 'club_courts_number');
+    register_setting('club_settings', 'club_members_count');
+
+    //// presLeClub
+    register_setting('club_settings', 'club_family_img');
+    register_setting('club_settings', 'club_legend_img');
+    register_setting('club_settings', 'club_pres_text');
+});
+
+function render_title_section($args)
+{
+    $title = $args['theTitle'];
+    ?>
+    <style>
+        .section-divider {
+            margin: 3em 0 1em 0;
+            border-top: 2px solid #2271b1;
+        }
+
+        .section-title {
+            color: #2271b1;
+            font-size: 1.3em;
+            margin: 1em 0;
+        }
+    </style>
+    <hr class="section-divider">
+    <h2 class="section-title"><?php echo esc_html__($title, 'alba_theme'); ?></h2>
+    <?php
+}
+
+// Render text field
+function render_text_field($args)
+{
+    $value = get_option($args['field_name']);
+    ?>
+    <input
+            type="text"
+            name="<?php echo esc_attr($args['field_name']); ?>"
+            value="<?php echo esc_attr($value); ?>"
+            class="large-text"
+            min="0"
+    >
+    <?php
+}
+
+// Render number field
+function render_number_field($args)
+{
+    $value = get_option($args['field_name']);
+    ?>
+    <input
+            type="number"
+            name="<?php echo esc_attr($args['field_name']); ?>"
+            value="<?php echo esc_attr($value); ?>"
+            class="large-text"
+            min="0"
+    >
+    <?php
+}
+
+// Render textarea field
+function render_textarea_field($args)
+{
+    $value = get_option($args['field_name']);
+    ?>
+    <textarea
+            name="<?php echo esc_attr($args['field_name']); ?>"
+            class="large-text"
+            rows="5"
+    ><?php echo esc_html($value); ?></textarea>
+    <?php
+}
+
+// Render the settings page
+function render_club_settings_page()
+{
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    ?>
+    <div class="wrap">
+        <h1><?php echo esc_html__('Param&eacute;trage des infos du club', 'alba_theme'); ?></h1>
+        <form action="options.php" method="post">
+            <?php
+            settings_fields('club_settings');
+            do_settings_sections('club-settings');
+            submit_button();
+            ?>
+        </form>
+    </div>
+    <?php
+}
+
+// First, enqueue the WordPress media scripts
+add_action('admin_enqueue_scripts', function ($hook) {
+    if ('toplevel_page_club-settings' !== $hook) {
+        return;
+    }
+    wp_enqueue_media();
+});
+
+// Render image field function
+function render_image_field($args)
+{
+    $image_id = get_option($args['field_name']);
+    $image_url = $image_id ? wp_get_attachment_url($image_id) : '';
+    ?>
+    <div class="image-upload-wrap">
+        <input type="hidden" name="<?php echo esc_attr($args['field_name']); ?>"
+               id="<?php echo esc_attr($args['field_name']); ?>"
+               value="<?php echo esc_attr($image_id); ?>">
+
+        <div class="image-preview">
+            <?php if ($image_url): ?>
+                <img src="<?php echo esc_url($image_url); ?>" style="max-width: 250px;" alt="">
+            <?php endif; ?>
+        </div>
+
+        <input type="button" class="button upload-image-button"
+               value="<?php esc_attr_e('Insérer une image', 'alba_theme'); ?>"/>
+
+        <?php if ($image_url): ?>
+            <input type="button" class="button remove-image-button"
+                   value="<?php esc_attr_e("Supprimer l'image", 'alba_theme'); ?>"/>
+        <?php endif; ?>
+    </div>
+
+    <script>
+        jQuery(document).ready(function ($) {
+            // Upload image
+            $('.upload-image-button').click(function (e) {
+                e.preventDefault();
+                var button = $(this);
+                var imageWrap = button.closest('.image-upload-wrap');
+                var imageInput = imageWrap.find('input[type="hidden"]');
+                var imagePreview = imageWrap.find('.image-preview');
+
+                var image = wp.media({
+                    title: '<?php esc_html_e('Sélectionner ou insérer une image', 'alba_theme'); ?>',
+                    multiple: false
+                }).open().on('select', function () {
+                    var uploadedImage = image.state().get('selection').first().toJSON();
+                    imageInput.val(uploadedImage.id);
+
+                    // Update preview
+                    imagePreview.html('<img src="' + uploadedImage.url + '" style="max-width: 150px;">');
+
+                    // Show remove button if not already present
+                    if (imageWrap.find('.remove-image-button').length === 0) {
+                        imageWrap.append('<input type="button" class="button remove-image-button" value="<?php esc_attr_e("Supprimer l'image", 'alba_theme'); ?>" />');
+                    }
+                });
+            });
+
+            // Remove image
+            $(document).on('click', '.remove-image-button', function (e) {
+                e.preventDefault();
+                var button = $(this);
+                var imageWrap = button.closest('.image-upload-wrap');
+                var imageInput = imageWrap.find('input[type="hidden"]');
+                var imagePreview = imageWrap.find('.image-preview');
+
+                imageInput.val('');
+                imagePreview.empty();
+                button.remove();
+            });
+        });
+    </script>
+    <?php
+}
