@@ -41,3 +41,6 @@ style.css
 
 # Ignorer le thème par défaut de WordPress
 wp-content/themes/twenty*
+
+# vendor
+vendor/

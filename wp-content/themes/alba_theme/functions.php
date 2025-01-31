@@ -844,6 +844,25 @@ add_action('admin_init', function () {
         ['field_name' => 'club_legend_img']
     );
 
+    //// Calendar section ///////////////////////////////////////
+    add_settings_section(
+        'club_calendar_settings',
+        "",
+        'render_title_section',
+        'club-settings',
+        ['theTitle' => "Calendrier du CODEP"]
+    );
+
+    // Link of calendar in Google Sheets
+    add_settings_field(
+        'club_link_calendar',
+        esc_html__('Lien vers le calendrier avec Google Sheets', 'alba_theme'),
+        'render_text_field',
+        'club-settings',
+        'club_calendar_settings',
+        ['field_name' => 'club_link_calendar']
+    );
+
     //// Contact section ///////////////////////////////////////
     add_settings_section(
         'club_contact_settings',
@@ -852,7 +871,6 @@ add_action('admin_init', function () {
         'club-settings',
         ['theTitle' => "Page de contact"]
     );
-
     // Small title (questions)
     add_settings_field(
         'club_contact_text',
@@ -893,6 +911,9 @@ add_action('admin_init', function () {
     //// presLeClub
     register_setting('club_settings', 'club_family_img');
     register_setting('club_settings', 'club_legend_img');
+
+    /// Calendar
+    register_setting('club_settings', 'club_link_calendar');
 
     //// Contact
     register_setting('club_settings', 'club_contact_questions');
@@ -1036,7 +1057,7 @@ function render_image_field($args): void
                     imageInput.val(uploadedImage.id);
 
                     // Update preview
-                    imagePreview.html('<img src="' + uploadedImage.url + '" style="max-width: 150px;">');
+                    imagePreview.html('<img src="' + uploadedImage.url + '" style="max-width: 150px;" alt="">');
 
                     // Show remove button if not already present
                     if (imageWrap.find('.remove-image-button').length === 0) {

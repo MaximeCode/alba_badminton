@@ -217,13 +217,6 @@ function get_office_members_by_year($year = null): array
     return $members;
 }
 
-// Example usage:
-/*
-$members = get_office_members_by_year('2024');
-// Or get all years:
-$all_members = get_office_members_by_year();
-*/
-
 function getPositions(): array
 {
     return [
@@ -231,6 +224,7 @@ function getPositions(): array
         'vice_president' => 'Vice-pr&eacute;sident(e)',
         'treasurer' => 'Tr&eacute;sorier(e)',
         'secretary' => 'Secr&eacute;taire',
+        'assistant_secretary' => 'Secr&eacute;taire adjoint(e)',
         'member' => 'Membre'
     ];
 }

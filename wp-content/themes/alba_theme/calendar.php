@@ -2,13 +2,13 @@
 /* Template Name: calendrier */
 get_header();
 
-//var_dump(the_title());
+$linkCalendar = get_option('club_link_calendar');
 ?>
 
     <section>
         <?= display_titlePage() ?>
 
-        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSXDxaqPt2o4XB6CJeqO7ZI_1o_QOMVM6zt_oHiH0dgSYqyhvSXokMUTo_CQNLgdCP9GdAomkdNCiv_/pubhtml?gid=1556273338&amp;single=true&amp;widget=true&amp;headers=false"
+        <iframe src="<?= $linkCalendar ?>"
                 class="w-full h-[90vh]">
         </iframe>
         <p class="text-right text-lg mt-6">Source : CODEP (site officiel :
