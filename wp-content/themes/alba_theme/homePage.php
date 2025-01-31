@@ -79,7 +79,6 @@ $partners = rwmb_meta($prefix . 'img_id');
     <section class="mt-8 py-8 md:py-16" id="stats">
         <div class="container mx-auto w-full md:w-3/4 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
             <?php
-            $nbCourts = get_option('club_courts_number');
             $nbMembers = get_option('club_members_count');
             $age = date('Y') - 1987;
             $args = array(
@@ -94,7 +93,7 @@ $partners = rwmb_meta($prefix . 'img_id');
 
             $stats = [
                 ["$nbMembers+", 'Membres'],
-                [$nbCourts, 'Terrains'],
+                [7, 'Terrains'],
                 [$age, 'Ans'],
                 [$nbInterclubs, 'Équipes']
             ];

@@ -815,16 +815,6 @@ add_action('admin_init', function () {
         ['field_name' => 'club_members_count']
     );
 
-    // Nb of courts
-    add_settings_field(
-        'club_courts_number',
-        esc_html__('Nombre de terrains', 'alba_theme'),
-        'render_number_field',
-        'club-settings',
-        'club_homepage_settings',
-        ['field_name' => 'club_courts_number']
-    );
-
     //// PresLeClub section ///////////////////////////////////////
     add_settings_section(
         'club_pres_settings',
@@ -854,14 +844,43 @@ add_action('admin_init', function () {
         ['field_name' => 'club_legend_img']
     );
 
-    // text of presentation of club
+    //// Contact section ///////////////////////////////////////
+    add_settings_section(
+        'club_contact_settings',
+        "",
+        'render_title_section',
+        'club-settings',
+        ['theTitle' => "Page de contact"]
+    );
+
+    // Small title (questions)
     add_settings_field(
-        'club_pres_text',
-        esc_html__("Texte de pr&eacute;sentation du club", 'alba_theme'),
+        'club_contact_text',
+        esc_html__("Titre secondaire", 'alba_theme'),
         'render_textarea_field',
         'club-settings',
-        'club_pres_settings',
-        ['field_name' => 'club_pres_text']
+        'club_contact_settings',
+        ['field_name' => 'club_contact_questions']
+    );
+
+    // Mail
+    add_settings_field(
+        'club_mail',
+        esc_html__('Mail', 'alba_theme'),
+        'render_text_field',
+        'club-settings',
+        'club_contact_settings',
+        ['field_name' => 'club_mail']
+    );
+
+    // Tel
+    add_settings_field(
+        'club_tel',
+        esc_html__('Téléphone', 'alba_theme'),
+        'render_text_field',
+        'club-settings',
+        'club_contact_settings',
+        ['field_name' => 'club_tel']
     );
 
 
@@ -869,16 +888,19 @@ add_action('admin_init', function () {
     //// Homepage section
     register_setting('club_settings', 'club_title_homepage');
     register_setting('club_settings', 'club_paragraph_homepage');
-    register_setting('club_settings', 'club_courts_number');
     register_setting('club_settings', 'club_members_count');
 
     //// presLeClub
     register_setting('club_settings', 'club_family_img');
     register_setting('club_settings', 'club_legend_img');
-    register_setting('club_settings', 'club_pres_text');
+
+    //// Contact
+    register_setting('club_settings', 'club_contact_questions');
+    register_setting('club_settings', 'club_mail');
+    register_setting('club_settings', 'club_tel');
 });
 
-function render_title_section($args)
+function render_title_section($args): void
 {
     $title = $args['theTitle'];
     ?>
@@ -900,7 +922,7 @@ function render_title_section($args)
 }
 
 // Render text field
-function render_text_field($args)
+function render_text_field($args): void
 {
     $value = get_option($args['field_name']);
     ?>
@@ -915,7 +937,7 @@ function render_text_field($args)
 }
 
 // Render number field
-function render_number_field($args)
+function render_number_field($args): void
 {
     $value = get_option($args['field_name']);
     ?>
@@ -930,7 +952,7 @@ function render_number_field($args)
 }
 
 // Render textarea field
-function render_textarea_field($args)
+function render_textarea_field($args): void
 {
     $value = get_option($args['field_name']);
     ?>
@@ -943,7 +965,7 @@ function render_textarea_field($args)
 }
 
 // Render the settings page
-function render_club_settings_page()
+function render_club_settings_page(): void
 {
     if (!current_user_can('manage_options')) {
         return;
@@ -971,7 +993,7 @@ add_action('admin_enqueue_scripts', function ($hook) {
 });
 
 // Render image field function
-function render_image_field($args)
+function render_image_field($args): void
 {
     $image_id = get_option($args['field_name']);
     $image_url = $image_id ? wp_get_attachment_url($image_id) : '';

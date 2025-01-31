@@ -7,7 +7,6 @@ get_header(); ?>
     .prose, .prose img {
         max-width: 100%;
         margin: auto;
-        text-align: center;
     }
 
     .comments-section {
@@ -79,7 +78,8 @@ get_header(); ?>
 
 <main class="space-y-16">
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0"></script>
+    <script async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0"></script>
     <article>
         <?php
         if (have_posts()) :
@@ -87,7 +87,7 @@ get_header(); ?>
                 echo display_titlePage(); // Affiche le titre de l'article
                 echo("<h6 class='text-lg mb-6'>Article publié le " . get_the_date() . "</h6>"); // Affiche la date de publication de l'article
 
-                echo("<div class='prose'>");
+                echo("<div class='prose text-lg lg:text-xl'>");
                 the_content(); // Affiche le contenu de l'article
                 echo("</div>");
 
