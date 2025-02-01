@@ -58,14 +58,23 @@ $user_identity = wp_get_current_user()->display_name;
     <?php endif; ?>
 
     <div class="mb-2 flex items-center gap-6">
-        <div>
-            Connecté en tant que <span class="underline decoration-primary-blue"><?php echo $user_identity; ?></span>
-        </div>
-        <a href="<?php echo wp_logout_url(get_permalink()); ?>" title="Se déconnecter"
-           class="hover:text-white border border-primary-blue hover:bg-primary-blue focus:ring-4 focus:outline-none focus:ring-blue-300
+        <?php if (is_user_logged_in()) : ?>
+            <div>
+                Connecté en tant que <span
+                        class="underline decoration-primary-blue"><?php echo $user_identity; ?></span>
+            </div>
+            <a href="<?php echo wp_logout_url(get_permalink()); ?>" title="Se déconnecter"
+               class="hover:text-white border border-primary-blue hover:bg-primary-blue focus:ring-4 focus:outline-none focus:ring-blue-300
                font-medium rounded-lg text-sm px-3 py-2 text-center transition">
-            Se déconnecter
-        </a>
+                Se déconnecter
+            </a>
+        <?php else : ?>
+            <a href="<?php echo wp_login_url(get_permalink()); ?>" title="Se connecter"
+               class="hover:text-white border border-primary-blue hover:bg-primary-blue focus:ring-4 focus:outline-none focus:ring-blue-300
+               font-medium rounded-lg text-sm px-3 py-2 text-center transition">
+                Se connecter
+            </a>
+        <?php endif; ?>
     </div>
 
     <?php

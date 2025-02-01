@@ -204,7 +204,8 @@ $message = $_SESSION['contact_form']['message'] ?? '';
 
         <!--Contact form-->
         <form id="contact-form" method="post" action="<?= get_template_directory_uri() . '/submit/data_contact.php' ?>"
-              class="w-full lg:w-3/4 mx-auto font-personal bg-white rounded-2xl p-10">
+              class="w-full lg:w-3/4 mx-auto font-personal bg-white rounded-2xl p-10 relative">
+            <div class="bg-black/50 absolute top-0 left-0 w-full h-full rounded-2xl z-10 grid place-items-center text-2xl italic">Formulaire en cours de construction 🏗️</div>
 
             <?php wp_nonce_field('contact_form_nonce', 'contact_nonce'); ?>
             <div class="grid md:grid-cols-2 md:gap-10 lg:gap-16">

@@ -123,6 +123,22 @@ function my_custom_comment_form($args)
 
 add_filter('comment_form_defaults', 'my_custom_comment_form');
 
+add_filter('comment_form_default_fields', function($fields) {
+    // Supprime le champ site web
+    if(isset($fields['url'])) {
+        unset($fields['url']);
+    }
+
+    if (isset($fields['cookies'])) {
+        $fields['cookies'] = str_replace(
+            'Enregistrer mon nom, mon e-mail et mon site dans le navigateur pour mon prochain commentaire.',
+            'Enregistrer mon nom et mon e-mail dans le navigateur pour mon prochain commentaire.',
+            $fields['cookies']
+        );
+    }
+    return $fields;
+});
+
 // fonction d'affichage de la grille des membres du bureau ou de la ligue
 function showGridBureau(array $members): void
 {

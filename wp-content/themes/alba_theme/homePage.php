@@ -1,7 +1,10 @@
 <?php
 
+wp_head();
 get_header();
+
 /* Template Name: Page d'accueil ALBA */
+
 $nb_mainActus = 1;
 
 global $alba_theme_variables;

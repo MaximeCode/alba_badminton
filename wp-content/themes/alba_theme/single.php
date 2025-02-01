@@ -43,19 +43,31 @@ get_header(); ?>
         color: #555;
     }
 
-    .comments-section form label {
+    .comments-section form label:not(.comment-form-cookies-consent label) {
         display: block;
         margin-bottom: 0.5rem;
         font-weight: bold;
     }
 
-    .comments-section form input,
+    .comments-section form input:not(#wp-comment-cookies-consent),
     .comments-section form textarea {
         width: 100%;
         padding: 0.5rem;
         margin-bottom: 1rem;
-        border: 1px solid rgb(31, 162, 218, 0.5);
+        border: 1px solid rgba(31, 162, 218, 0.5);
         border-radius: 5px;
+    }
+
+    .comment-form-cookies-consent {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .comments-section form #wp-comment-cookies-consent {
+        margin-right: 0.5rem;
+        border: 1px solid #1FA2DA;
     }
 
     .comments-section form input[type="submit"] {
