@@ -12,7 +12,6 @@ $theTitle = get_option('club_contact_questions');
 $mailAlba = get_option('club_mail') ?: $default;
 $telAlba = get_option('club_tel') ?: $default;
 $addressAlba = get_option('club_address') ?: $default;
-$_SESSION['mailForm'] = rwmb_meta('infos_email_form') ?: $mailAlba; // si le mail du form n'est pas le même
 
 $noLink = '#';
 $inLink = [];
@@ -55,6 +54,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
 
         <h3 class="text-3xl font-bold mb-8"><?= nl2br($theTitle) ?></h3>
 
+        <!--Coordinates section-->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-12 justify-center items-center">
             <!--Contact-->
             <section class="w-full md:w-10/12 lg:max-xl:w-full xl:w-10/12 mx-auto bg-white px-5 py-3 rounded-2xl">
@@ -203,9 +203,9 @@ $message = $_SESSION['contact_form']['message'] ?? '';
         <?php endif; ?>
 
         <!--Contact form-->
-        <form id="contact-form" method="post" action="<?= get_template_directory_uri() . '/submit/data_contact.php' ?>"
+        <form id="contact-form" method="post" action="<?= get_template_directory_uri() . '/submit/submitData.php' ?>"
               class="w-full lg:w-3/4 mx-auto font-personal bg-white rounded-2xl p-10 relative">
-            <div class="bg-black/50 absolute top-0 left-0 w-full h-full rounded-2xl z-10 grid place-items-center text-2xl italic">Formulaire en cours de construction 🏗️</div>
+            <!--<div class="bg-black/50 absolute top-0 left-0 w-full h-full rounded-2xl z-10 grid place-items-center text-2xl italic">Formulaire en cours de construction 🏗️</div>-->
 
             <?php wp_nonce_field('contact_form_nonce', 'contact_nonce'); ?>
             <div class="grid md:grid-cols-2 md:gap-10 lg:gap-16">
@@ -216,7 +216,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                         <div class="relative z-0 w-full group">
                             <input type="text" name="first_name" id="floating_first_name"
                                    class="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 appearance-none focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                                   placeholder=" " value="<?= $first_name ?>"/>
+                                   placeholder=" "/>
                             <label for="floating_first_name"
                                    class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                                 Votre Prénom
@@ -226,7 +226,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                         <div class="relative z-0 w-full mt-10 group">
                             <input type="text" name="name" id="floating_name"
                                    class="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 appearance-none focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                                   placeholder=" " value="<?= $name ?>"/>
+                                   placeholder=" ""/>
                             <label for="floating_name"
                                    class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                                 Votre Nom
@@ -237,7 +237,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                     <div class="relative z-0 w-full mt-10 group">
                         <input type="email" name="email" id="floating_email"
                                class="block py-3 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                               placeholder=" " required value="<?= $email ?>"/>
+                               placeholder=" " required/>
                         <label for="floating_email"
                                class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Votre Email
@@ -253,7 +253,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                     <div class="relative z-0 w-full mt-10 md:mt-0 group">
                         <input type="text" name="object" id="floating_object"
                                class="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 appearance-none focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                               placeholder=" " required value="<?= $object ?>"/>
+                               placeholder=" " required/>
                         <label for="floating_object"
                                class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Objet du message
@@ -263,7 +263,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                     <div class="relative z-0 w-full mt-10 group">
                         <textarea name="message" id="floating_message"
                                   class="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-primary-blue/50 appearance-none focus:outline-none focus:ring-0 focus:border-primary-blue peer"
-                                  placeholder=" " required rows="5"><?= $message ?></textarea>
+                                  placeholder=" " required rows="5"></textarea>
                         <label for="floating_message"
                                class="peer-focus:font-medium absolute duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                             Message

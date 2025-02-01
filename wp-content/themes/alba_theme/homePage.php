@@ -1,6 +1,5 @@
 <?php
 
-wp_head();
 get_header();
 
 /* Template Name: Page d'accueil ALBA */

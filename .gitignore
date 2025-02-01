@@ -44,3 +44,6 @@ wp-content/themes/twenty*
 
 # vendor
 vendor/
+
+# config PHPMailer
+/config/

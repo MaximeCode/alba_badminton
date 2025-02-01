@@ -123,9 +123,9 @@ function my_custom_comment_form($args)
 
 add_filter('comment_form_defaults', 'my_custom_comment_form');
 
-add_filter('comment_form_default_fields', function($fields) {
+add_filter('comment_form_default_fields', function ($fields) {
     // Supprime le champ site web
-    if(isset($fields['url'])) {
+    if (isset($fields['url'])) {
         unset($fields['url']);
     }
 
