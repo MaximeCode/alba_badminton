@@ -30,7 +30,7 @@ global $alba_theme_variables;
                             <h2 class="text-2xl mb-4 text-primary-blue underline decoration-primary-blue"><?= get_the_title() ?></h2>
                             <p><?= get_the_excerpt() ?></p>
                         </div>
-                        <div class="flex justify-end">
+                        <div class="flex justify-center md:justify-end">
                             <?= wp_get_attachment_image(get_post_thumbnail_id(), 'medium', false, [
                                 'loading' => 'lazy',
                                 'class' => 'rounded-xl max-h-48 object-cover object-center'

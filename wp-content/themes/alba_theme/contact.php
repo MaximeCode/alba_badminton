@@ -5,28 +5,26 @@ get_header();
 
 global $alba_theme_variables;
 
-// Récupération des données de la Meta Box
-$prefix = 'infos_';
 $default = 'Aucune donnée renseignée';
 
-$mailAlba = rwmb_meta($prefix . 'email_bureau') ?: $default;
-$telAlba = rwmb_meta($prefix . 'num_tel') ?: $default;
-$addressAlba = rwmb_meta($prefix . 'adresse_postale') ?: $default;
-$_SESSION['mailForm'] = rwmb_meta($prefix . 'email_form') ?: $mailAlba; // si le mail du form n'est pas le même
+$theTitle = get_option('club_contact_questions');
+
+$mailAlba = get_option('club_mail') ?: $default;
+$telAlba = get_option('club_tel') ?: $default;
+$addressAlba = get_option('club_address') ?: $default;
+$_SESSION['mailForm'] = rwmb_meta('infos_email_form') ?: $mailAlba; // si le mail du form n'est pas le même
 
 $noLink = '#';
 $inLink = [];
 $inLink['mail'] = $mailAlba !== $default ? $mailAlba : $noLink;
 $inLink['tel'] = $telAlba !== $default ? $telAlba : $noLink;
+
 // L'adresse postale ne changera jamais (sauf en cas de changement de gymnase, mais bon...)
 // Donc je ne change pas le lien Google Maps.
 
 $base_svg = 8;
 $md_svg = 10;
 $size_svg = "w-$base_svg h-$base_svg md:w-$md_svg md:h-$md_svg";
-
-// animation lien contact
-$animbase = "transform transition duration-100 ease-in-out";
 
 // add value in form only if error
 $first_name = $_SESSION['contact_form']['first_name'] ?? '';
@@ -55,8 +53,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
     <section>
         <?= display_titlePage() ?>
 
-        <h3 class="text-3xl font-bold mb-8">Une question ?<br>
-            Une demande particulière destinée au membre du bureau ?</h3>
+        <h3 class="text-3xl font-bold mb-8"><?= nl2br($theTitle) ?></h3>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-12 justify-center items-center">
             <!--Contact-->
@@ -90,7 +87,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                         <span class="font-bold basis-5/12 md:basis-4/12">Par téléphone :</span>
                         <a href="tel:<?= str_replace(' ', '', $inLink['tel']) ?>" target="_blank"
                            class="text-lg md:text-xl italic basis-6/12 md:basis-6/12 hover:text-primary-blue hover:underline">
-                            <?= str_replace('+33', '0', $telAlba) ?>
+                            <?= $telAlba[0] !== 'A' ? wordwrap(str_replace('+33', '0', $telAlba), 2, " ", 1) : $telAlba ?>
                         </a>
                     </p>
                     <!--Adresse Postale-->

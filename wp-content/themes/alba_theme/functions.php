@@ -39,7 +39,7 @@ add_filter('show_admin_bar', '__return_false');
 function alba_theme_enqueue_styles(): void
 {
     // Enregistrer le fichier CSS personnalisé de votre thème
-    wp_enqueue_style('alba-style', get_stylesheet_directory_uri() . './style.css');
+    wp_enqueue_style('alba-style', get_stylesheet_directory_uri() . '/style.css');
 }
 
 add_action('wp_enqueue_scripts', 'alba_theme_enqueue_styles');
@@ -505,46 +505,6 @@ function alba_register_all_meta_boxes($meta_boxes): array
 {
     if (is_admin() && isset($_GET['post'])) {
         $post_id = (int)$_GET['post'];
-        // post id of contact page : 134
-        if ($post_id === 134) {
-            // Meta Box for contact page
-            $prefix_contact = 'infos_';
-            $meta_boxes[] = [
-                'title' => esc_html__('Informations de la page contact', 'alba_theme'),
-                'id' => $prefix_contact . 'contact',
-                'post_types' => ['page'],
-                'show' => [
-                    'template' => ['contact.php'],
-                ],
-                'context' => 'normal',
-                'priority' => 'high',
-                'fields' => [
-                    [
-                        'type' => 'email',
-                        'name' => esc_html__('Email du bureau', 'alba_theme'),
-                        'id' => $prefix_contact . 'email_bureau',
-                        'desc' => esc_html__('Email où recevoir les demandes / questions des visiteurs', 'alba_theme'),
-                        'size' => 60,
-                    ],
-                    [
-                        'type' => 'text',
-                        'name' => esc_html__('Numéro de téléphone', 'alba_theme'),
-                        'id' => $prefix_contact . 'num_tel',
-                        'std' => '+33',
-                        'size' => 60,
-                        'pattern' => '\+[0-9]{2}[0-9\s]*',
-                    ],
-                    [
-                        'type' => 'text',
-                        'name' => esc_html__('Adresse postale', 'alba_theme'),
-                        'id' => $prefix_contact . 'adresse_postale',
-                        'placeholder' => esc_html__('Adresse du gymnase', 'alba_theme'),
-                        'size' => 60,
-                    ],
-                ],
-            ];
-        }
-
         // post id of judges : 341
         if ($post_id === 341) {
             // Meta Box for judges
@@ -873,7 +833,7 @@ add_action('admin_init', function () {
     );
     // Small title (questions)
     add_settings_field(
-        'club_contact_text',
+        'club_contact_questions',
         esc_html__("Titre secondaire", 'alba_theme'),
         'render_textarea_field',
         'club-settings',
@@ -885,20 +845,37 @@ add_action('admin_init', function () {
     add_settings_field(
         'club_mail',
         esc_html__('Mail', 'alba_theme'),
-        'render_text_field',
+        'render_email_field',
         'club-settings',
         'club_contact_settings',
-        ['field_name' => 'club_mail']
+        [
+            'field_name' => 'club_mail',
+            'desc' => esc_html__('Email où recevoir les demandes / questions des visiteurs', 'alba_theme')
+        ]
     );
 
     // Tel
     add_settings_field(
         'club_tel',
         esc_html__('Téléphone', 'alba_theme'),
+        'render_tel_field',
+        'club-settings',
+        'club_contact_settings',
+        [
+            'field_name' => 'club_tel',
+            'std' => '+33',
+            'pattern' => '\+[0-9]{2}[0-9\s]*'
+        ]
+    );
+
+    // Adresse postale
+    add_settings_field(
+        'club_address',
+        esc_html__('Adresse postale du gymnase', 'alba_theme'),
         'render_text_field',
         'club-settings',
         'club_contact_settings',
-        ['field_name' => 'club_tel']
+        ['field_name' => 'club_address']
     );
 
 
@@ -919,6 +896,7 @@ add_action('admin_init', function () {
     register_setting('club_settings', 'club_contact_questions');
     register_setting('club_settings', 'club_mail');
     register_setting('club_settings', 'club_tel');
+    register_setting('club_settings', 'club_address');
 });
 
 function render_title_section($args): void
@@ -939,6 +917,40 @@ function render_title_section($args): void
     </style>
     <hr class="section-divider">
     <h2 class="section-title"><?php echo esc_html__($title, 'alba_theme'); ?></h2>
+    <?php
+}
+
+// Fonction pour rendre le champ email
+function render_email_field($args): void
+{
+    $value = get_option($args['field_name']);
+    ?>
+    <input
+            type="email"
+            name="<?php echo esc_attr($args['field_name']); ?>"
+            value="<?php echo esc_attr($value); ?>"
+            class="regular-text"
+            size="60"
+    >
+    <?php if (isset($args['desc'])): ?>
+    <p class="description"><?php echo esc_html($args['desc']); ?></p>
+<?php endif; ?>
+    <?php
+}
+
+// Fonction pour rendre le champ téléphone
+function render_tel_field($args): void
+{
+    $value = get_option($args['field_name']) ?: $args['std'];
+    ?>
+    <input
+            type="text"
+            name="<?php echo esc_attr($args['field_name']); ?>"
+            value="<?php echo esc_attr($value); ?>"
+            class="regular-text"
+            pattern="<?php echo $args['pattern']; ?>"
+            max="12"
+    >
     <?php
 }
 
@@ -966,7 +978,7 @@ function render_number_field($args): void
             type="number"
             name="<?php echo esc_attr($args['field_name']); ?>"
             value="<?php echo esc_attr($value); ?>"
-            class="large-text"
+            class="small-text"
             min="0"
     >
     <?php

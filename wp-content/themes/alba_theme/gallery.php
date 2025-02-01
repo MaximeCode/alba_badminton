@@ -31,7 +31,7 @@ $seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
                         if (isset($event['images'])) {
                             echo '<div class="flex flex-wrap justify-around gap-2 md:gap-6 gap-y-4 lg:gap-y-12 items-center">';
                             foreach ($event['images'] as $id_img) {
-                                echo wp_get_attachment_image($id_img, 'medium', false, array(
+                                echo wp_get_attachment_image($id_img, '', false, array(
                                     'loading' => 'lazy',
                                     'class' => 'w-48 sm:w-96 md:w-1/6 rounded-2xl lightbox-trigger cursor-pointer',
                                     'data-full-size' => wp_get_attachment_image_src($id_img, 'large')[0]
@@ -49,7 +49,7 @@ $seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
                 echo "</div>";
             }
         } else {
-            echo "<p>Aucune saison n'a été définie pour cette galerie.</p>";
+            echo "<p>Aucune saison n'a été définie pour le moment. <span class='italic'>Patience...</span></p>";
         }
         ?>
 
