@@ -27,6 +27,14 @@ function alba_theme_variables(): array
     ];
 }
 
+function showVar($var): void
+{
+    echo '<pre>';
+    print_r($var);
+    echo '</pre>';
+    die();
+}
+
 add_action('wp_head', function () {
     global $alba_theme_variables;
     $alba_theme_variables = alba_theme_variables();
@@ -521,79 +529,6 @@ function alba_register_all_meta_boxes($meta_boxes): array
 {
     if (is_admin() && isset($_GET['post'])) {
         $post_id = (int)$_GET['post'];
-        // post id of judges : 341
-        if ($post_id === 341) {
-            // Meta Box for judges
-            $prefix_judge = 'judge_';
-
-            // Retrieve judge types dynamically
-            $types_juges = get_post_meta(341, 'judge_type_field', true);
-
-            // Check if there are any judge types saved
-            $options = [];
-            if (!empty($types_juges)) {
-                foreach ($types_juges as $type) {
-                    $options[$type] = esc_html__($type, 'alba_theme');
-                }
-            } else {
-                $options['non'] = esc_html__('Ca marche pas...', 'alba_theme');
-            }
-
-            // Single Meta Box with two columns
-            $meta_boxes[] = [
-                'title' => esc_html__('Ajout des juges officiels du club', 'alba_theme'),
-                'id' => $prefix_judge . 'info',
-                'post_types' => ['page'],
-                'show' => [
-                    'template' => ['judges.php'],
-                ],
-                'context' => 'normal',
-                'priority' => 'high',
-                'fields' => [
-                    [
-                        'type' => 'text',
-                        'name' => esc_html__('Nom du Juge', 'alba_theme'),
-                        'id' => 'lePtnDeNom',
-                        'placeholder' => esc_html__('NOM Prénom', 'alba_theme'),
-                        'size' => 40,
-                        'clone' => true,
-                    ],
-                    [
-                        'type' => 'select_advanced',
-                        'name' => esc_html__('Type de juge', 'alba_theme'),
-                        'id' => 'lePtnDeType',
-                        'options' => $options,
-                        'multiple' => true,
-                        'clone' => true,
-                    ],
-                ],
-            ];
-
-            // Add the meta box for types of judges
-            $meta_boxes[] = [
-                'title' => esc_html__('Ajout des types de juges', 'alba_theme'),
-                'id' => $prefix_judge . 'type_meta_box',
-                'post_types' => ['page'],
-                'show' => [
-                    'template' => ['judges.php'],
-                ],
-                'context' => 'normal',
-                'priority' => 'high',
-                'fields' => [
-                    [
-                        'type' => 'text',
-                        'name' => esc_html__('Type de Juge', 'alba_theme'),
-                        'id' => 'judge_type_field',
-                        'placeholder' => esc_html__('Juge Arbitre', 'alba_theme'),
-                        'size' => 50,
-                        'clone' => true,
-                    ],
-                ],
-            ];
-            // Add custom CSS for the admin
-            add_action('admin_head', 'alba_add_judge_admin_styles');
-        }
-
         // post id of Homepage page : 53
         if ($post_id === 53) {
             // Meta Box for Homepage
@@ -619,23 +554,6 @@ function alba_register_all_meta_boxes($meta_boxes): array
         }
     }
     return $meta_boxes;
-}
-
-// Add custom CSS to style the meta box layout
-function alba_add_judge_admin_styles()
-{
-    ?>
-    <style>
-        #judge_info .inside .rwmb-meta-box {
-            display: flex;
-        }
-
-        #judge_info .inside .rwmb-meta-box .rwmb-field {
-            flex: 1;
-            margin-right: 20px;
-        }
-    </style>
-    <?php
 }
 
 // Custom dropdown title page //
@@ -737,7 +655,7 @@ function display_titlePage(): string
 
 //////// Menu in Admin panel to settings details like number of courts, members...
 
-// Add the menu page
+// Add the menu page (club settings)
 add_action('admin_menu', function () {
     add_menu_page(
         esc_html__('Paramètres du club', 'alba_theme'),
@@ -746,11 +664,11 @@ add_action('admin_menu', function () {
         'club-settings',
         'render_club_settings_page',
         'dashicons-admin-settings',
-        25
+        30
     );
 });
 
-// Register settings
+// Register settings (club settings)
 add_action('admin_init', function () {
     //// Homepage section ///////////////////////////////////////
     add_settings_section(
@@ -932,7 +850,7 @@ function render_title_section($args): void
         }
     </style>
     <hr class="section-divider">
-    <h2 class="section-title"><?php echo esc_html__($title, 'alba_theme'); ?></h2>
+    <h2 class="section-title"><?= esc_html__($title, 'alba_theme'); ?></h2>
     <?php
 }
 
