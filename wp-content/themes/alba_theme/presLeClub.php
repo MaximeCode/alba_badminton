@@ -13,10 +13,6 @@ $legend = get_option('club_legend_img');
 
 // bureau actuel
 $currentOffice = get_office_members_by_year('2024-2025');
-//echo '<pre>';
-//var_dump($currentOffice);
-//echo '</pre>';
-//die();
 
 ?>
 

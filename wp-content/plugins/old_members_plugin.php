@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: Club Office Members
-Description: Gestion des anciens membres du bureau
-Version: 1.0
+Description: Gestion des anciens membres du bureau avec upload d'image
+Version: 1.1
 */
 
 // Register Custom Post Type for Office Members
@@ -50,6 +50,20 @@ function add_office_member_meta_boxes(): void
 
 add_action('add_meta_boxes', 'add_office_member_meta_boxes');
 
+// Add Meta Box for Image
+function add_office_member_image_meta_box(): void
+{
+    add_meta_box(
+        'office_member_image',
+        'Photo du membre',
+        'render_member_image_meta_box',
+        'office_member',
+        'normal',
+    );
+}
+
+add_action('add_meta_boxes', 'add_office_member_image_meta_box');
+
 // Render Position Meta Box
 function render_position_meta_box($post): void
 {
@@ -66,11 +80,82 @@ function render_position_meta_box($post): void
             </option>
         <?php endforeach; ?>
     </select>
-
     <?php
 }
 
-// Save Position Meta Data
+// Render Image Meta Box
+function render_member_image_meta_box($post): void
+{
+    wp_nonce_field('office_member_image_nonce', 'office_member_image_nonce');
+
+    $image_id = get_post_meta($post->ID, '_office_member_image_id', true);
+    ?>
+    <div>
+        <table style="width: fit-content" class="form-table">
+            <tr>
+                <th><label for="office_member_image">Photo :</label></th>
+                <td>
+                    <?php
+                    $image = '';
+                    if ($image_id) {
+                        $image = wp_get_attachment_image($image_id, 'thumbnail');
+                    }
+                    ?>
+                    <div id="office_member_image_container">
+                        <?php echo $image; ?>
+                    </div>
+                    <input type="hidden"
+                           id="office_member_image_id"
+                           name="office_member_image_id"
+                           value="<?php echo esc_attr($image_id); ?>"
+                           style="margin-top: 10px;">
+                    <button type="button"
+                            class="button office_member_upload_image">
+                        Sélectionner une image
+                    </button>
+                    <button type="button"
+                            class="button office-member-remove-image"
+                            style="color: red; border: 1px solid red; display:<?php echo $image ? 'inline-block' : 'none'; ?>;">
+                        Supprimer l'image
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        jQuery(document).ready(function ($) {
+            let customUploader = wp.media({
+                title: 'Sélectionner une image',
+                button: {
+                    text: 'Utiliser cette image'
+                },
+                multiple: false
+            });
+
+            $('.office_member_upload_image').on('click', function (e) {
+                e.preventDefault();
+                customUploader.open();
+                customUploader.on('select', function () {
+                    let attachment = customUploader.state().get('selection').first().toJSON();
+                    $('#office_member_image_id').val(attachment.id);
+                    $('#office_member_image_container').html('<img src="' + attachment.url + '" style="max-width: 300px; height: auto;" alt="Image du membre">');
+                    $('.office-member-remove-image').show();
+                });
+            });
+
+            $('.office-member-remove-image').on('click', function (e) {
+                e.preventDefault();
+                $('#office_member_image_id').val('');
+                $('#office_member_image_container').html('');
+                $(this).hide();
+            });
+        });
+    </script>
+    <?php
+}
+
+// Save Position and Year Meta Data
 function save_office_member_meta($post_id): void
 {
     if (!isset($_POST['office_member_position_nonce']) ||
@@ -101,6 +186,29 @@ function save_office_member_meta($post_id): void
 
 add_action('save_post_office_member', 'save_office_member_meta');
 
+// Save Image Meta Data
+function save_office_member_image_meta($post_id): void
+{
+    if (!isset($_POST['office_member_image_nonce']) ||
+        !wp_verify_nonce($_POST['office_member_image_nonce'], 'office_member_image_nonce')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (isset($_POST['office_member_image_id'])) {
+        update_post_meta(
+            $post_id,
+            '_office_member_image_id',
+            $_POST['office_member_image_id'] ? absint($_POST['office_member_image_id']) : ''
+        );
+    }
+}
+
+add_action('save_post_office_member', 'save_office_member_image_meta');
+
 // Enqueue Scripts for Media Upload
 function old_members_admin_scripts($hook): void
 {
@@ -111,7 +219,6 @@ function old_members_admin_scripts($hook): void
     }
 
     wp_enqueue_media();
-//    wp_enqueue_script('sports-team-media-upload', plugin_dir_url(__FILE__) . 'js/team-media-upload.js', array('jquery'), '1.0', true);
 }
 
 add_action('admin_enqueue_scripts', 'old_members_admin_scripts');
@@ -122,16 +229,14 @@ function old_members_custom_columns($columns): array
     return array(
         'cb' => $columns['cb'],
         'title' => 'Membre',
+        'image' => 'Photo',
         'position' => 'Poste',
         'year' => 'Ann&eacute;e(s)',
         'date' => 'Date'
     );
 }
 
-add_filter('manage_office_member_posts_columns', function ($columns) {
-    return old_members_custom_columns($columns);
-});
-
+add_filter('manage_office_member_posts_columns', 'old_members_custom_columns');
 
 // Populate Custom Columns
 function old_members_custom_column_content($column, $post_id): void
@@ -147,12 +252,19 @@ function old_members_custom_column_content($column, $post_id): void
                 echo esc_html($term->name);
                 echo '<br>';
             }
-//            echo esc_html($year);
             break;
         case 'position':
             $position = get_post_meta($post_id, '_office_position', true);
             $positions = getPositions();
             echo isset($positions[$position]) ? esc_html($positions[$position]) : 'Non défini';
+            break;
+        case 'image':
+            $image_id = get_post_meta($post_id, '_office_member_image_id', true);
+            if ($image_id) {
+                echo wp_get_attachment_image($image_id, array(100, 100));
+            } else {
+                echo '—';
+            }
             break;
     }
 }
@@ -195,12 +307,16 @@ function get_office_members_by_year($year = null): array
             $position_key = get_post_meta(get_the_ID(), '_office_position', true);
             $position = $positions[$position_key] ?? 'Non défini';
 
+            // Récupération de l'image
+            $image_id = get_post_meta(get_the_ID(), '_office_member_image_id', true);
+
             if (!$year) {
                 foreach ($year_slug as $year_oui) {
                     $members[$year_oui][] = [
                         'id' => get_the_ID(),
                         'name' => get_the_title(),
                         'position' => $position,
+                        'image_id' => $image_id,
                     ];
                 }
             } else {
@@ -208,6 +324,7 @@ function get_office_members_by_year($year = null): array
                     'id' => get_the_ID(),
                     'name' => get_the_title(),
                     'position' => $position,
+                    'image_id' => $image_id,
                 ];
             }
         }
@@ -217,6 +334,7 @@ function get_office_members_by_year($year = null): array
     return $members;
 }
 
+// Liste des positions disponibles
 function getPositions(): array
 {
     return [
