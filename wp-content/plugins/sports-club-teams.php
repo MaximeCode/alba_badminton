@@ -6,6 +6,10 @@ Version: 1.0
 Author: M.B.
 */
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 // Register Custom Post Type for Teams
 function sports_club_team_post_type(): void
 {

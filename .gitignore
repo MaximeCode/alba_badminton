@@ -27,6 +27,9 @@ wp-content/debug.log
 wp-content/plugins/*
 !wp-content/plugins/sports-club-teams.php
 !wp-content/plugins/old_members_plugin.php
+!wp-content/plugins/gallery_events_plugin.php
+!wp-content/plugins/judges_plugin.php
+!wp-content/plugins/schedules_plugin.php
 
 # Ignorer les fichiers de configuration sensibles
 wp-config.php

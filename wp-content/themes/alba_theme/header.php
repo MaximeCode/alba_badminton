@@ -8,24 +8,22 @@
     <!-- link:css fait grâce à wp_head() -->
     <?php wp_head();
 
-    $seasons = get_post_meta(166, 'custom_seasons', true);
+    $seasons = get_gallery_events(); // $seasons => [2024-2025] -> $events => [id, title, image_ids (array)]
 
     global $alba_theme_variables;
 
     // Préparation des données pour le menu Galerie
     $gallery = [];
-    if (isset($seasons) && is_array($seasons)) {
-        foreach ($seasons as $season) {
-            $gallery[$season['title']] = []; // Initialise la saison
+    foreach ($seasons as $season => $events) {
+        $gallery[$season] = []; // Initialise la saison
 
-            if (isset($season['events']) && is_array($season['events'])) {
-                foreach ($season['events'] as $eventKey => $event) {
-                    $eventAnchor = isset($event['title']) ? sanitize_title(str_replace(' ', '-', $event['title'])) : 'event-' . $eventKey;
-                    $gallery[$season['title']][$eventKey] = [
-                        'title' => $event['title'],
-                        'anchor' => $eventAnchor,
-                    ];
-                }
+        if (is_array($events)) {
+            foreach ($events as $eventKey => $event) {
+                $eventAnchor = sanitize_title(str_replace(' ', '-', $event['title']));
+                $gallery[$season][$eventKey] = [
+                    'title' => $event['title'],
+                    'anchor' => $eventAnchor,
+                ];
             }
         }
     }
@@ -149,8 +147,7 @@
                                         }
                                     }
                                     ?>
-                                    <li class="<?php /*= isLastKey($key, $gallery) ? 'mb-2' : ''; */
-                                    ?>">
+                                    <li>
                                         <button id="doubleDropdownButton<?= $id ?>"
                                                 data-dropdown-toggle="doubleDropdown<?= $id ?>"
                                                 type="button"
@@ -171,10 +168,16 @@
                                             <ul class="xl:text-lg divide-y normal-case"
                                                 aria-labelledby="doubleDropdownButton">
                                                 <?php foreach ($season as $theKey => $event) :
-                                                    if (isFirstKey($theKey, $season)) { // Vérifie si la clé est la première
-                                                        $rounded_ = "rounded-t-lg"; // rounded top
+                                                    if (isFirstKey($theKey, $season) && isLastKey($theKey, $season)) { // Vérifie s'il n'y a qu'une seule saison
+                                                        $rounded_ = "rounded-lg"; // rounded top and bottom
                                                     } else {
-                                                        $rounded_ = ""; // rounded none
+                                                        if (isFirstKey($theKey, $season)) { // Vérifie si la clé est la première
+                                                            $rounded_ = "rounded-t-lg"; // rounded top
+                                                        } elseif (isLastKey($theKey, $season)) { // Vérifie si la clé est la dernière
+                                                            $rounded_ = "rounded-b-lg"; // rounded bottom
+                                                        } else {
+                                                            $rounded_ = ""; // rounded none
+                                                        }
                                                     }
                                                     ?>
                                                     <li>

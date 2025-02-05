@@ -5,6 +5,10 @@ Description: Gestion des anciens membres du bureau avec upload d'image
 Version: 1.1
 */
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 // Register Custom Post Type for Office Members
 function office_members_post_type(): void
 {
@@ -135,6 +139,7 @@ function render_member_image_meta_box($post): void
 
             $('.office_member_upload_image').on('click', function (e) {
                 e.preventDefault();
+
                 customUploader.open();
                 customUploader.on('select', function () {
                     let attachment = customUploader.state().get('selection').first().toJSON();

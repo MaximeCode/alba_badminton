@@ -2,7 +2,23 @@
 /* Template Name: gallery */
 get_header();
 
-$seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
+$seasons = get_gallery_events(); // $seasons => [2024-2025] -> $events => [id, title, image_ids (array)]
+
+//// Structure de $seasons
+// [2024-2025] => Array
+//        (
+//            [0] => Array
+//                (
+//                    [id] => 498
+//                    [title] => Tournoi annuel
+//                    [image_ids] => Array
+//                        (
+//                            [0] => 331
+//                            ...
+//                        )
+//                )
+//        )
+//showVar($seasons);
 ?>
     <style>
         p {
@@ -18,19 +34,18 @@ $seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
         <?php
 
         if (!empty($seasons) && is_array($seasons)) {
-            foreach ($seasons as $season) {
+            foreach ($seasons as $key => $season) {
                 echo "<div class='mb-4'>";
-                echo "<h2 id='{$season['title']}' class='text-3xl font-bold my-12 underline decoration-primary-blue'>Saison " . str_replace('-', ' - ', $season['title']) . "</h2>";
+                echo "<h2 id='$key' class='text-3xl font-bold my-12 underline decoration-primary-blue'>Saison " . $key . "</h2>";
 
-                if (isset($season['events']) && is_array($season['events'])) {
-                    foreach ($season['events'] as $event) {
-
+                if (!empty($season)) {
+                    foreach ($season as $event) {
                         echo "<div>";
                         echo "<h3 class='text-2xl font-bold mt-12 mb-6 underline text-primary-blue' id=" . sanitize_title(str_replace(' ', '-', $event['title'])) . ">{$event['title']}</h3>";
 
-                        if (isset($event['images'])) {
+                        if (!empty($event['image_ids'])) {
                             echo '<div class="flex flex-wrap justify-around gap-2 md:gap-6 gap-y-4 lg:gap-y-12 items-center">';
-                            foreach ($event['images'] as $id_img) {
+                            foreach ($event['image_ids'] as $id_img) {
                                 echo wp_get_attachment_image($id_img, '', false, array(
                                     'loading' => 'lazy',
                                     'class' => 'w-48 sm:w-96 md:w-1/6 rounded-2xl lightbox-trigger cursor-pointer',
@@ -44,14 +59,13 @@ $seasons = get_post_meta(get_the_ID(), 'custom_seasons', true);
                         echo "</div>";
                     }
                 } else {
-                    echo "<p>Aucun événement pour la saison {$season['title']}</p>";
+                    echo "<p>Aucun événement pour la saison {$key}</p>";
                 }
                 echo "</div>";
             }
         } else {
-            echo "<p>Aucune saison n'a été définie pour le moment. <span class='italic'>Patience...</span></p>";
-        }
-        ?>
+            echo "<p>Aucune saison n'a été définie pour le moment. <span class='italic'>Patience... 😁</span></p>";
+        } ?>
 
     </section>
 
