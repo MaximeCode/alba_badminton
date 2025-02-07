@@ -50,3 +50,9 @@ vendor/
 
 # config PHPMailer
 /config/
+
+# Fichiers concernant le plugin Performance Lab
+/wp-content/object-cache.php
+
+# Dossier contenant le tuto en pdf
+/wp-content/tuto/

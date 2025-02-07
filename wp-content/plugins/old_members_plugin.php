@@ -29,9 +29,9 @@ function office_members_post_type(): void
     // Register Year Taxonomy
     register_taxonomy('office_year', 'office_member', [
         'labels' => [
-            'name' => 'Ann&eacute;es',
-            'singular_name' => 'Ann&eacute;e',
-            'add_new_item' => 'Ajouter une nouvelle ann&eacute;e',
+            'name' => 'Années',
+            'singular_name' => 'Année',
+            'add_new_item' => 'Ajouter une nouvelle Année',
         ],
         'hierarchical' => true,
         'show_admin_column' => true
@@ -236,7 +236,7 @@ function old_members_custom_columns($columns): array
         'title' => 'Membre',
         'image' => 'Photo',
         'position' => 'Poste',
-        'year' => 'Ann&eacute;e(s)',
+        'year' => 'Année(s)',
         'date' => 'Date'
     );
 }

@@ -54,7 +54,31 @@ add_action('wp_enqueue_scripts', 'alba_theme_enqueue_styles');
 
 // Support des balises <title>
 add_theme_support('title-tag');
+/// For SEO and speed load page
+function optimize_critical_rendering(): void
+{
+    // Defer non-critical JS
+    wp_script_add_data('jquery', 'defer', true);
+    wp_script_add_data('block-library/style', 'defer', true);
 
+    // Remove unnecessary CSS/JS
+    remove_action('wp_head', 'wp_print_styles');
+    remove_action('wp_head', 'wp_print_head_scripts');
+}
+
+add_action('wp_enqueue_scripts', 'optimize_critical_rendering');
+
+function defer_non_critical_css($html, $handle): string
+{
+    if ($handle === 'non-critical-style') {
+        return str_replace("rel='stylesheet'", "rel='preload' as='style' onload=\"this.onload=null;this.rel='stylesheet'\"", $html);
+    }
+    return $html;
+}
+
+add_filter('style_loader_tag', 'defer_non_critical_css', 10, 2);
+
+/// End Speed load page
 
 function alba_theme_enqueue_scripts(): void
 {
@@ -62,9 +86,8 @@ function alba_theme_enqueue_scripts(): void
     wp_enqueue_script('flowbite', get_template_directory_uri() . '/assets/js/flowbite.min.js', array(), null, true);
 
     // Enqueue Slick Slider CSS et JS
-    wp_enqueue_style('slick-css', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css', array(), '1.8.1');
-    wp_enqueue_style('slick-theme-css', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css', array(), '1.8.1');
-    wp_enqueue_script('slick-js', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js', array('jquery'), '1.8.1', true);
+    wp_enqueue_style('slick-css', get_template_directory_uri() . '/assets/css/slick.css', array(), '1.8.1');
+    wp_enqueue_script('slick-js', get_template_directory_uri() . '/assets/js/slick.min.js', array('jquery'), '1.8.1', true);
 
     // Enqueue votre script personnalisé pour initialiser Slick Slider
     wp_enqueue_script('custom-slick-init', get_template_directory_uri() . '/assets/js/slick-init.js', array(
@@ -482,7 +505,11 @@ add_action('admin_init', function () {
         'render_text_field',
         'club-settings',
         'club_calendar_settings',
-        ['field_name' => 'club_link_calendar']
+        [
+            'field_name' => 'club_link_calendar',
+            'desc' => esc_html__("Besoin d'aide pour obtenir le lien ? J'ai créé un petit tuto rien que pour vous ! 😉🏸", 'alba_theme'),
+            'link' => 'wp-content/tuto/Tutoriel_Google-Sheets.pdf'
+        ]
     );
 
     //// Contact section ///////////////////////////////////////
@@ -628,6 +655,19 @@ function render_text_field($args): void
             class="large-text"
             min="0"
     >
+    <?php if (isset($args['desc'])): ?>
+    <p class="description"><?= esc_html($args['desc']) ?>
+        <a href="/<?= esc_html($args['link']) ?>" download>
+            <svg style="margin-left: 10px" xmlns="http://www.w3.org/2000/svg" width="20px" fill="#2271b1"
+                 viewBox="0 0 512 512">
+                <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8
+    0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5
+    25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+            </svg>
+        </a>
+    </p>
+<?php endif; ?>
     <?php
 }
 
@@ -751,8 +791,8 @@ function render_image_field($args): void
 
 // First, enqueue the WordPress media scripts
 add_action('admin_enqueue_scripts', function ($hook) {
-        if ('toplevel_page_club-settings' !== $hook) {
-            return;
-        }
+    if ('toplevel_page_club-settings' !== $hook) {
+        return;
+    }
     wp_enqueue_media();
 });
