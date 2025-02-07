@@ -56,7 +56,7 @@ function showGridJudges(array $judges): void
                     echo '</div></div>';
                 }
             } else {
-                echo '<p class="text-2xl mt-8">Aucun juge n\'a été trouvé</p>';
+                echo '<p class="text-2xl mt-8">Aucun juge n\'a encore été ajouté ! Ça arrive bientôt... 😁🧑‍⚖️</p>';
             }
             ?>
         </div>

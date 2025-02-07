@@ -30,6 +30,28 @@
     ?>
 </head>
 
+<style>
+    /* Personnalisation de la barre de défilement */
+    ::-webkit-scrollbar {
+        width: 12px; /* Largeur de la barre de défilement */
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: transparent; /* Couleur de fond de la barre de défilement */
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #1fa2da; /* Couleur de la barre de défilement */
+        border-radius: 10px;
+        border: 3px solid #f1f1f1; /* Bordure autour du "pouce" */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #155f85; /* Couleur plus foncée quand on survole la barre */
+    }
+</style>
+
 <body class="bg-back-blue font-crimson selection:bg-primary-blue selection:text-white">
 
 <!-- Navbar wrapper -->

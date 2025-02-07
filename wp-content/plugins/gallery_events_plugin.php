@@ -240,7 +240,7 @@ function gallery_events_custom_columns($columns): array
         'cb' => $columns['cb'],
         'title' => 'Nom de l\'évènement',
         'images' => 'Les images',
-        'taxonomy-event_season' => 'La saison',
+        'taxonomy-event_season' => 'Les saisons',
         'date' => 'Date'
     ];
 }
@@ -277,7 +277,7 @@ function get_gallery_events(): array
         'post_type' => 'gallery_event',
         'posts_per_page' => -1,
         'orderby' => 'date',
-        'order' => 'DESC'
+        'order' => 'ASC'
     ];
 
     $events = [];

@@ -215,23 +215,9 @@ add_filter('manage_all_judges_posts_columns', 'all_judges_custom_columns');
 // Update Custom Column Content
 function all_judges_custom_column_content($column, $post_id): void
 {
-    switch ($column) {
-//        case 'tax_judges_types':
-//            $judge_types = wp_get_post_terms($post_id, 'tax_judges_types');
-//            if (empty($judge_types)) {
-//                echo 'Non défini';
-//                break;
-//            }
-//            foreach ($judge_types as $term) {
-//                echo esc_html($term->name);
-//                echo '<br>';
-//            }
-//            break;
-
-        case 'judge_img':
-            $image_id = get_post_meta($post_id, 'judge_img_id', true);
-            echo wp_get_attachment_image($image_id ?: 151, array(100, 100));
-            break;
+    if ($column == 'judge_img') {
+        $image_id = get_post_meta($post_id, 'judge_img_id', true);
+        echo wp_get_attachment_image($image_id ?: 151, array(100, 100));
     }
 }
 
