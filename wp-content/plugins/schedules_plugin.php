@@ -68,9 +68,6 @@ function render_schedule_meta_box($post): void
         'saturday' => 'Samedi',
         'sunday' => 'Dimanche'
     ];
-
-    $image_id = get_post_meta($post->ID, '_schedule_image_id', true);
-    $image_url = wp_get_attachment_image_url($image_id, 'thumbnail'); // Changed to thumbnail
     ?>
 
     <div class="schedule-meta-box">
@@ -133,6 +130,44 @@ function render_schedule_meta_box($post): void
                 </div>
             </div>
         </div>
+
+        <!--Btn to show day2 select (for jeu libre)-->
+        <div>
+            <button type="button" class="button" id="btnToShow2Day"></button>
+            <!--Pour le jeu libre (y a 2j)-->
+            <!-- Day 2-->
+            <div class="" id="showSelectDay2" style="margin-top: 15px">
+                <label for="schedule_day2">Deuxième jour:</label>
+                <select name="schedule_day2" id="schedule_day2">
+                    <option value="">Sélectionner un 2&egrave;me jour</option>
+                    <?php foreach ($days as $key => $label): ?>
+                        <option value="<?php echo $key; ?>" <?php selected($day2, $key); ?>>
+                            <?php echo $label; ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <!--Script to toggle div-->
+        <script>
+            const btnToShow2Day = document.getElementById('btnToShow2Day');
+            const showSelectDay2 = document.getElementById('showSelectDay2');
+            const scheduleDay2 = document.getElementById('schedule_day2');
+
+            showSelectDay2.style.display = scheduleDay2.value !== '' ? 'block' : 'none';
+            btnToShow2Day.innerHTML = scheduleDay2.value !== '' ? 'Retirer le 2&egrave;me jour' : 'Ajouter un 2&egrave;me jour';
+
+            btnToShow2Day.addEventListener('click', () => {
+                if (showSelectDay2.style.display === 'none') {
+                    showSelectDay2.style.display = 'block';
+                    btnToShow2Day.innerHTML = 'Retirer le 2&egrave;me jour';
+                } else {
+                    showSelectDay2.style.display = 'none';
+                    scheduleDay2.value = '';
+                    btnToShow2Day.innerHTML = 'Ajouter un 2&egrave;me jour';
+                }
+            });
+        </script>
     </div>
 
     <style>
@@ -180,6 +215,7 @@ function render_schedule_meta_box($post): void
         }
     </style>
 
+    <!--Script for Medias-->
     <script>
         jQuery(document).ready(function ($) {
             let frame;
@@ -244,6 +280,7 @@ function save_schedule_meta($post_id): void
     $fields = [
         'schedule_difficulty',
         'schedule_day',
+        'schedule_day2',
         'schedule_time_start',
         'schedule_time_end',
         'schedule_image_id'
@@ -285,7 +322,7 @@ function schedule_custom_columns($columns): array
         'image' => 'Image',
         'description' => 'Description',
         'difficulty' => 'Difficulté',
-        'day' => 'Jour',
+        'day' => 'Jour(s)',
         'time' => 'Horaires',
         'date' => 'Date'
     );
@@ -306,15 +343,16 @@ function schedule_custom_column_content($column, $post_id): void
             }
             break;
         case 'description':
-            echo wp_trim_words(get_the_excerpt($post_id), 20);
+            echo wp_trim_words(get_the_content($post_id), 20);
             break;
         case 'difficulty':
             $difficulty = get_post_meta($post_id, '_schedule_difficulty', true);
-            echo esc_html($difficulty ? $difficulty . '/5' : 'Non défini');
+            echo esc_html($difficulty ? $difficulty . '/5' : '0/0');
             break;
         case 'day':
             $day = get_post_meta($post_id, '_schedule_day', true);
-            echo esc_html(get_french_day_name($day) ?: 'Non défini');
+            $day2 = get_post_meta($post_id, '_schedule_day2', true);
+            echo esc_html(get_french_day_name($day) ?: 'Non défini') . ($day2 ? " & " . get_french_day_name($day2) : '');
             break;
         case 'time':
             $start = get_post_meta($post_id, '_schedule_time_start', true);
@@ -339,7 +377,7 @@ function get_schedules(): array
         'posts_per_page' => -1,
         'orderby' => 'meta_value_num',
         'meta_key' => '_schedule_difficulty',
-        'order' => 'ASC'
+        'order' => 'DESC'
     ];
 
     $schedules = [];
