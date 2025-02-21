@@ -10,7 +10,7 @@ $default = 'Aucune donnée renseignée';
 $theTitle = get_option('club_contact_questions');
 
 $mailAlba = get_option('club_mail') ?: $default;
-$telAlba = get_option('club_tel') ?: $default;
+$telAlba = get_option('club_tel') !== '+33' ? get_option('club_tel') : $default;
 $addressAlba = get_option('club_address') ?: $default;
 
 $noLink = '#';

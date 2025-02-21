@@ -347,9 +347,10 @@ function get_schedules(): array
             $schedule = [
                 'id' => get_the_ID(),
                 'title' => get_the_title(),
-                'desc' => get_the_excerpt(),
+                'desc' => get_the_content(),
                 'difficulty' => get_post_meta(get_the_ID(), '_schedule_difficulty', true),
                 'day' => get_post_meta(get_the_ID(), '_schedule_day', true),
+                'day2' => get_post_meta(get_the_ID(), '_schedule_day2', true),
                 'time_start' => get_post_meta(get_the_ID(), '_schedule_time_start', true),
                 'time_end' => get_post_meta(get_the_ID(), '_schedule_time_end', true),
                 'image_id' => get_post_meta(get_the_ID(), '_schedule_image_id', true)

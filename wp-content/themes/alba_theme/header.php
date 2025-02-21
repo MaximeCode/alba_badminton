@@ -8,6 +8,9 @@
     <!-- link:css fait grâce à wp_head() -->
     <?php wp_head();
 
+    // Get ALBA Icon
+    $alba_icon = get_option('club_logo_icon');
+
     $seasons = get_gallery_events(); // $seasons => [2024-2025] -> $events => [id, title, image_ids (array)]
 
     global $alba_theme_variables;
@@ -58,7 +61,7 @@
 <nav class="bg-primary-blue mb-10 z-50 font-personal relative shadow-xl">
     <div class="container mx-auto w-10/12 flex flex-wrap items-center justify-between z-50">
         <a href="/" class="flex items-center space-x-3">
-            <?php echo wp_get_attachment_image(140, 'thumbnail', false, array('class' => 'h-24 w-auto')); ?>
+            <?php echo wp_get_attachment_image($alba_icon, 'thumbnail', false, array('class' => 'h-24 w-auto')); ?>
         </a>
         <!-- Btn open navbar in mobile -->
         <button data-collapse-toggle="navbar-dropdown" type="button"
