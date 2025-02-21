@@ -430,6 +430,16 @@ add_action('admin_init', function () {
         ['theTitle' => "Page d'accueil"]
     );
 
+    // Add image field
+    add_settings_field(
+        'club_logo_icon',
+        esc_html__('Logo du club', 'alba_theme'),
+        'render_image_field',
+        'club-settings',
+        'club_homepage_settings',
+        ['field_name' => 'club_logo_icon']
+    );
+
     // 1st title of homepage
     add_settings_field(
         'club_title_homepage',
@@ -472,7 +482,7 @@ add_action('admin_init', function () {
     // Add image field
     add_settings_field(
         'club_family_img',
-        esc_html__('Photo de famille ', 'alba_theme'),
+        esc_html__('Photo de famille', 'alba_theme'),
         'render_image_field',
         'club-settings',
         'club_pres_settings',
@@ -570,6 +580,7 @@ add_action('admin_init', function () {
 
     // Register the settings [save]
     //// Homepage section
+    register_setting('club_settings', 'club_logo_icon');
     register_setting('club_settings', 'club_title_homepage');
     register_setting('club_settings', 'club_paragraph_homepage');
     register_setting('club_settings', 'club_members_count');
@@ -724,65 +735,59 @@ function render_image_field($args): void
 {
     $image_id = get_option($args['field_name']);
     $image_url = $image_id ? wp_get_attachment_url($image_id) : '';
+    $unique_id = 'image-upload-' . $args['field_name'];
     ?>
-    <div class="image-upload-wrap">
+    <div class="image-upload-wrap" id="<?php echo esc_attr($unique_id); ?>">
         <input type="hidden" name="<?php echo esc_attr($args['field_name']); ?>"
                id="<?php echo esc_attr($args['field_name']); ?>"
                value="<?php echo esc_attr($image_id); ?>">
 
         <div class="image-preview">
             <?php if ($image_url): ?>
-                <img src="<?php echo esc_url($image_url); ?>" style="max-width: 250px;" alt="">
+                <img src="<?php echo esc_url($image_url); ?>" style="max-height: 150px" alt="Icône du club">
             <?php endif; ?>
         </div>
 
         <input type="button" class="button upload-image-button"
+               data-target="<?php echo esc_attr($unique_id); ?>"
                value="<?php esc_attr_e('Insérer une image', 'alba_theme'); ?>"/>
 
         <?php if ($image_url): ?>
             <input type="button" class="button remove-image-button"
+                   data-target="<?php echo esc_attr($unique_id); ?>"
                    value="<?php esc_attr_e("Supprimer l'image", 'alba_theme'); ?>"/>
         <?php endif; ?>
     </div>
 
     <script>
         jQuery(document).ready(function ($) {
-            // Upload image
-            $('.upload-image-button').click(function (e) {
-                e.preventDefault();
-                var button = $(this);
-                var imageWrap = button.closest('.image-upload-wrap');
-                var imageInput = imageWrap.find('input[type="hidden"]');
-                var imagePreview = imageWrap.find('.image-preview');
+            $('.upload-image-button[data-target="<?php echo esc_js($unique_id); ?>"]').on('click', function () {
+                const container = $('#' + $(this).data('target'));
+                const hiddenInput = container.find('input[type="hidden"]');
+                const previewContainer = container.find('.image-preview');
+                const removeButton = container.find('.remove-image-button');
 
-                var image = wp.media({
-                    title: '<?php esc_html_e('Sélectionner ou insérer une image', 'alba_theme'); ?>',
+                const customUploader = wp.media({
+                    title: '<?php esc_html_e('Sélectionner une image', 'alba_theme'); ?>',
+                    button: {text: '<?php esc_html_e('Utiliser cette image', 'alba_theme'); ?>'},
                     multiple: false
-                }).open().on('select', function () {
-                    var uploadedImage = image.state().get('selection').first().toJSON();
-                    imageInput.val(uploadedImage.id);
-
-                    // Update preview
-                    imagePreview.html('<img src="' + uploadedImage.url + '" style="max-width: 150px;" alt="">');
-
-                    // Show remove button if not already present
-                    if (imageWrap.find('.remove-image-button').length === 0) {
-                        imageWrap.append('<input type="button" class="button remove-image-button" value="<?php esc_attr_e("Supprimer l'image", 'alba_theme'); ?>" />');
-                    }
                 });
+
+                customUploader.on('select', function () {
+                    const attachment = customUploader.state().get('selection').first().toJSON();
+                    hiddenInput.val(attachment.id);
+                    previewContainer.html('<img src="' + attachment.url + '" style="max-width: 250px;" alt="">');
+                    removeButton.show();
+                });
+
+                customUploader.open();
             });
 
-            // Remove image
-            $(document).on('click', '.remove-image-button', function (e) {
-                e.preventDefault();
-                var button = $(this);
-                var imageWrap = button.closest('.image-upload-wrap');
-                var imageInput = imageWrap.find('input[type="hidden"]');
-                var imagePreview = imageWrap.find('.image-preview');
-
-                imageInput.val('');
-                imagePreview.empty();
-                button.remove();
+            $('.remove-image-button[data-target="<?php echo esc_js($unique_id); ?>"]').on('click', function () {
+                const container = $('#' + $(this).data('target'));
+                container.find('input[type="hidden"]').val('');
+                container.find('.image-preview').empty();
+                $(this).hide();
             });
         });
     </script>
