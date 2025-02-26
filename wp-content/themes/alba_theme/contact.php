@@ -155,7 +155,7 @@ $message = $_SESSION['contact_form']['message'] ?? '';
                                 <li>Nom : <?= $_SESSION['contact_form']['name'] ?></li>
                                 <li>Email : <?= $_SESSION['contact_form']['email'] ?></li>
                                 <li>Objet : <?= $_SESSION['contact_form']['object'] ?></li>
-                                <li>Message : <?= $_SESSION['contact_form']['message'] ?></li>
+                                <li>Message : <br><?= nl2br($_SESSION['contact_form']['message']) ?></li>
                             </ul>
                         </div>
                     </div>

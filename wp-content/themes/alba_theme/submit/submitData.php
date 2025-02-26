@@ -52,12 +52,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 // Destinataires
                 $mail->setFrom($config['smtp']['from_email'], $config['smtp']['from_name']);
-                $mail->addAddress($config['smtp']['from_email'], $config['smtp']['from_name']);
-                $mail->addReplyTo($_POST['email'], $_POST['name']);
+                $mail->addAddress($config['smtp']['to_email'], $config['smtp']['to_name']);
+                $mail->addCC('test_admin@albabadminton.fr', 'Test Admin ALBA');
 
                 // Contenu
                 $mail->isHTML(true);
-                $mail->Subject = '[ALBA WEB] Nouveau message de ' . $_SESSION['contact_form']['first_name'] . ' ' . $_SESSION['contact_form']['name'];
+                $mail->Subject = '[ALBA WEB] Nouveau message de ' . $_SESSION['contact_form']['first_name'] . ' ' . $_SESSION['contact_form']['name'] . ' envoyé le ' . date('d/m/Y à H:i');
 
                 // Corps du message en HTML
                 $mail->Body = "
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p><strong>Message :</strong><br>" . nl2br($_SESSION['contact_form']['message']) . "</p>
         ";
 
-                // Version texte pour les clients mail qui ne supportent pas l'HTML
+                // Version texte pour les clients mail qui ne supporte pas l'HTML
                 $mail->AltBody = "
                     Objet : " . $_SESSION['contact_form']['object'] . "
                     Prénom : " . $_SESSION['contact_form']['first_name'] . "
