@@ -2,7 +2,7 @@
 <section class="container text-center">
     <h2 class="text-4xl md:text-6xl font-bold text-primary-blue">
         Oops ! Page non trouvée.</h2>
-    <?= wp_get_attachment_image(320, '', false, array('class' => 'h-96 w-auto mx-auto hover:animate-spin')); ?>
+    <?= wp_get_attachment_image(521, '', false, array('class' => 'h-96 w-auto mx-auto hover:animate-spin')); ?>
     <p class="text-gray-600 text-xl">
         La page que vous recherchez semble introuvable. <br>
         Vous pouvez revenir à la page d'accueil pour explorer davantage.<br>

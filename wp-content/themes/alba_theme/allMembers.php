@@ -48,7 +48,7 @@ $allMembers = get_office_members_by_year();
                             <p class="row-span-1 italic text-xl">%s</p>
                         </div>',
                             ucwords($member['position']),
-                            wp_get_attachment_image((!empty($member['image_id']) ? $member['image_id'] : 151), '', false, array(
+                            wp_get_attachment_image((!empty($member['image_id']) ? $member['image_id'] : 523), '', false, array(
                                 'loading' => 'lazy',
                                 'class' => "w-1/2 max-w-56 m-auto rounded-2xl transform transition duration-300 ease-in-out hover:scale-105 row-span-2",
                             )),

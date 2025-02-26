@@ -91,13 +91,13 @@ get_header(); ?>
 <main class="space-y-16">
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous"
-            src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v21.0"></script>
+            src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v22.0"></script>
     <article>
         <?php
         if (have_posts()) :
             while (have_posts()) : the_post();
-                echo display_titlePage(); // Affiche le titre de l'article
-                echo("<h6 class='text-lg mb-6'>Article publié le " . get_the_date() . "</h6>"); // Affiche la date de publication de l'article
+                echo '<h2 class="text-4xl font-bold mb-4">' . get_the_title() . '</h2>';
+                echo("<h6 class='text-lg mb-12'>Article publié le " . get_the_date() . "</h6>"); // Affiche la date de publication de l'article
 
                 echo("<div class='prose text-lg lg:text-xl'>");
                 the_content(); // Affiche le contenu de l'article
@@ -109,6 +109,7 @@ get_header(); ?>
                 // get the post category
                 $categories = get_the_category();
                 $category = $categories[0]->slug;
+                $categoryName = $categories[0]->name;
                 //get the parent category
                 $parentCategory = get_category($categories[0]->parent);
                 if (!$parentCategory->errors) {
@@ -138,7 +139,8 @@ get_header(); ?>
             // Only display the section if there are other posts
             if ($query->have_posts()) : ?>
 
-                <h2 id="lastNews" class="mb-8 text-3xl font-extrabold underline">Articles concernant l'équipe :</h2>
+                <h2 id="lastNews" class="mb-8 text-3xl font-extrabold underline">Articles
+                    concernant <?= $categoryName ?></h2>
                 <div class="grid gap-y-12">
                     <?php
                     while ($query->have_posts()) : $query->the_post();
@@ -167,7 +169,7 @@ get_header(); ?>
                 wp_reset_postdata();
             else :
                 ?>
-                <h4 class="text-xl">Aucun autre article trouvé à propos de la catégorie <?= $category ?></h4>
+                <h4 class="text-xl">Aucun autre article trouvé à propos de la catégorie <?= $categoryName ?></h4>
             <?php endif; ?>
         </div>
     </section>

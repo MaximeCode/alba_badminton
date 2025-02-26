@@ -68,12 +68,6 @@ $user_identity = wp_get_current_user()->display_name;
                font-medium rounded-lg text-sm px-3 py-2 text-center transition">
                 Se déconnecter
             </a>
-        <?php else : ?>
-            <a href="<?php echo wp_login_url(get_permalink()); ?>" title="Se connecter"
-               class="hover:text-white border border-primary-blue hover:bg-primary-blue focus:ring-4 focus:outline-none focus:ring-blue-300
-               font-medium rounded-lg text-sm px-3 py-2 text-center transition">
-                Se connecter
-            </a>
         <?php endif; ?>
     </div>
 
