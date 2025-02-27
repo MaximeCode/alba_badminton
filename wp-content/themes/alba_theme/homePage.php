@@ -198,7 +198,7 @@ $partners = rwmb_meta($prefix . 'img_id');
                             foreach ($key as $img_id) {
                                 echo "<div class='slide'>";
                                 echo wp_get_attachment_image($img_id, 'large', false, array(
-                                    'class' => 'w-4/5 h-48 object-contain mx-auto',
+                                    'class' => 'w-4/5 h-48 object-contain mx-auto has-transparency',
                                 ));
                                 echo "</div>";
                             }

@@ -5,8 +5,6 @@ Description: ALBA_theme is designed to be a light, fast, and free theme for use 
 Text Domain: ALBA_theme
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

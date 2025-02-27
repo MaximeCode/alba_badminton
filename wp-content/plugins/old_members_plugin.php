@@ -207,7 +207,7 @@ function save_office_member_image_meta($post_id): void
         update_post_meta(
             $post_id,
             '_office_member_image_id',
-            $_POST['office_member_image_id'] ? absint($_POST['office_member_image_id']) : ''
+            $_POST['office_member_image_id'] ? absint($_POST['office_member_image_id']) : 538
         );
     }
 }
@@ -313,7 +313,7 @@ function get_office_members_by_year($year = null): array
             $position = $positions[$position_key] ?? 'Non défini';
 
             // Récupération de l'image
-            $image_id = get_post_meta(get_the_ID(), '_office_member_image_id', true);
+            $image_id = get_post_meta(get_the_ID(), '_office_member_image_id', true)?: 538;
 
             if (!$year) {
                 foreach ($year_slug as $year_oui) {

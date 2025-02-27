@@ -10,6 +10,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// image par défaut : 538
+
 // Register Custom Post Type for judges
 function all_judges_post_type(): void
 {
@@ -182,7 +184,7 @@ function save_all_judges_meta_data($post_id): void
         update_post_meta(
             $post_id,
             'judge_img_id',
-            $_POST['judge_img_id'] ? absint($_POST['judge_img_id']) : 151
+            $_POST['judge_img_id'] ? absint($_POST['judge_img_id']) : 538
         );
     }
 
@@ -217,7 +219,7 @@ function all_judges_custom_column_content($column, $post_id): void
 {
     if ($column == 'judge_img') {
         $image_id = get_post_meta($post_id, 'judge_img_id', true);
-        echo wp_get_attachment_image($image_id ?: 151, array(100, 100));
+        echo wp_get_attachment_image($image_id ?: 538, array(100, 100));
     }
 }
 

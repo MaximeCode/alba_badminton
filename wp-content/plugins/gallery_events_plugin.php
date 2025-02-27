@@ -54,7 +54,7 @@ function add_gallery_event_meta_boxes(): void
 {
     add_meta_box(
         'gallery_event_images',
-        'Event Images',
+        "Les images de l'événement",
         'render_gallery_images_meta_box',
         'gallery_event',
         'normal',
@@ -260,7 +260,7 @@ function gallery_events_custom_column_content($column, $post_id): void
             }
             $count = count($image_ids);
             if ($count > 3) {
-                echo " <span class='image-count'>+" . ($count - 3) . " more</span>";
+                echo " <span class='image-count'>+" . ($count - 3) . " autres images</span>";
             }
         } else {
             echo 'Aucune images renseignées';
@@ -277,7 +277,7 @@ function get_gallery_events(): array
         'post_type' => 'gallery_event',
         'posts_per_page' => -1,
         'orderby' => 'date',
-        'order' => 'ASC'
+        'order' => 'DESC'
     ];
 
     $events = [];

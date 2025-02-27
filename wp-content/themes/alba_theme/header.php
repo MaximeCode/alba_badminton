@@ -4,6 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Import GG Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+          rel="stylesheet">
+
     <title><?php wp_title(); ?></title>
     <!-- link:css fait grâce à wp_head() -->
     <?php wp_head();
@@ -60,7 +66,8 @@
 <!-- Navbar wrapper -->
 <nav class="bg-primary-blue mb-10 z-50 font-personal relative shadow-xl">
     <div class="container mx-auto w-10/12 flex flex-wrap items-center justify-between z-50">
-        <a href="/" class="flex items-center space-x-3">
+        <a href="/" class="flex items-center space-x-3"
+           aria-label="Logo du mois actuel de l'Amicale de Lucé de Badminton">
             <?php echo wp_get_attachment_image($alba_icon, 'thumbnail', false, array('class' => 'h-24 w-auto')); ?>
         </a>
         <!-- Btn open navbar in mobile -->
