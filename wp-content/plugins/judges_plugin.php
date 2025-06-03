@@ -6,6 +6,9 @@ Version: 1.0
 Author: M.B.
 */
 
+// Img par défaut en PROD : 538
+// Img par défaut en DEV : 523
+
 if (!defined('ABSPATH')) {
     exit;
 }
