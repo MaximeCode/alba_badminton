@@ -35,7 +35,7 @@ function sports_club_team_post_type(): void
     'query_var' => true,
     'rewrite' => array('slug' => 'team'),
     'capability_type' => 'post',
-    'hierarchical' => false,
+    'hierarchical' => true,
     'supports' => array('title', 'editor', 'page-attributes'),
     'menu_icon' => 'dashicons-groups',
     'show_in_rest' => true

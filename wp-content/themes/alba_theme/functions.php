@@ -192,7 +192,7 @@ function showGridBureau(array $members): void
 }
 
 // fonction de génération du breadcrumb sur chaque page (ajouté ds le header.php)
-function generate_breadcrumbs(): void
+function generate_breadcrumbs($special_parent = ""): void
 {
   if (!is_front_page() && !is_404() && !is_search()) {
     $mb = !is_404() ? 'mb-8' : '';
@@ -227,14 +227,26 @@ function generate_breadcrumbs(): void
       }
     }
 
-    // Si c'est un article, ajouter "Actualit&eacute;s" comme parent dans le breadcrumb
-    if (is_single()) {
+    // Si c'est un article, ajouter "Actualités" comme parent dans le breadcrumb
+    if (is_single() && get_post_type() === 'post') {
       $breadcrumb .= '<li>
         <div class="flex items-center">
             <svg class="rtl:rotate-180 block w-4 h-4 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                 <path fill-rule="evenodd" d="M3 4a1 1 0 0 0-.822 1.57L6.632 12l-4.454 6.43A1 1 0 0 0 3 20h13.153a1 1 0 0 0 .822-.43l4.847-7a1 1 0 0 0 0-1.14l-4.847-7a1 1 0 0 0-.822-.43H3Z" clip-rule="evenodd"/>
             </svg>
             <a href="' . get_permalink(26) . '" class="flex-1 whitespace-normal break-words ms-1 font-medium hover:text-secondary-blue md:ms-2 dark:text-gray-400 dark:hover:text-white">Les actualit&eacute;s du club</a>
+        </div>
+    </li>';
+    }
+
+    // Si c'est une page d'interclub, ajouter "Interclubs" comme parent dans le breadcrumb
+    if (get_post_type() === 'sports_team') {
+      $breadcrumb .= '<li>
+        <div class="flex items-center">
+            <svg class="rtl:rotate-180 block w-4 h-4 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M3 4a1 1 0 0 0-.822 1.57L6.632 12l-4.454 6.43A1 1 0 0 0 3 20h13.153a1 1 0 0 0 .822-.43l4.847-7a1 1 0 0 0 0-1.14l-4.847-7a1 1 0 0 0-.822-.43H3Z" clip-rule="evenodd"/>
+            </svg>
+            <a href="' . get_permalink(190) . '" class="flex-1 whitespace-normal break-words ms-1 font-medium hover:text-secondary-blue md:ms-2 dark:text-gray-400 dark:hover:text-white">Interclubs</a>
         </div>
     </li>';
     }

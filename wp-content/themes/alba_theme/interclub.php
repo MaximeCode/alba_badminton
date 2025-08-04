@@ -19,6 +19,7 @@ function display_sports_teams(): false|string
   <div class="flex flex-wrap justify-around gap-x-12 lg:gap-x-24 gap-y-12">
     <?php
     if ($teams->have_posts()) {
+
       while ($teams->have_posts()) {
         $teams->the_post();
 
@@ -28,7 +29,7 @@ function display_sports_teams(): false|string
         ?>
         <div class="team-card">
           <div class="text-center">
-            <h3 class="text-2xl text-primary-blue underline font-bold"><?php the_title(); ?></h3>
+            <h3 class="text-2xl text-primary-blue underline font-bold"><a href="<?= get_permalink($teams->post->id); ?>"><?php the_title(); ?></a></h3>
             <p class="text-xl">
               <span class="font-bold">Capitaine : </span> <?php echo esc_html($team_captain); ?>
             </p>
@@ -76,7 +77,6 @@ add_shortcode('sports-teams', 'display_sports_teams');
     <?= display_titlePage() ?>
 
     <?= do_shortcode('[sports-teams]'); ?>
-
   </section>
 
 <?php
