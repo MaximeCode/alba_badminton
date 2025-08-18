@@ -12,7 +12,7 @@ $image_id = get_option('club_family_img');
 $legend = get_option('club_legend_img');
 
 // bureau actuel
-$currentOffice = get_office_members_by_year('2024-2025');
+$currentOffice = get_office_members_by_year('2025-2026');
 
 ?>
 
