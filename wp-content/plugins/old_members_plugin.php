@@ -282,9 +282,10 @@ function get_office_members_by_year($year = null): array
     $args = [
             'post_type' => 'office_member',
             'posts_per_page' => -1,
-            'orderby' => 'menu_order',
+        // On retire le tri WordPress pour faire notre propre tri
+            'orderby' => 'ID',
             'order' => 'ASC',
-            'post_status' => 'publish' // S'assurer qu'on récupère seulement les posts publiés
+            'post_status' => 'publish'
     ];
 
     if ($year) {
@@ -308,6 +309,7 @@ function get_office_members_by_year($year = null): array
     }
 
     $positions = getPositions();
+    $position_hierarchy = getPositionHierarchy();
     $members = [];
 
     $query = new WP_Query($args);
@@ -316,7 +318,6 @@ function get_office_members_by_year($year = null): array
         while ($query->have_posts()) {
             $query->the_post();
 
-            // Utiliser get_the_terms() au lieu de wp_get_post_terms() pour une meilleure gestion du cache
             $year_terms = get_the_terms(get_the_ID(), 'office_year');
 
             $year_slug = [];
@@ -338,6 +339,7 @@ function get_office_members_by_year($year = null): array
                     'name' => get_the_title(),
                     'position' => $position,
                     'image_id' => $image_id,
+                    'position_key' => $position_key, // On garde la clé pour le tri
             ];
 
             if (!$year) {
@@ -354,34 +356,362 @@ function get_office_members_by_year($year = null): array
 
     wp_reset_postdata();
 
+    // Trier chaque année par ordre hiérarchique des positions
+    foreach ($members as $year_key => &$year_members) {
+        if (is_array($year_members)) {
+            usort($year_members, function ($a, $b) use ($position_hierarchy) {
+                // Récupérer l'ordre hiérarchique de chaque position
+                $hierarchy_a = $position_hierarchy[$a['position_key']] ?? 99;
+                $hierarchy_b = $position_hierarchy[$b['position_key']] ?? 99;
+
+                // Tri principal par hiérarchie
+                $hierarchy_diff = $hierarchy_a <=> $hierarchy_b;
+
+                // Si même niveau hiérarchique, tri alphabétique par nom
+                if ($hierarchy_diff === 0) {
+                    return strcasecmp($a['name'], $b['name']);
+                }
+
+                return $hierarchy_diff;
+            });
+
+            // Supprimer la clé position_key du résultat final
+            foreach ($year_members as &$member) {
+                unset($member['position_key']);
+            }
+        }
+    }
+
     // Trier le tableau par ordre chronologique des années (seulement si pas d'année spécifiée)
     if (!$year && !empty($members)) {
-        // Trier les clés (années) par ordre chronologique décroissant (plus récent en premier)
-        uksort($members, function($a, $b) {
-            // Extraire l'année de début (ex: "2025" de "2025-2026")
+        uksort($members, function ($a, $b) {
             $year_a = (int)substr($a, 0, 4);
             $year_b = (int)substr($b, 0, 4);
-
-            // Tri décroissant (plus récent en premier)
             return $year_b <=> $year_a;
         });
     }
 
-//    echo '<pre>';
-//    var_dump($members);
-//    echo '</pre>';
     return $members;
 }
 
-// Liste des positions disponibles
+// Rendre la colonne Position triable
+function make_office_member_columns_sortable($sortable_columns): array
+{
+    $sortable_columns['position'] = 'position';
+    return $sortable_columns;
+}
+
+add_filter('manage_edit-office_member_sortable_columns', 'make_office_member_columns_sortable');
+
+// Gérer le tri alphabétique de la colonne Position
+function handle_office_member_position_orderby($query): void
+{
+    if (!is_admin() || !$query->is_main_query()) {
+        return;
+    }
+
+    $orderby = $query->get('orderby');
+
+    if ('position' === $orderby) {
+        $query->set('meta_key', '_office_position');
+        $query->set('orderby', 'meta_value');
+    }
+}
+
+add_action('pre_get_posts', 'handle_office_member_position_orderby');
+
+// SOLUTION 1: Custom Post Type pour les positions (recommandé)
+
+// Créer le Custom Post Type pour les positions
+function create_office_positions_post_type()
+{
+    register_post_type('office_position', [
+            'labels' => [
+                    'name' => 'Postes du bureau',
+                    'singular_name' => 'Poste',
+                    'add_new' => 'Ajouter un poste',
+                    'add_new_item' => 'Ajouter un nouveau poste',
+                    'edit_item' => 'Modifier le poste',
+                    'all_items' => 'Tous les postes',
+            ],
+            'public' => false,
+            'show_ui' => true,
+            'show_in_menu' => 'edit.php?post_type=office_member', // Sous-menu des membres
+            'menu_icon' => 'dashicons-businessman',
+            'supports' => ['title'],
+            'has_archive' => false,
+            'hierarchical' => false,
+    ]);
+}
+
+add_action('init', 'create_office_positions_post_type');
+
+// Ajouter un champ pour l'ordre hiérarchique
+function add_position_hierarchy_meta_box()
+{
+    add_meta_box(
+            'position_hierarchy',
+            'Ordre hiérarchique',
+            'render_position_hierarchy_meta_box',
+            'office_position',
+            'side'
+    );
+}
+
+add_action('add_meta_boxes', 'add_position_hierarchy_meta_box');
+
+function render_position_hierarchy_meta_box($post)
+{
+    wp_nonce_field('position_hierarchy_nonce', 'position_hierarchy_nonce');
+    $hierarchy = get_post_meta($post->ID, '_position_hierarchy', true) ?: 50;
+    ?>
+    <label for="position_hierarchy">Ordre (1 = plus haut niveau):</label>
+    <input type="number" id="position_hierarchy" name="position_hierarchy"
+           value="<?php echo esc_attr($hierarchy); ?>" min="1" max="100" style="width: 100%;">
+    <p><small>1 = Président, 2 = Vice-président, etc.</small></p>
+    <?php
+}
+
+// Sauvegarder l'ordre hiérarchique
+function save_position_hierarchy_meta($post_id)
+{
+    if (!isset($_POST['position_hierarchy_nonce']) ||
+            !wp_verify_nonce($_POST['position_hierarchy_nonce'], 'position_hierarchy_nonce')) {
+        return;
+    }
+
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+
+    if (isset($_POST['position_hierarchy'])) {
+        update_post_meta($post_id, '_position_hierarchy', absint($_POST['position_hierarchy']));
+    }
+}
+
+add_action('save_post_office_position', 'save_position_hierarchy_meta');
+
+// Nouvelle fonction pour récupérer les positions depuis la base
 function getPositions(): array
 {
+    $positions = [];
+
+    $query = new WP_Query([
+            'post_type' => 'office_position',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'meta_key' => '_position_hierarchy',
+            'orderby' => 'meta_value_num',
+            'order' => 'ASC'
+    ]);
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $slug = sanitize_title(get_the_title());
+            $positions[$slug] = get_the_title();
+        }
+    }
+    wp_reset_postdata();
+
+    // Positions par défaut si aucune n'existe
+    if (empty($positions)) {
+        return [
+                'president' => 'Président(e)',
+                'vice_president' => 'Vice-président(e)',
+                'secretary' => 'Secrétaire',
+                'secretary_assistant' => 'Secrétaire adjoint(e)',
+                'treasurer' => 'Trésorier(e)',
+                'member' => 'Membre'
+        ];
+    }
+
+    return $positions;
+}
+
+// Nouvelle fonction pour l'ordre hiérarchique
+function getPositionHierarchy(): array
+{
+    $hierarchy = [];
+
+    $query = new WP_Query([
+            'post_type' => 'office_position',
+            'posts_per_page' => -1,
+            'post_status' => 'publish',
+            'meta_key' => '_position_hierarchy',
+            'orderby' => 'meta_value_num',
+            'order' => 'ASC'
+    ]);
+
+    if ($query->have_posts()) {
+        $order = 1;
+        while ($query->have_posts()) {
+            $query->the_post();
+            $slug = sanitize_title(get_the_title());
+            $custom_order = get_post_meta(get_the_ID(), '_position_hierarchy', true) ?: $order;
+            $hierarchy[$slug] = (int)$custom_order;
+            $order++;
+        }
+    }
+    wp_reset_postdata();
+
+    return $hierarchy;
+}
+
+// Ajouter des colonnes personnalisées pour les positions
+function office_position_custom_columns($columns)
+{
     return [
-            'president' => 'Pr&eacute;sident(e)',
-            'vice_president' => 'Vice-pr&eacute;sident(e)',
-            'treasurer' => 'Tr&eacute;sorier(e)',
-            'secretary' => 'Secr&eacute;taire',
-            'assistant_secretary' => 'Secr&eacute;taire adjoint(e)',
-            'member' => 'Membre'
+            'cb' => $columns['cb'],
+            'title' => 'Nom du poste',
+            'hierarchy' => 'Ordre hiérarchique',
+            'usage_count' => 'Utilisé par',
+            'date' => 'Date'
     ];
 }
+
+add_filter('manage_office_position_posts_columns', 'office_position_custom_columns');
+
+function office_position_custom_column_content($column, $post_id)
+{
+    switch ($column) {
+        case 'hierarchy':
+            $hierarchy = get_post_meta($post_id, '_position_hierarchy', true) ?: 'Non défini';
+            echo $hierarchy;
+            break;
+
+        case 'usage_count':
+            $slug = sanitize_title(get_the_title($post_id));
+            $count = new WP_Query([
+                    'post_type' => 'office_member',
+                    'meta_query' => [
+                            [
+                                    'key' => '_office_position',
+                                    'value' => $slug,
+                                    'compare' => '='
+                            ]
+                    ],
+                    'fields' => 'ids'
+            ]);
+            echo $count->found_posts . ' membre(s)';
+            break;
+    }
+}
+
+add_action('manage_office_position_posts_custom_column', 'office_position_custom_column_content', 10, 2);
+
+// Fonction pour créer les positions par défaut (à exécuter une seule fois)
+function create_default_positions()
+{
+    $default_positions = [
+            ['title' => 'Président(e)', 'hierarchy' => 1],
+            ['title' => 'Vice-président(e)', 'hierarchy' => 2],
+            ['title' => 'Secrétaire', 'hierarchy' => 3],
+            ['title' => 'Secrétaire adjoint(e)', 'hierarchy' => 4],
+            ['title' => 'Trésorier(e)', 'hierarchy' => 5],
+            ['title' => 'Membre', 'hierarchy' => 6],
+    ];
+
+    foreach ($default_positions as $position) {
+        $post_id = wp_insert_post([
+                'post_title' => $position['title'],
+                'post_type' => 'office_position',
+                'post_status' => 'publish'
+        ]);
+
+        if ($post_id) {
+            update_post_meta($post_id, '_position_hierarchy', $position['hierarchy']);
+        }
+    }
+}
+
+// Hook pour créer les positions par défaut à l'activation du plugin
+register_activation_hook(__FILE__, function () {
+    // Créer les post types d'abord
+    create_office_positions_post_type();
+    office_members_post_type();
+
+    // Flush les règles de réécriture
+    flush_rewrite_rules();
+
+    // Créer les positions par défaut
+    create_default_positions();
+});
+
+// SOLUTION ALTERNATIVE : Bouton AJAX pour créer rapidement un poste
+function add_quick_position_button()
+{
+    global $current_screen;
+
+    if ($current_screen && $current_screen->post_type === 'office_member') {
+        ?>
+        <script>
+            jQuery(document).ready(function ($) {
+                // Ajouter un bouton dans la metabox des positions
+                $('#office_position').after('<button type="button" id="add-new-position" class="button" style="margin-left: 10px;">+ Nouveau poste</button>');
+
+                $('#add-new-position').on('click', function () {
+                    var newPosition = prompt('Nom du nouveau poste:');
+                    if (newPosition) {
+                        $.ajax({
+                            url: ajaxurl,
+                            method: 'POST',
+                            data: {
+                                action: 'create_new_position',
+                                position_name: newPosition,
+                                nonce: '<?php echo wp_create_nonce("create_position_nonce"); ?>'
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    $('#office_position').append('<option value="' + response.data.slug + '" selected>' + response.data.name + '</option>');
+                                    alert('Poste créé avec succès!');
+                                } else {
+                                    alert('Erreur: ' + response.data.message);
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
+        <?php
+    }
+}
+
+add_action('admin_footer', 'add_quick_position_button');
+
+// Handler AJAX pour créer un nouveau poste
+function handle_create_new_position()
+{
+    if (!wp_verify_nonce($_POST['nonce'], 'create_position_nonce')) {
+        wp_die('Nonce invalide');
+    }
+
+    $position_name = sanitize_text_field($_POST['position_name']);
+
+    if (empty($position_name)) {
+        wp_send_json_error(['message' => 'Le nom du poste ne peut pas être vide']);
+    }
+
+    // Créer le poste
+    $post_id = wp_insert_post([
+            'post_title' => $position_name,
+            'post_type' => 'office_position',
+            'post_status' => 'publish'
+    ]);
+
+    if ($post_id) {
+        // Ordre par défaut
+        update_post_meta($post_id, '_position_hierarchy', 50);
+
+        $slug = sanitize_title($position_name);
+        wp_send_json_success([
+                'slug' => $slug,
+                'name' => $position_name
+        ]);
+    } else {
+        wp_send_json_error(['message' => 'Erreur lors de la création du poste']);
+    }
+}
+
+add_action('wp_ajax_create_new_position', 'handle_create_new_position');

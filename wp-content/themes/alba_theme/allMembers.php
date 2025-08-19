@@ -14,7 +14,7 @@ $allMembers = get_office_members_by_year();
     <?= display_titlePage() ?>
 
     <div class="flex gap-3 sm:gap-6 md:gap-10 xl:gap-16 relative">
-      <!--Date (col fixe)-->
+      <!--Dates (col fixe)-->
       <div class="basis-2/6 lg:basis-3/12">
         <!-- Les dates se positionnent ici -->
         <div class="sticky top-[10%] relative flex flex-col justify-center">
@@ -33,9 +33,9 @@ $allMembers = get_office_members_by_year();
             } ?>
           </div>
         </div>
-
       </div>
-      <!--Grille des informations-->
+
+      <!--Grille des membres-->
       <div class="basis-4/6 md:basis-5/6 space-y-10">
         <?php foreach ($allMembers as $key => $bureau) {
           echo sprintf('
