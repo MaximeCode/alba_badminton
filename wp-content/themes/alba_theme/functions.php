@@ -533,6 +533,19 @@ add_action('admin_init', function () {
     ]
   );
 
+  // Input text to add the year of the calendar (ex: 2024-2025)
+    add_settings_field(
+        'club_calendar_year_settings',
+        esc_html__('Saison du calendrier', 'alba_theme'),
+        'render_text_field',
+        'club-settings',
+        'club_calendar_settings',
+        [
+                'field_name' => "club_calendar_year_settings",
+                'desc' => esc_html__('Exemple : 2024 - 2025', 'alba_theme')
+        ]
+    );
+
   //// Contact section ///////////////////////////////////////
   add_settings_section(
     'club_contact_settings',
@@ -602,6 +615,7 @@ add_action('admin_init', function () {
 
   /// Calendar
   register_setting('club_settings', 'club_link_calendar');
+    register_setting('club_settings', 'club_calendar_year_settings');
 
   //// Contact
   register_setting('club_settings', 'club_contact_questions');
@@ -677,19 +691,21 @@ function render_text_field($args): void
     class="large-text"
     min="0"
   >
-  <?php if (isset($args['desc'])): ?>
-  <p class="description"><?= esc_html($args['desc']) ?>
-    <a href="/<?= esc_html($args['link']) ?>" download>
-      <svg style="margin-left: 10px" xmlns="http://www.w3.org/2000/svg" width="20px" fill="#2271b1"
-           viewBox="0 0 512 512">
-        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-        <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8
+    <?php if (isset($args['desc'])): ?>
+    <p class="description"><?= esc_html($args['desc']) ?>
+        <?php if (isset($args['link'])): ?>
+            <a href="/<?= esc_html($args['link']) ?>" download>
+                <svg style="margin-left: 10px" xmlns="http://www.w3.org/2000/svg" width="20px" fill="#2271b1"
+                     viewBox="0 0 512 512">
+                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8
     0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5
-    25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
-      </svg>
-    </a>
-  </p>
-<?php endif; ?>
+    25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+                </svg>
+            </a>
+        <?php endif; ?>
+    </p>
+    <?php endif; ?>
   <?php
 }
 
