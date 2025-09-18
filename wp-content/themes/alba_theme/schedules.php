@@ -34,22 +34,22 @@ foreach ($slots as $slot) {
 function showTraining(string $title, int $difficult, string $desc, string $day, string $time_start, string $time_end, string $imgId = '', string $day2 = ''): void
 {
     $days = [
-        'monday' => 'Lundi',
-        'tuesday' => 'Mardi',
-        'wednesday' => 'Mercredi',
-        'thursday' => 'Jeudi',
-        'friday' => 'Vendredi',
-        'saturday' => 'Samedi',
-        'sunday' => 'Dimanche',
+            'monday' => 'Lundi',
+            'tuesday' => 'Mardi',
+            'wednesday' => 'Mercredi',
+            'thursday' => 'Jeudi',
+            'friday' => 'Vendredi',
+            'saturday' => 'Samedi',
+            'sunday' => 'Dimanche',
     ];
 
     $time = $time_start . ' - ' . $time_end;
     $theDay = $days[$day] . ($day2 ? ' & ' . $days[$day2] : '');
 
     $image = !empty($imgId) ?
-        wp_get_attachment_image($imgId, 'full', false, ['class' => 'w-full h-36 md:h-64 object-cover object-center rounded-2xl']) :
-        '<div class="w-full h-36 md:h-64 bg-gray-900/50 rounded-2xl grid place-content-center">
-            Photo des joueurs participant au jeu libre
+            wp_get_attachment_image($imgId, 'full', false, ['class' => 'w-full h-36 md:h-64 object-cover object-center rounded-2xl']) :
+            '<div class="w-full h-36 md:h-64 bg-gray-900/50 rounded-2xl grid place-content-center">
+            Aucune image disponible
          </div>';
 
     echo '<div class="flex flex-col md:flex-row gap-x-4 lg:gap-x-20 gap-y-10 bg-white/50 px-3 lg:px-6 py-6 rounded-2xl shadow-lg items-center">
