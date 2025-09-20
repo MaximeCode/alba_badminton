@@ -222,7 +222,12 @@ function all_judges_custom_column_content($column, $post_id): void
 {
     if ($column == 'judge_img') {
         $image_id = get_post_meta($post_id, 'judge_img_id', true);
-        echo wp_get_attachment_image($image_id ?: 538, array(100, 100));
+        echo wp_get_attachment_image($image_id ?: 523, array(100, 100));
+    }
+
+    if ($column == 'tax_judges_types') {
+        $types = wp_get_post_terms($post_id, 'tax_judges_types', array('fields' => 'names'));
+        echo implode(', ', $types);
     }
 }
 

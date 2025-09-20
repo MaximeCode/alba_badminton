@@ -357,32 +357,17 @@ function get_office_members_by_year($year = null): array
     wp_reset_postdata();
 
     // Trier chaque année par ordre hiérarchique des positions
-    foreach ($members as $year_key => &$year_members) {
-        if (is_array($year_members)) {
-            usort($year_members, function ($a, $b) use ($position_hierarchy) {
-                // Récupérer l'ordre hiérarchique de chaque position
-                $hierarchy_a = $position_hierarchy[$a['position_key']] ?? 99;
-                $hierarchy_b = $position_hierarchy[$b['position_key']] ?? 99;
-
-                // Tri principal par hiérarchie
-                $hierarchy_diff = $hierarchy_a <=> $hierarchy_b;
-
-                // Si même niveau hiérarchique, tri alphabétique par nom
-                if ($hierarchy_diff === 0) {
-                    return strcasecmp($a['name'], $b['name']);
-                }
-
-                return $hierarchy_diff;
-            });
-
-            // Supprimer la clé position_key du résultat final
-            foreach ($year_members as &$member) {
-                unset($member['position_key']);
-            }
+    if ($year === null) {
+        // Cas : toutes les années
+        foreach ($members as $the_year => $year_members) {
+            $members[$the_year] = filterByHierarchy($year_members, $position_hierarchy);
         }
+    } else {
+        // Cas : année spécifique
+        $members = filterByHierarchy($members, $position_hierarchy);
     }
 
-    // Trier le tableau par ordre chronologique des années (seulement si pas d'année spécifiée)
+    // Trier par ordre chronologique si pas d'année spécifiée
     if (!$year && !empty($members)) {
         uksort($members, function ($a, $b) {
             $year_a = (int)substr($a, 0, 4);
@@ -391,7 +376,35 @@ function get_office_members_by_year($year = null): array
         });
     }
 
-    return $members;
+    return $members; // ← Retourner $members, pas $members[0]
+}
+
+function filterByHierarchy(mixed $year_members, array $position_hierarchy): array
+{
+    if (is_array($year_members)) {
+        usort($year_members, function ($a, $b) use ($position_hierarchy) {
+            // Récupérer l'ordre hiérarchique de chaque position
+            $hierarchy_a = $position_hierarchy[$a['position_key']] ?? 99;
+            $hierarchy_b = $position_hierarchy[$b['position_key']] ?? 99;
+
+            // Tri principal par hiérarchie
+            $hierarchy_diff = $hierarchy_a <=> $hierarchy_b;
+
+            // Si même niveau hiérarchique, tri alphabétique par nom
+            if ($hierarchy_diff === 0) {
+                return strcasecmp($a['name'], $b['name']);
+            }
+
+            return $hierarchy_diff;
+        });
+
+        // Supprimer position_key sans référence
+        foreach ($year_members as $index => $member) {
+            unset($year_members[$index]['position_key']);
+        }
+    }
+
+    return $year_members; // ← Retourner directement, pas array($year_members)
 }
 
 // Rendre la colonne Position triable
@@ -547,7 +560,7 @@ function getPositionHierarchy(): array
         $order = 1;
         while ($query->have_posts()) {
             $query->the_post();
-            $slug = sanitize_title(get_the_title());
+            $slug = get_post()->post_name;
             $custom_order = get_post_meta(get_the_ID(), '_position_hierarchy', true) ?: $order;
             $hierarchy[$slug] = (int)$custom_order;
             $order++;
@@ -600,45 +613,45 @@ function office_position_custom_column_content($column, $post_id)
 
 add_action('manage_office_position_posts_custom_column', 'office_position_custom_column_content', 10, 2);
 
-// Fonction pour créer les positions par défaut (à exécuter une seule fois)
-function create_default_positions()
-{
-    $default_positions = [
-            ['title' => 'Président(e)', 'hierarchy' => 1],
-            ['title' => 'Vice-président(e)', 'hierarchy' => 2],
-            ['title' => 'Secrétaire', 'hierarchy' => 3],
-            ['title' => 'Secrétaire adjoint(e)', 'hierarchy' => 4],
-            ['title' => 'Trésorier(e)', 'hierarchy' => 5],
-            ['title' => 'Membre', 'hierarchy' => 6],
-    ];
+//// Fonction pour créer les positions par défaut (à exécuter une seule fois)
+//function create_default_positions()
+//{
+//    $default_positions = [
+//            ['title' => 'Président(e)', 'hierarchy' => 1],
+//            ['title' => 'Vice-président(e)', 'hierarchy' => 2],
+//            ['title' => 'Secrétaire', 'hierarchy' => 3],
+//            ['title' => 'Secrétaire adjoint(e)', 'hierarchy' => 4],
+//            ['title' => 'Trésorier(e)', 'hierarchy' => 5],
+//            ['title' => 'Membre', 'hierarchy' => 6],
+//    ];
+//
+//    foreach ($default_positions as $position) {
+//        $post_id = wp_insert_post([
+//                'post_title' => $position['title'],
+//                'post_type' => 'office_position',
+//                'post_status' => 'publish'
+//        ]);
+//
+//        if ($post_id) {
+//            update_post_meta($post_id, '_position_hierarchy', $position['hierarchy']);
+//        }
+//    }
+//}
+//
+//// Hook pour créer les positions par défaut à l'activation du plugin
+//register_activation_hook(__FILE__, function () {
+//    // Créer les post types d'abord
+//    create_office_positions_post_type();
+//    office_members_post_type();
+//
+//    // Flush les règles de réécriture
+//    flush_rewrite_rules();
+//
+//    // Créer les positions par défaut
+//    create_default_positions();
+//});
 
-    foreach ($default_positions as $position) {
-        $post_id = wp_insert_post([
-                'post_title' => $position['title'],
-                'post_type' => 'office_position',
-                'post_status' => 'publish'
-        ]);
-
-        if ($post_id) {
-            update_post_meta($post_id, '_position_hierarchy', $position['hierarchy']);
-        }
-    }
-}
-
-// Hook pour créer les positions par défaut à l'activation du plugin
-register_activation_hook(__FILE__, function () {
-    // Créer les post types d'abord
-    create_office_positions_post_type();
-    office_members_post_type();
-
-    // Flush les règles de réécriture
-    flush_rewrite_rules();
-
-    // Créer les positions par défaut
-    create_default_positions();
-});
-
-// SOLUTION ALTERNATIVE : Bouton AJAX pour créer rapidement un poste
+// Bouton de création d'un poste
 function add_quick_position_button()
 {
     global $current_screen;

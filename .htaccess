@@ -1,4 +1,3 @@
-
 # BEGIN WordPress
 # Les directives (lignes) entre « BEGIN WordPress » et « END WordPress » sont générées
 # dynamiquement, et doivent être modifiées uniquement via les filtres WordPress.
@@ -14,3 +13,41 @@ RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
+#
+#
+## ===========================
+## Sécurité supplémentaire
+## ===========================
+#
+## Empêcher l’accès aux fichiers sensibles
+#<FilesMatch "\.(htaccess|htpasswd|env|git|ini|log|conf|bak|sh|sql)$">
+#  Require all denied
+#</FilesMatch>
+#
+## Protéger le fichier wp-config.php
+#<Files wp-config.php>
+#  Require all denied
+#</Files>
+#
+## Désactiver l’exécution des scripts PHP dans certains dossiers
+#<Directory "wp-content/uploads">
+#  <FilesMatch "\.php$">
+#    Require all denied
+#  </FilesMatch>
+#</Directory>
+#
+## Bloquer l’accès aux fichiers XML-RPC si vous ne les utilisez pas
+#<Files xmlrpc.php>
+#  Require all denied
+#</Files>
+#
+## Empêcher la navigation dans les répertoires
+#Options -Indexes
+#
+## Désactiver la signature du serveur Apache
+#ServerSignature Off
+#
+## Limiter l'accès au fichier readme.html de WordPress
+#<Files readme.html>
+#  Require all denied
+#</Files>

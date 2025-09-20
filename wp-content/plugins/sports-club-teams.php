@@ -46,28 +46,7 @@ function sports_club_team_post_type(): void
 
 add_action('init', 'sports_club_team_post_type');
 
-// Create category for team articles on plugin activation
-function sports_club_create_team_category()
-{
-    $category_name = "Les équipes d'interclubs";
-    $category_slug = 'equipes-interclubs';
-
-    // Check if category already exists
-    $existing_category = get_category_by_slug($category_slug);
-
-    if (!$existing_category) {
-        wp_insert_term(
-                $category_name,
-                'category',
-                array(
-                        'slug' => $category_slug,
-                        'description' => 'Articles des équipes d\'interclubs'
-                )
-        );
-    }
-}
-
-register_activation_hook(__FILE__, 'sports_club_create_team_category');
+// No longer needed - using custom post type directly
 
 // Add Custom Meta Boxes for Team Details
 function sports_club_team_meta_boxes(): void
@@ -93,7 +72,6 @@ function render_team_details_meta_box($post): void
     $captain = get_post_meta($post->ID, '_sports_team_captain', true);
     $team_image_id = get_post_meta($post->ID, '_sports_team_image', true);
     $team_season = get_post_meta($post->ID, '_sports_team_season', true);
-    $linked_article_id = get_post_meta($post->ID, '_sports_team_article_id', true);
 
     $args = array(
             'post_type' => 'sports_team',
@@ -190,27 +168,6 @@ function render_team_details_meta_box($post): void
                     <p class="description">Entrez les noms des joueurs, un par ligne.<br><strong>Ne pas ajouter le capitaine.</strong></p>
                 </td>
             </tr>
-            <?php if ($linked_article_id): ?>
-                <tr>
-                    <th><label>Article lié :</label></th>
-                    <td>
-                        <?php
-                        $article = get_post($linked_article_id);
-                        if ($article && $article->post_status !== 'trash'):
-                            ?>
-                            <a href="<?php echo get_edit_post_link($linked_article_id); ?>" target="_blank">
-                                📝 <?php echo esc_html($article->post_title); ?>
-                            </a>
-                            <br>
-                            <a href="<?php echo get_permalink($linked_article_id); ?>" target="_blank">
-                                👁️ Voir l'article
-                            </a>
-                        <?php else: ?>
-                            <span style="color: red;">Article supprimé ou introuvable</span>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endif; ?>
         </table>
         <ol>
             <p style="font-size: 20px; font-weight: bold">Liste de toutes les équipes actuelles et leur position :</p>
@@ -301,7 +258,7 @@ function save_sports_team_meta_data($post_id): void
         update_post_meta(
                 $post_id,
                 '_sports_team_players',
-                $players ?: array()
+                $players ? $players : array()
         );
     }
 
@@ -349,82 +306,9 @@ function save_sports_team_meta_data($post_id): void
                 $new_order
         );
     }
-
-    // Create or update linked article
-    create_or_update_team_article($post_id);
 }
 
 add_action('save_post_sports_team', 'save_sports_team_meta_data');
-
-// Create or update team article
-function create_or_update_team_article($team_id)
-{
-    $team_post = get_post($team_id);
-    if (!$team_post) return;
-
-    $team_title = $team_post->post_title;
-    $team_season = get_post_meta($team_id, '_sports_team_season', true);
-    $linked_article_id = get_post_meta($team_id, '_sports_team_article_id', true);
-
-    // Get team category
-    $category = get_category_by_slug('equipes-interclubs');
-    if (!$category) {
-        sports_club_create_team_category();
-        $category = get_category_by_slug('equipes-interclubs');
-    }
-
-    $article_title = $team_title . ($team_season ? ' - Saison ' . $team_season : '');
-
-    // Check if article exists
-    if ($linked_article_id) {
-        $existing_article = get_post($linked_article_id);
-        if ($existing_article && $existing_article->post_status !== 'trash') {
-            // Update existing article
-            wp_update_post(array(
-                    'ID' => $linked_article_id,
-                    'post_title' => $article_title,
-            ));
-            return;
-        }
-    }
-
-    // Create new article
-    $captain = get_post_meta($team_id, '_sports_team_captain', true);
-    $players = get_post_meta($team_id, '_sports_team_players', true);
-
-    $content = '<h2>Composition de l\'équipe</h2>';
-    if ($captain) {
-        $content .= '<p><strong>Capitaine :</strong> ' . esc_html($captain) . '</p>';
-    }
-
-    if ($players && is_array($players)) {
-        $content .= '<p><strong>Joueurs :</strong></p><ul>';
-        foreach ($players as $player) {
-            $content .= '<li>' . esc_html($player) . '</li>';
-        }
-        $content .= '</ul>';
-    }
-
-    $content .= '<p><em>Cette page sera enrichie avec les actualités et résultats de l\'équipe.</em></p>';
-
-    $article_data = array(
-            'post_title' => $article_title,
-            'post_content' => $content,
-            'post_status' => 'draft', // Created as draft
-            'post_type' => 'post',
-            'post_category' => array($category->term_id)
-    );
-
-    $article_id = wp_insert_post($article_data);
-
-    if ($article_id && !is_wp_error($article_id)) {
-        // Link article to team
-        update_post_meta($team_id, '_sports_team_article_id', $article_id);
-
-        // Add team reference to article
-        update_post_meta($article_id, '_linked_team_id', $team_id);
-    }
-}
 
 // Enqueue Scripts for Media Upload
 function sports_team_admin_scripts($hook): void
@@ -495,7 +379,6 @@ function sports_team_custom_columns($columns): array
             'season' => 'Saison',
             'captain' => 'Capitaine',
             'team_image' => 'Photo',
-            'linked_article' => 'Article',
             'date' => 'Date'
     );
 }
@@ -526,23 +409,6 @@ function sports_team_custom_column_content($column, $post_id): void
         case 'team_order':
             $team_order = get_post_meta($post_id, '_sports_team_order', true);
             echo esc_html($team_order);
-            break;
-
-        case 'linked_article':
-            $article_id = get_post_meta($post_id, '_sports_team_article_id', true);
-            if ($article_id) {
-                $article = get_post($article_id);
-                if ($article && $article->post_status !== 'trash') {
-                    $status_icon = $article->post_status === 'publish' ? '✅' : '📝';
-                    echo '<a href="' . get_edit_post_link($article_id) . '" title="Modifier l\'article">';
-                    echo $status_icon . ' ' . esc_html($article->post_title);
-                    echo '</a>';
-                } else {
-                    echo '<span style="color: red;">❌ Article supprimé</span>';
-                }
-            } else {
-                echo '<span style="color: orange;">Aucun article</span>';
-            }
             break;
     }
 }
@@ -597,39 +463,3 @@ function set_default_sports_team_query_ordering($query): void
 }
 
 add_action('pre_get_posts', 'set_default_sports_team_query_ordering');
-
-// Delete linked article when team is deleted
-function delete_linked_article_on_team_deletion($post_id)
-{
-    if (get_post_type($post_id) === 'sports_team') {
-        $linked_article_id = get_post_meta($post_id, '_sports_team_article_id', true);
-        if ($linked_article_id) {
-            wp_delete_post($linked_article_id, true); // Force delete
-        }
-    }
-}
-
-add_action('before_delete_post', 'delete_linked_article_on_team_deletion');
-
-// Add admin notice for new articles created
-function sports_team_admin_notices()
-{
-    if (isset($_GET['post']) && isset($_GET['message']) && $_GET['message'] == '1') {
-        $post_id = intval($_GET['post']);
-        if (get_post_type($post_id) === 'sports_team') {
-            $article_id = get_post_meta($post_id, '_sports_team_article_id', true);
-            if ($article_id) {
-                $article = get_post($article_id);
-                if ($article) {
-                    echo '<div class="notice notice-info is-dismissible">';
-                    echo '<p>✅ Article créé automatiquement : ';
-                    echo '<a href="' . get_edit_post_link($article_id) . '">' . esc_html($article->post_title) . '</a>';
-                    echo ' (Statut: Brouillon)</p>';
-                    echo '</div>';
-                }
-            }
-        }
-    }
-}
-
-add_action('admin_notices', 'sports_team_admin_notices');

@@ -29,8 +29,8 @@ $currentOffice = get_office_members_by_year('2025-2026');
 
             <figure class="mb-12 relative">
                 <?= wp_get_attachment_image($image_id, '', false, array(
-                    'loading' => 'lazy',
-                    'class' => "w-full h-full rounded-2xl object-cover object-center",
+                        'loading' => 'lazy',
+                        'class' => "w-full h-full rounded-2xl object-cover object-center",
                 )); ?>
                 <figcaption class="leading-none p-2 md:p-6 text-center text-lg md:text-2xl italic font-bold
                         text-white absolute bottom-0 z-20 w-full bg-primary-blue/50 rounded-b-2xl">
