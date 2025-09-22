@@ -25,11 +25,11 @@ wp-content/debug.log
 
 # Ignorer les plugins et thèmes non personnalisés
 wp-content/plugins/*
-!wp-content/plugins/sports-club-teams.php
-!wp-content/plugins/old_members_plugin.php
-!wp-content/plugins/gallery_events_plugin.php
-!wp-content/plugins/judges_plugin.php
-!wp-content/plugins/schedules_plugin.php
+!wp-content/plugins/sports-club-teams/sports-club-teams.php
+!wp-content/plugins/old_members/old_members.php
+!wp-content/plugins/gallery_events/gallery_events.php
+!wp-content/plugins/judges/judges.php
+!wp-content/plugins/schedules/schedules.php
 
 # Ignorer les fichiers de configuration sensibles
 wp-config.php
