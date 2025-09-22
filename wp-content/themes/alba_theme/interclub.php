@@ -47,11 +47,19 @@ function display_sports_teams(): false|string
     <h1 class="text-3xl font-bold my-12 underline text-primary-blue decoration-primary-blue">Saison <?= $season ?></h1>
 
     <div class="flex flex-wrap justify-around gap-x-12 lg:gap-x-24 gap-y-12">
-        <?php foreach ($teamsInSeason as $team): ?>
+        <?php foreach ($teamsInSeason as $postId => $team): ?>
             <div class="team-card">
                 <div class="text-center">
                     <h3 class="text-2xl text-primary-blue underline font-bold">
-                        <a href="<?= get_permalink($team['articleId']); ?>"><span><?= $team['teamName'] ?></span></a>
+                        <a href="<?= get_permalink($postId); ?>"
+                           class="inline-flex items-center justify-center gap-2 hover:gap-3 transition-all duration-300 hover:text-blue-600 group">
+                            <span><?= $team['teamName'] ?></span>
+                            <svg class="w-5 h-5 opacity-70 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                      clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
                     </h3>
                     <p class=" text-xl">
                         <span class="font-bold">Capitaine : </span> <?= esc_html($team['captain']); ?>
