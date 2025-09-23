@@ -58,12 +58,6 @@
     function goToOldManagers(theLink, goThere) {
         // enlever l'évènement par défaut
         event.preventDefault();
-        if (goThere === "2024-2025") {
-            // appel la function backToTopButton
-            backToTopButton.click();
-            // sortir de la fonction
-            return;
-        }
         document.getElementById(goThere).scrollIntoView({behavior: "smooth"});
     }
 </script>

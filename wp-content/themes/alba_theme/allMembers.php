@@ -53,7 +53,7 @@ $allMembers = get_office_members_by_year();
                                 ucwords($member['position']),
                                 wp_get_attachment_image((!empty($member['image_id']) ? $member['image_id'] : 523), '', false, array(
                                         'loading' => 'lazy',
-                                        'class' => "w-1/2 max-w-56 m-auto rounded-2xl transform transition duration-300 ease-in-out hover:scale-105 row-span-2",
+                                        'class' => "w-1/2 max-w-56 m-auto rounded-2xl transform transition-300 ease-in-out hover:scale-105 row-span-2",
                                 )),
                                 ucwords($member['name'])
                         );
@@ -62,12 +62,28 @@ $allMembers = get_office_members_by_year();
                 } ?>
             </div>
         </div>
-
-        <div class="text-center mt-10">
-            <p class="text-lg italic">Tous les membres ne sont pas encore ajoutés, un peu de patience... 😉</p>
-        </div>
     </section>
 
+    <!-- Section d'information contact -->
+    <div class="mt-16 flex justify-center">
+        <a href="<?= get_permalink(134); ?>" class="group max-w-2xl w-full">
+            <div class="bg-primary-blue border border-primary-blue rounded-2xl shadow-2xl p-6 w-full text-center flex flex-col items-center gap-4 cursor-pointer transition-colors duration-200 group-hover:bg-white group-hover:text-primary-blue group-hover:border-primary-blue group-active:scale-95 group-focus:bg-white group-focus:text-primary-blue group-active:border-transparent">
+                <svg class="h-10 w-10 text-white group-hover:text-primary-blue group-focus:text-primary-blue mb-2 transition-colors duration-200" fill="none"
+                     aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" stroke="currentColor"
+                     viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M4 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h1v2a1 1 0 0 0 1.707.707L9.414 13H15a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4Z"
+                          clip-rule="evenodd"/>
+                    <path fill-rule="evenodd"
+                          d="M8.023 17.215c.033-.03.066-.062.098-.094L10.243 15H15a3 3 0 0 0 3-3V8h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-1v2a1 1 0 0 1-1.707.707L14.586 18H9a1 1 0 0 1-.977-.785Z"
+                          clip-rule="evenodd"/>
+                </svg>
+                <h4 class="text-xl font-bold text-white group-hover:text-primary-blue group-focus:text-primary-blue transition-colors duration-200">Besoin de contacter un
+                    membre du bureau ?</h4>
+                <p class="text-lg text-white group-hover:text-primary-blue group-focus:text-primary-blue transition-colors duration-200">Utilisez la page de contact pour
+                    joindre la personne de votre choix !</p>
+            </div>
+        </a>
+    </div>
 
 <?php
 get_footer();
