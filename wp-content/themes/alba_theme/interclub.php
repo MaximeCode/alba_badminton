@@ -9,8 +9,8 @@ function display_sports_teams(): false|string
             'post_type' => 'sports_team',
             'posts_per_page' => -1,
             'orderby' => 'meta_value_num',
-            'meta_key' => '_sports_team_order',
-            'order' => 'ASC',
+            'meta_key' => '_sports_team_season',
+            'order' => 'DESC',
     );
 
     // Récupération de toutes les équipes
@@ -64,7 +64,7 @@ function display_sports_teams(): false|string
                     <p class=" text-xl">
                         <span class="font-bold">Capitaine : </span> <?= esc_html($team['captain']); ?>
                     </p>
-                    <div class="text-lg">
+                    <div class="text-lg max-w-xl">
                         <span class="font-bold">Joueurs/ses : </span>
                         <p><?php
                             if (!empty($team['players'])) {
@@ -79,7 +79,7 @@ function display_sports_teams(): false|string
                     <?php if (!empty($team['img'])) {
                         echo wp_get_attachment_image($team['img'], 'large', false, [
                                 'loading' => 'lazy',
-                                'class' => 'lightbox-trigger cursor-pointer rounded-xl w-full h-96 object-cover object-center',
+                                'class' => 'lightbox-trigger cursor-pointer rounded-xl w-full h-96 object-scale-down object-center',
                                 'data-full-size' => wp_get_attachment_image_src($team['img'], 'full')[0]
                         ]);
                     } else { ?>
