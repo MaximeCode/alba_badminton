@@ -12,7 +12,8 @@ $image_id = get_option('club_family_img');
 $legend = get_option('club_legend_img');
 
 // bureau actuel
-$currentOffice = get_office_members_by_year('2025-2026');
+$saison = array_key_first(get_office_members_by_year());
+$currentOffice = get_office_members_by_year($saison);
 
 ?>
 
@@ -76,7 +77,7 @@ $currentOffice = get_office_members_by_year('2025-2026');
             </p>
 
             <!--Le bureau-->
-            <h3 class="<?= $alba_theme_variables['h3'] ?>">Le bureau 2024 - 2025</h3>
+            <h3 class="<?= $alba_theme_variables['h3'] ?>">Le bureau <?= $saison ?></h3>
             <!--Tous les membres-->
             <?php showGridBureau($currentOffice); ?>
 

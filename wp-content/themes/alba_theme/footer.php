@@ -37,6 +37,24 @@
 </a>
 
 <script>
+    // Fonction pour ajuster la position du dropdown
+    function adjustDropdownPlacement() {
+        const ddGallery = document.getElementById('dropdownGalerie');
+        // Si la taille de l'écran est inférieure à 768px, le placement est "bottom"
+        if (window.innerWidth < 768) {
+            ddGallery.setAttribute('data-dropdown-offset-skidding', '-100');
+        } else {
+            // Sinon, le placement est "right-end"
+            ddGallery.setAttribute('data-dropdown-offset-skidding', '0');
+        }
+    }
+
+    // Écouteur pour charger la bonne position au chargement de la page
+    document.addEventListener('DOMContentLoaded', adjustDropdownPlacement);
+
+    // Écouteur pour ajuster la position lorsque la taille de l'écran change
+    window.addEventListener('resize', adjustDropdownPlacement);
+
     // Fonction pour afficher/masquer le bouton de retour en haut
     const backToTopButton = document.getElementById("backToTop");
     const pxFromTop = 300;

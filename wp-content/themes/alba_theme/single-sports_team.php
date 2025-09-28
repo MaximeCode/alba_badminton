@@ -16,6 +16,7 @@ get_header(); ?>
         if (have_posts()) :
             while (have_posts()) : the_post();
                 $url_iframe = get_post_meta(get_the_ID(), '_interclub_iframe_url', true);
+                $season = get_post_meta(get_the_ID(), '_sports_team_season', true);
                 echo '<h2 class="text-4xl font-bold mb-4 inline-flex space-x-12"><span>' . get_the_title() . '</span><span>' . ($url_iframe ? '<!--Spinner Flowbite-->
                     <div role="status" id="iframe-spinner">
                         <svg aria-hidden="true" class="relative top-1 w-8 h-8 text-white animate-spin fill-primary-blue" viewBox="0 0 100 101" fill="none"
@@ -33,6 +34,7 @@ get_header(); ?>
                 echo("</div>");
 
                 if ($url_iframe) : ?>
+                    <h2 class="text-2xl text-primary-blue font-bold" style="margin: 15px 0 40px 0">Résultat de l'équipe pour la saison <?= $season ?> :</h2>
                     <iframe id="interclub-iframe" width="100%" height="900px" src="<?= esc_url($url_iframe) ?>"></iframe>
                 <?php endif;
             endwhile;

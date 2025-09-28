@@ -21,7 +21,7 @@ $partners = rwmb_meta($prefix . 'img_id');
 ?>
 
     <section>
-        <div class="grid grid-cols-1 gap-y-16 xl:gap-x-28 xl:grid-cols-2 2xl:gap-x-48 min-h-[75vh]">
+        <main class="grid grid-cols-1 gap-y-16 xl:gap-x-28 xl:grid-cols-2 2xl:gap-x-48 min-h-[75vh]">
             <!--Left Col-->
             <div class="col text-primary-blue flex flex-col items-center justify-between space-y-8 text-center bg-white rounded-2xl py-10 px-5">
                 <h1 class="text-3xl md:text-4xl font-bold tracking-wide text-balance">
@@ -33,16 +33,16 @@ $partners = rwmb_meta($prefix . 'img_id');
 
             <!--Right Col-->
             <div class="col text-primary-blue flex flex-col items-center justify-between space-y-8 bg-white rounded-2xl p-10 px-5">
-                <h1 class="text-3xl md:text-4xl italic text-center font-bold tracking-wide underline">
+                <h2 class="text-3xl md:text-4xl italic text-center font-bold tracking-wide underline">
                     Derni&egrave;re actualit&eacute; :
-                </h1>
+                </h2>
                 <?php
                 // Paramètres pour récupérer les 3 derniers articles
                 $args = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 1,
-                    'orderby' => 'date',
-                    'order' => 'DESC',
+                        'post_type' => 'post',
+                        'posts_per_page' => 1,
+                        'orderby' => 'date',
+                        'order' => 'DESC',
                 );
 
                 $query = new WP_Query($args);
@@ -53,8 +53,7 @@ $partners = rwmb_meta($prefix . 'img_id');
                            class="w-full md:max-w-lg transform transition duration-300 ease-in-out hover:scale-105">
                             <h3 class="text-center mb-4 text-2xl"><?= get_the_title() ?></h3>
                             <?php echo wp_get_attachment_image(get_post_thumbnail_id(), '', false, array(
-                                'loading' => 'lazy',
-                                'class' => "lg:max-h-[450px] object-scale-down rounded-2xl",
+                                    'class' => "lg:max-h-[450px] object-scale-down object-center rounded-2xl mx-auto",
                             )); ?>
                         </a>
                         <?= primaryButton(get_the_ID(), "Voir l'article complet");
@@ -63,7 +62,7 @@ $partners = rwmb_meta($prefix . 'img_id');
                 endif;
                 ?>
             </div>
-        </div>
+        </main>
 
         <div class="flex items-center justify-center">
             <a href="#stats" class="mt-6" id="goToStats">
@@ -84,20 +83,20 @@ $partners = rwmb_meta($prefix . 'img_id');
             $nbMembers = get_option('club_members_count');
             $age = date('Y') - 1987;
             $args = array(
-                'post_type' => 'sports_team',
-                'posts_per_page' => -1,
-                'orderby' => 'meta_value_num',
-                'meta_key' => '_sports_team_order',
-                'order' => 'ASC',
+                    'post_type' => 'sports_team',
+                    'posts_per_page' => -1,
+                    'orderby' => 'meta_value_num',
+                    'meta_key' => '_sports_team_order',
+                    'order' => 'ASC',
             );
             $teams = new WP_Query($args);
             $nbInterclubs = $teams->post_count;
 
             $stats = [
-                ["$nbMembers+", 'Membres'],
-                [7, 'Terrains'],
-                [$age, 'Ans'],
-                [$nbInterclubs, 'Équipes']
+                    ["$nbMembers+", 'Membres'],
+                    [7, 'Terrains'],
+                    [$age, 'Ans'],
+                    [6, 'Équipes']
             ];
 
             foreach ($stats as $stat) : ?>
@@ -110,17 +109,17 @@ $partners = rwmb_meta($prefix . 'img_id');
     </section>
 
     <!-- Add section with the 3 last articles published --> <!-- ! FINISHED !-->
-    <section class="py-10">
+    <article class="py-10">
         <div>
             <h2 class="mb-8 text-3xl font-extrabold underline">Les derniers articles publiés :</h2>
             <div class="grid gap-y-12">
                 <?php
                 // Paramètres pour récupérer les 3 derniers articles sans le dernier article
                 $arguments = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 1,
-                    'orderby' => 'date',
-                    'order' => 'DESC',
+                        'post_type' => 'post',
+                        'posts_per_page' => 1,
+                        'orderby' => 'date',
+                        'order' => 'DESC',
                 );
                 $theQuery = new WP_Query($arguments);
 
@@ -132,11 +131,11 @@ $partners = rwmb_meta($prefix . 'img_id');
                 endif;
 
                 $args = array(
-                    'post_type' => 'post',
-                    'posts_per_page' => 3,
-                    'orderby' => 'date',
-                    'order' => 'DESC',
-                    'post__not_in' => array($idOfLastPost),
+                        'post_type' => 'post',
+                        'posts_per_page' => 3,
+                        'orderby' => 'date',
+                        'order' => 'DESC',
+                        'post__not_in' => array($idOfLastPost),
                 );
 
                 $query = new WP_Query($args);
@@ -181,7 +180,7 @@ $partners = rwmb_meta($prefix . 'img_id');
             </div>
 
         </div>
-    </section>
+    </article>
 
     <!-- Add section with all partnaires -->
     <section class="py-10">
@@ -198,7 +197,7 @@ $partners = rwmb_meta($prefix . 'img_id');
                             foreach ($key as $img_id) {
                                 echo "<div class='slide'>";
                                 echo wp_get_attachment_image($img_id, 'large', false, array(
-                                    'class' => 'w-4/5 h-48 object-contain mx-auto has-transparency',
+                                        'class' => 'w-4/5 h-48 object-contain mx-auto has-transparency',
                                 ));
                                 echo "</div>";
                             }
