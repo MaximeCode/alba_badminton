@@ -30,7 +30,7 @@ get_header(); ?>
                     </div>' : '') . '</span></h2>';
 
                 echo("<div class='prose text-lg lg:text-xl'>");
-                the_content(); // Affiche le contenu de l'article
+                the_content(); // Affiche le contenu
                 echo("</div>");
 
                 if ($url_iframe) : ?>
@@ -48,8 +48,8 @@ get_header(); ?>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var iframe = document.getElementById('interclub-iframe');
-        var spinner = document.getElementById('iframe-spinner');
+        const iframe = document.getElementById('interclub-iframe');
+        const spinner = document.getElementById('iframe-spinner');
         iframe.addEventListener('load', function () {
             spinner.style.display = 'none';
         });

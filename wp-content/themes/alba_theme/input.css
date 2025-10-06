@@ -45,6 +45,18 @@ Text Domain: ALBA_theme
     @apply max-w-full max-h-full object-contain;
 }
 
+/* Gestion des vidéos */
+.wp-block-video video {
+    max-width: 75%;
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+    .wp-block-video video {
+        max-width: 100%;
+    }
+}
+
 /* Animation of club title in presLeClub.php */
 
 @keyframes fadeIn {

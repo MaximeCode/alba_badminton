@@ -1,5 +1,7 @@
 <?php
 
+$capability = 'edit_posts';
+
 // Button used a lot of times
 function primaryButton(int $idPage, string $text, ?string $paramName = null, ?string $paramValue = null, ?string $classSup = null): string
 {
@@ -12,19 +14,18 @@ function primaryButton(int $idPage, string $text, ?string $paramName = null, ?st
 // Toutes les variables globales de mon thème sont déclarées ici
 function alba_theme_variables(): array
 {
-  $mainColor = "pink-400";
   return [
-    'h3' => "mb-4 text-3xl underline decoration-$mainColor",
+    'h3' => "mb-4 text-3xl underline decoration-oct-rose",
     'animCardNews' => "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-10 hover:scale-105",
     'animRotateArrow' => "transform transition-transform duration-500 group-hover:rotate-180",
     'animBase' => "transform transition duration-200 ease-in-out",
-    'classLi' => "block py-2 px-3 rounded transform transition duration-200 ease-in-out hover:bg-white hover:text-$mainColor md:py-3",
-    'classDivDropdown' => "z-10 hidden font-normal bg-$mainColor rounded-lg shadow-box-dropdown w-44 border-white border-6",
-    'classLiDropdown' => "flex items-center justify-between w-full py-2 px-3 rounded transform transition duration-200 ease-in-out group-hover:bg-white group-hover:text-$mainColor lg:w-auto lg:py-3 uppercase",
-    'classLiSubDropdown' => "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-$mainColor",
+    'classLi' => "block py-2 px-3 rounded transform transition duration-200 ease-in-out hover:bg-white hover:text-oct-rose md:py-3",
+    'classDivDropdown' => "z-10 hidden font-normal bg-oct-rose rounded-lg shadow-box-dropdown w-44 border-white border-6",
+    'classLiDropdown' => "flex items-center justify-between w-full py-2 px-3 rounded transform transition duration-200 ease-in-out group-hover:bg-white group-hover:text-oct-rose lg:w-auto lg:py-3 uppercase",
+    'classLiSubDropdown' => "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-oct-rose",
     'classBtn' => "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out",
-    'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-$mainColor border-$mainColor text-$mainColor rounded-full text-base",
-    'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-$mainColor",
+    'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-oct-rose border-oct-rose text-oct-rose rounded-full text-base",
+    'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-oct-rose",
   ];
 }
 
@@ -419,10 +420,11 @@ function display_titlePage(): string
 
 // Add the menu page (club settings)
 add_action('admin_menu', function () {
+  global $capability;
   add_menu_page(
     esc_html__('Paramètres du club', 'alba_theme'),
     esc_html__('Paramètres du club', 'alba_theme'),
-    'manage_options',
+    $capability,
     'club-settings',
     'render_club_settings_page',
     'dashicons-admin-settings',

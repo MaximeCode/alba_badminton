@@ -28,18 +28,38 @@ function display_sports_teams(): false|string
             $allSeasons[$season][get_the_ID()]['captain'] = get_post_meta(get_the_ID(), '_sports_team_captain', true); // $allSeasons[2024-2025][233]['captain'] = "Adrien UJHELY"
             $allSeasons[$season][get_the_ID()]['img'] = get_post_meta(get_the_ID(), '_sports_team_image', true); // $allSeasons[2024-2025][233]['img'] = 547
             $allSeasons[$season][get_the_ID()]['players'] = get_post_meta(get_the_ID(), '_sports_team_players', true); // $allSeasons[2024-2025][233]['players'] = array("Amandine CHAINEAU", "Joueur 2", "Joueur 3")
-            $allSeasons[$season][get_the_ID()]['articleId'] = get_post_meta(get_the_ID(), '_sports_team_article_id', true); // $allSeasons[2024-2025][233]['articleId'] = 679
+            $allSeasons[$season][get_the_ID()]['order'] = get_post_meta(get_the_ID(), '_sports_team_order', true);
         }
     } else {
         echo 'No teams found.';
     }
 
-    wp_reset_postdata();
+    // Trier les équipes de chaque saison par order
+    foreach ($allSeasons as $season => &$teamsInSeason) {
+        // Convertir en tableau indexé pour pouvoir trier
+        $teams_array = [];
+        foreach ($teamsInSeason as $postId => $teamData) {
+            $teams_array[] = array_merge($teamData, ['postId' => $postId]);
+        }
 
-//    echo "<pre>";
-//    var_dump($allSeasons);
-//    echo "</pre>";
-//    die();
+        // Trier par order (ordre croissant)
+        usort($teams_array, function ($a, $b) {
+            $order_a = intval($a['order'] ?: 999); // 999 si pas d'ordre défini
+            $order_b = intval($b['order'] ?: 999);
+            return $order_a <=> $order_b;
+        });
+
+        // Reconstruire le tableau avec les postId comme clés
+        $teamsInSeason = [];
+        foreach ($teams_array as $team) {
+            $postId = $team['postId'];
+            unset($team['postId']); // Enlever la clé temporaire
+            $teamsInSeason[$postId] = $team;
+        }
+    }
+    unset($teamsInSeason); // Détruire la référence
+
+    wp_reset_postdata();
 
     ob_start();
     ?>
@@ -64,7 +84,7 @@ function display_sports_teams(): false|string
                     <p class=" text-xl">
                         <span class="font-bold">Capitaine : </span> <?= esc_html($team['captain']); ?>
                     </p>
-                    <div class="text-lg max-w-xl">
+                    <div class="text-lg max-w-xl mx-auto">
                         <span class="font-bold">Joueurs/ses : </span>
                         <p><?php
                             if (!empty($team['players'])) {

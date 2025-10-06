@@ -86,13 +86,15 @@ function render_team_details_meta_box($post): void
     $teamCount = $teams->post_count;
 
     $team_order = get_post_meta($post->ID, '_sports_team_order', true);
-    $theteamOrderValue = $team_order ? $team_order : $teamCount + 1;
+    $theTeamOrderValue = $team_order ?: $teamCount + 1;
 
-    // Get current season if not set
-    if (!$team_season) {
-        $current_year = date('Y');
-        $next_year = $current_year + 1;
-        $team_season = $current_year . '-' . $next_year;
+    if ($teams->have_posts()) {
+        while ($teams->have_posts()) {
+            $teams->the_post();
+            $current_season = get_post_meta(get_the_ID(), '_sports_team_season', true);
+            $teamsBySeasons[$current_season][] = [get_the_title(), get_the_ID()];
+        }
+        wp_reset_postdata();
     }
 
     ?>
@@ -150,7 +152,7 @@ function render_team_details_meta_box($post): void
                 <th><label for="team_order">Position de l'équipe sur la page :</label></th>
                 <td>
                     <input type="number" id="team_order" name="team_order"
-                           value="<?php echo esc_attr($theteamOrderValue); ?>"
+                           value="<?php echo esc_attr($theTeamOrderValue); ?>"
                            class="regular-text">
                 </td>
             </tr>
@@ -169,27 +171,24 @@ function render_team_details_meta_box($post): void
                 </td>
             </tr>
         </table>
-        <ol>
-            <p style="font-size: 20px; font-weight: bold">Liste de toutes les équipes actuelles et leur position :</p>
-            <!--Show all teams in order of position-->
-            <?php
-            if ($teams->have_posts()) {
-                while ($teams->have_posts()) {
-                    $teams->the_post();
-                    $current_season = get_post_meta(get_the_ID(), '_sports_team_season', true);
-                    ?>
-                    <li style="margin-left: 20px; font-size: medium">
-                        <strong><?php the_title(); ?></strong>
-                        <?php if ($current_season): ?>
-                            <span style="color: #666; font-size: small;">(<?php echo esc_html($current_season); ?>)</span>
-                        <?php endif; ?>
-                    </li>
+        <?php if (isset($teamsBySeasons)) { ?>
+            <div>
+                <p style="font-size: 20px; font-weight: bolder">Liste de toutes les équipes actuelles et leur position : (<?= get_the_title() ?>)</p>
+                <!--Show all teams in order of position-->
+                <div style="margin-left: 20px">
                     <?php
-                }
-                wp_reset_postdata();
-            }
-            ?>
-        </ol>
+                    foreach ($teamsBySeasons as $season => $teams) {
+                        echo "<span style='font-size: 18px; font-weight: bold'>Saison " . $season . " :</span>";
+                        echo "<ol>";
+                        foreach ($teams as $team) {
+                            echo "<li style='font-size: 16px; " . ($team[1] === $post->ID ? 'text-decoration: underline' : '') . "'>" . $team[0] . "</li>";
+                        }
+                        echo "</ol>";
+                    }
+                    ?>
+                </div>
+            </div>
+        <?php } ?>
     </div>
 
     <?php
@@ -265,6 +264,7 @@ function save_sports_team_meta_data($post_id): void
     // Save Team Order
     if (isset($_POST['team_order'])) {
         $new_order = intval($_POST['team_order']);
+        $seasonOfNewOrder = intval($_POST['team_season']);
         $args = array(
                 'post_type' => 'sports_team',
                 'posts_per_page' => -1,
@@ -280,15 +280,16 @@ function save_sports_team_meta_data($post_id): void
         // Collect existing team orders
         while ($teams_query->have_posts()) {
             $teams_query->the_post();
+            $current_team_season = intval(get_post_meta(get_the_ID(), '_sports_team_season', true));
             $current_team_order = intval(get_post_meta(get_the_ID(), '_sports_team_order', true));
-            $existing_teams[get_the_ID()] = $current_team_order;
+            $existing_teams[$current_team_season][get_the_ID()] = $current_team_order;
         }
         wp_reset_postdata();
 
         // Check if the new order is already taken
-        if (in_array($new_order, $existing_teams)) {
+        if (in_array($new_order, $existing_teams[$seasonOfNewOrder])) {
             // Shift orders for teams at or above the new order
-            foreach ($existing_teams as $team_id => $team_order) {
+            foreach ($existing_teams[$seasonOfNewOrder] as $team_id => $team_order) {
                 if ($team_order >= $new_order) {
                     update_post_meta(
                             $team_id,

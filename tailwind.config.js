@@ -26,6 +26,7 @@ module.exports = {
         "primary-blue": "#1FA2DA",
         "secondary-blue": "#0A4E8F",
         "back-blue": "rgba(31,162,218,0.15)",
+        "oct-rose": "#F26E9C",
       },
       boxShadow: {
         "box-dropdown": "0px 0px 17px 0px rgba(31,162,218,0.5);",
