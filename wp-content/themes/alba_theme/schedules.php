@@ -93,7 +93,6 @@ function showTraining(string $title, int $difficult, string $desc, string $day, 
                 foreach ($training as $slot) {
                     showTraining($slot['title'], $slot['difficulty'], $slot['desc'], $slot['day'], $slot['time_start'], $slot['time_end'], $slot['image_id']);
                 }
-                echo '<p class="pb-8 text-xl text-center text-primary-blue">Les autres séances seront bien ajoutées ! 😉</p>';
             } else {
                 echo '<p class="text-xl">Aucune séance d\'entraînement ajoutée.</p>';
             }

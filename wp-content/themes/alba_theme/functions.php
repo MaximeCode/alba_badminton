@@ -12,18 +12,19 @@ function primaryButton(int $idPage, string $text, ?string $paramName = null, ?st
 // Toutes les variables globales de mon thème sont déclarées ici
 function alba_theme_variables(): array
 {
+  $mainColor = "pink-400";
   return [
-    'h3' => "mb-4 text-3xl underline decoration-primary-blue",
+    'h3' => "mb-4 text-3xl underline decoration-$mainColor",
     'animCardNews' => "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-10 hover:scale-105",
     'animRotateArrow' => "transform transition-transform duration-500 group-hover:rotate-180",
     'animBase' => "transform transition duration-200 ease-in-out",
-    'classLi' => "block py-2 px-3 rounded transform transition duration-200 ease-in-out hover:bg-white hover:text-primary-blue md:py-3",
-    'classDivDropdown' => "z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6",
-    'classLiDropdown' => "flex items-center justify-between w-full py-2 px-3 rounded transform transition duration-200 ease-in-out group-hover:bg-white group-hover:text-primary-blue lg:w-auto lg:py-3 uppercase",
-    'classLiSubDropdown' => "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
+    'classLi' => "block py-2 px-3 rounded transform transition duration-200 ease-in-out hover:bg-white hover:text-$mainColor md:py-3",
+    'classDivDropdown' => "z-10 hidden font-normal bg-$mainColor rounded-lg shadow-box-dropdown w-44 border-white border-6",
+    'classLiDropdown' => "flex items-center justify-between w-full py-2 px-3 rounded transform transition duration-200 ease-in-out group-hover:bg-white group-hover:text-$mainColor lg:w-auto lg:py-3 uppercase",
+    'classLiSubDropdown' => "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-$mainColor",
     'classBtn' => "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out",
-    'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base",
-    'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
+    'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-$mainColor border-$mainColor text-$mainColor rounded-full text-base",
+    'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-$mainColor",
   ];
 }
 
@@ -118,7 +119,6 @@ add_filter('wp_check_filetype_and_ext', function ($data, $file, $filename, $mime
     'type' => $filetype['type'],
     'proper_filename' => $data['proper_filename']
   ];
-
 }, 10, 4);
 
 function wppln_mime_types($mimes)
@@ -357,17 +357,17 @@ add_action('add_meta_boxes', 'add_menu_title_meta_box');
 function menu_title_meta_box_html($post): void
 {
   $value = get_post_meta($post->ID, 'menu_title', true);
-  ?>
+?>
   <label for="menu_title">Court titre pour le menu de la barre de navigation</label>
   <input type="text" id="menu_title" name="menu_title" value="<?= esc_attr($value) ?>" class="widefat">
   <p class="description">Laissez vide pour utiliser le titre complet de la page</p>
-  <?php
+<?php
 }
 
 // JavaScript to hide/show meta box based on parent selection
 function menu_title_visibility_script()
 {
-  ?>
+?>
   <script type="text/javascript">
     jQuery(document).ready(function($) {
       const theparentId = $("#parent_id");
@@ -389,7 +389,7 @@ function menu_title_visibility_script()
       theparentId.on("change", toggleMenuTitleMetaBox);
     });
   </script>
-  <?php
+<?php
 }
 
 // Save meta box data
@@ -534,17 +534,17 @@ add_action('admin_init', function () {
   );
 
   // Input text to add the year of the calendar (ex: 2024-2025)
-    add_settings_field(
-        'club_calendar_year_settings',
-        esc_html__('Saison du calendrier', 'alba_theme'),
-        'render_text_field',
-        'club-settings',
-        'club_calendar_settings',
-        [
-                'field_name' => "club_calendar_year_settings",
-                'desc' => esc_html__('Exemple : 2024 - 2025', 'alba_theme')
-        ]
-    );
+  add_settings_field(
+    'club_calendar_year_settings',
+    esc_html__('Saison du calendrier', 'alba_theme'),
+    'render_text_field',
+    'club-settings',
+    'club_calendar_settings',
+    [
+      'field_name' => "club_calendar_year_settings",
+      'desc' => esc_html__('Exemple : 2024 - 2025', 'alba_theme')
+    ]
+  );
 
   //// Contact section ///////////////////////////////////////
   add_settings_section(
@@ -615,7 +615,7 @@ add_action('admin_init', function () {
 
   /// Calendar
   register_setting('club_settings', 'club_link_calendar');
-    register_setting('club_settings', 'club_calendar_year_settings');
+  register_setting('club_settings', 'club_calendar_year_settings');
 
   //// Contact
   register_setting('club_settings', 'club_contact_questions');
@@ -627,7 +627,7 @@ add_action('admin_init', function () {
 function render_title_section($args): void
 {
   $title = $args['theTitle'];
-  ?>
+?>
   <style>
     .section-divider {
       margin: 3em 0 1em 0;
@@ -642,99 +642,94 @@ function render_title_section($args): void
   </style>
   <hr class="section-divider">
   <h2 class="section-title"><?= esc_html__($title, 'alba_theme'); ?></h2>
-  <?php
+<?php
 }
 
 // Fonction pour rendre le champ email
 function render_email_field($args): void
 {
   $value = get_option($args['field_name']);
-  ?>
+?>
   <input
     type="email"
     name="<?php echo esc_attr($args['field_name']); ?>"
     value="<?php echo esc_attr($value); ?>"
     class="regular-text"
-    size="60"
-  >
+    size="60">
   <?php if (isset($args['desc'])): ?>
-  <p class="description"><?php echo esc_html($args['desc']); ?></p>
-<?php endif; ?>
-  <?php
+    <p class="description"><?php echo esc_html($args['desc']); ?></p>
+  <?php endif; ?>
+<?php
 }
 
 // Fonction pour rendre le champ téléphone
 function render_tel_field($args): void
 {
   $value = get_option($args['field_name']) ?: $args['std'];
-  ?>
+?>
   <input
     type="text"
     name="<?php echo esc_attr($args['field_name']); ?>"
     value="<?php echo esc_attr($value); ?>"
     class="regular-text"
     pattern="<?php echo $args['pattern']; ?>"
-    max="12"
-  >
-  <?php
+    max="12">
+<?php
 }
 
 // Render text field
 function render_text_field($args): void
 {
   $value = get_option($args['field_name']);
-  ?>
+?>
   <input
     type="text"
     name="<?php echo esc_attr($args['field_name']); ?>"
     value="<?php echo esc_attr($value); ?>"
     class="large-text"
-    min="0"
-  >
-    <?php if (isset($args['desc'])): ?>
+    min="0">
+  <?php if (isset($args['desc'])): ?>
     <p class="description"><?= esc_html($args['desc']) ?>
-        <?php if (isset($args['link'])): ?>
-            <a href="/<?= esc_html($args['link']) ?>" download>
-                <svg style="margin-left: 10px" xmlns="http://www.w3.org/2000/svg" width="20px" fill="#2271b1"
-                     viewBox="0 0 512 512">
-                    <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                    <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8
+      <?php if (isset($args['link'])): ?>
+        <a href="/<?= esc_html($args['link']) ?>" download>
+          <svg style="margin-left: 10px" xmlns="http://www.w3.org/2000/svg" width="20px" fill="#2271b1"
+            viewBox="0 0 512 512">
+            <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+            <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8
     0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5
-    25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
-                </svg>
-            </a>
-        <?php endif; ?>
+    25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z" />
+          </svg>
+        </a>
+      <?php endif; ?>
     </p>
-    <?php endif; ?>
-  <?php
+  <?php endif; ?>
+<?php
 }
 
 // Render number field
 function render_number_field($args): void
 {
   $value = get_option($args['field_name']);
-  ?>
+?>
   <input
     type="number"
     name="<?php echo esc_attr($args['field_name']); ?>"
     value="<?php echo esc_attr($value); ?>"
     class="small-text"
-    min="0"
-  >
-  <?php
+    min="0">
+<?php
 }
 
 // Render textarea field
 function render_textarea_field($args): void
 {
   $value = get_option($args['field_name']);
-  ?>
+?>
   <textarea
     name="<?php echo esc_attr($args['field_name']); ?>"
     class="large-text"
-    rows="5"
-  ><?php echo esc_html($value); ?></textarea>
-  <?php
+    rows="5"><?php echo esc_html($value); ?></textarea>
+<?php
 }
 
 // Render the settings page
@@ -743,7 +738,7 @@ function render_club_settings_page(): void
   if (!current_user_can('manage_options')) {
     return;
   }
-  ?>
+?>
   <div class="wrap">
     <h1><?php echo esc_html__('Param&eacute;trage des infos du club', 'alba_theme'); ?></h1>
     <form action="options.php" method="post">
@@ -754,7 +749,7 @@ function render_club_settings_page(): void
       ?>
     </form>
   </div>
-  <?php
+<?php
 }
 
 // Render image field function
@@ -763,11 +758,11 @@ function render_image_field($args): void
   $image_id = get_option($args['field_name']);
   $image_url = $image_id ? wp_get_attachment_url($image_id) : '';
   $unique_id = 'image-upload-' . $args['field_name'];
-  ?>
+?>
   <div class="image-upload-wrap" id="<?php echo esc_attr($unique_id); ?>">
     <input type="hidden" name="<?php echo esc_attr($args['field_name']); ?>"
-           id="<?php echo esc_attr($args['field_name']); ?>"
-           value="<?php echo esc_attr($image_id); ?>">
+      id="<?php echo esc_attr($args['field_name']); ?>"
+      value="<?php echo esc_attr($image_id); ?>">
 
     <div class="image-preview">
       <?php if ($image_url): ?>
@@ -776,13 +771,13 @@ function render_image_field($args): void
     </div>
 
     <input type="button" class="button upload-image-button"
-           data-target="<?php echo esc_attr($unique_id); ?>"
-           value="<?php esc_attr_e('Insérer une image', 'alba_theme'); ?>" />
+      data-target="<?php echo esc_attr($unique_id); ?>"
+      value="<?php esc_attr_e('Insérer une image', 'alba_theme'); ?>" />
 
     <?php if ($image_url): ?>
       <input type="button" class="button remove-image-button"
-             data-target="<?php echo esc_attr($unique_id); ?>"
-             value="<?php esc_attr_e("Supprimer l'image", 'alba_theme'); ?>" />
+        data-target="<?php echo esc_attr($unique_id); ?>"
+        value="<?php esc_attr_e("Supprimer l'image", 'alba_theme'); ?>" />
     <?php endif; ?>
   </div>
 
@@ -796,7 +791,9 @@ function render_image_field($args): void
 
         const customUploader = wp.media({
           title: '<?php esc_html_e('Sélectionner une image', 'alba_theme'); ?>',
-          button: { text: '<?php esc_html_e('Utiliser cette image', 'alba_theme'); ?>' },
+          button: {
+            text: '<?php esc_html_e('Utiliser cette image', 'alba_theme'); ?>'
+          },
           multiple: false
         });
 
@@ -818,7 +815,7 @@ function render_image_field($args): void
       });
     });
   </script>
-  <?php
+<?php
 }
 
 // First, enqueue the WordPress media scripts
