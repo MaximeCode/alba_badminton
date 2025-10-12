@@ -70,7 +70,7 @@
 
     <header>
         <!-- Navbar wrapper -->
-        <nav class="bg-oct-rose mb-10 z-50 font-personal relative shadow-xl">
+        <nav class="bg-primary-blue mb-10 z-50 font-personal relative shadow-xl">
             <div class="container mx-auto w-10/12 flex flex-wrap items-center justify-between z-50">
                 <a href="/" class="flex items-center space-x-3"
                     aria-label="Logo du mois actuel de l'Amicale de Lucé de Badminton">
@@ -90,7 +90,7 @@
                 </button>
 
                 <!-- Mobile menu (hidden by default) -->
-                <div class="hidden absolute top-24 left-0 w-full bg-oct-rose lg:static lg:w-auto lg:block z-50 transform transition-all duration-300 ease-in-out"
+                <div class="hidden absolute top-24 left-0 w-full bg-primary-blue lg:static lg:w-auto lg:block z-50 transform transition-all duration-300 ease-in-out"
                     id="navbar-dropdown">
                     <ul class="w-10/12 mx-auto lg:w-full flex flex-col font-medium mt-4 mb-4 lg:mb-0 xl:px-4 xl:text-lg text-white rounded-lg uppercase xl:space-x-8 lg:flex-row lg:mt-0">
                         <li>
@@ -118,7 +118,7 @@
                             </button>
                             <!-- Dropdown menu -->
                             <div id="dropdownNavbarClub"
-                                class="<?= $alba_theme_variables['classDivDropdown'] ?> border border-white bg-oct-rose">
+                                class="<?= $alba_theme_variables['classDivDropdown'] ?> border border-white bg-primary-blue">
                                 <ul class="xl:text-lg normal-case divide-y" aria-labelledby="dropdownLargeButton">
                                     <li>
                                         <a href="<?= get_permalink(149); ?>"
@@ -140,7 +140,7 @@
                                     <?php
                                         }
                                     } else {
-                                        echo "<li class='block px-4 py-2 leading-7 rounded-lg hover:bg-white hover:text-oct-rose'>Aucune page enfant disponible !</li>";
+                                        echo "<li class='block px-4 py-2 leading-7 rounded-lg hover:bg-white hover:text-primary-blue'>Aucune page enfant disponible !</li>";
                                     }
                                     ?>
                                 </ul>
@@ -223,7 +223,7 @@
                                                                     class="<?= $alba_theme_variables['classLiSubDropdown'] . ' ' . $rounded_ ?>"><?= $event['title'] ?></a>
                                                             </li>
                                                         <?php endforeach; ?>
-                                                        <li class="bg-white text-oct-rose p-1 rounded-lg">
+                                                        <li class="bg-white text-primary-blue p-1 rounded-lg">
                                                             <a href="<?= get_permalink(166); ?>#<?= $key ?>"
                                                                 class="<?= $alba_theme_variables['seeAllThings'] ?>">
                                                                 Voir toutes les photos
@@ -234,7 +234,7 @@
                                             </li>
                                         <?php $id++;
                                         endforeach; ?>
-                                        <li class="bg-white text-oct-rose p-1 rounded-lg">
+                                        <li class="bg-white text-primary-blue p-1 rounded-lg">
                                             <a href="<?= get_permalink(166); ?>"
                                                 class="<?= $alba_theme_variables['seeAllThings'] ?>">
                                                 Voir toute la galerie
@@ -242,7 +242,7 @@
                                         </li>
                                     <?php
                                     } else {
-                                        echo "<li class='block px-4 py-2 leading-7 rounded-lg hover:bg-white hover:text-oct-rose'>Aucune galerie disponible !</li>";
+                                        echo "<li class='block px-4 py-2 leading-7 rounded-lg hover:bg-white hover:text-primary-blue'>Aucune galerie disponible !</li>";
                                     } ?>
                                 </ul>
                             </div>

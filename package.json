@@ -14,6 +14,7 @@
     "lint": "eslint ./src",
     "lint:debug": "eslint ./src --debug",
     "lint:fix": "eslint ./src --fix",
-    "watch:css": "npx tailwindcss -i .\\wp-content\\themes\\alba_theme\\input.css -o .\\wp-content\\themes\\alba_theme\\style.css --watch"
+    "watch:css": "npx tailwindcss -i ./wp-content/themes/alba_theme/input.css -o ./wp-content/themes/alba_theme/style.css --watch",
+    "build:css": "npx tailwindcss -i ./wp-content/themes/alba_theme/input.css -o ./wp-content/themes/alba_theme/style.css --minify"
   }
 }

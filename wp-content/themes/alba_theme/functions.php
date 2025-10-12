@@ -16,17 +16,17 @@ function primaryButton(int $idPage, string $text, ?string $paramName = null, ?st
 function alba_theme_variables(): array
 {
   return [
-    'h3' => "mb-4 text-3xl underline decoration-oct-rose",
+    'h3' => "mb-4 text-3xl underline decoration-primary-blue",
     'animCardNews' => "transform transition duration-200 ease-in-out hover:bg-primary-blue hover:bg-opacity-10 hover:scale-105",
     'animRotateArrow' => "transform transition-transform duration-500 group-hover:rotate-180",
     'animBase' => "transform transition duration-200 ease-in-out",
-    'classLi' => "block py-2 px-3 rounded transform transition duration-200 ease-in-out hover:bg-white hover:text-oct-rose md:py-3",
-    'classDivDropdown' => "z-10 hidden font-normal bg-oct-rose rounded-lg shadow-box-dropdown w-44 border-white border-6",
-    'classLiDropdown' => "flex items-center justify-between w-full py-2 px-3 rounded transform transition duration-200 ease-in-out group-hover:bg-white group-hover:text-oct-rose lg:w-auto lg:py-3 uppercase",
-    'classLiSubDropdown' => "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-oct-rose",
+    'classLi' => "block py-2 px-3 rounded transform transition duration-200 ease-in-out hover:bg-white hover:text-primary-blue md:py-3",
+    'classDivDropdown' => "z-10 hidden font-normal bg-primary-blue rounded-lg shadow-box-dropdown w-44 border-white border-6",
+    'classLiDropdown' => "flex items-center justify-between w-full py-2 px-3 rounded transform transition duration-200 ease-in-out group-hover:bg-white group-hover:text-primary-blue lg:w-auto lg:py-3 uppercase",
+    'classLiSubDropdown' => "flex items-center justify-between w-full px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
     'classBtn' => "text-lg md:text-xl text-white bg-secondary-blue hover:bg-secondary-blue/75 rounded-lg px-5 py-3 transform transition duration-100 ease-in-out",
-    'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-oct-rose border-oct-rose text-oct-rose rounded-full text-base",
-    'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-oct-rose",
+    'seeAllThings' => "block text-center py-1 border-2 leading-7 hover:text-white hover:bg-primary-blue border-primary-blue text-primary-blue rounded-full text-base",
+    'subLi' => "block px-4 py-2 leading-7 hover:bg-white hover:text-primary-blue",
   ];
 }
 
@@ -284,6 +284,33 @@ function isLastKey(string $key, array $array): bool
   return array_key_last($array) == $key;
 }
 
+/**
+ * Récupérer l'ID d'une image par son titre
+ * 
+ * @param string $title Titre de l'image
+ * @return int|false ID de l'image ou false si non trouvée
+ */
+function get_attachment_id_by_title($title)
+{
+  $args = array(
+    'post_type' => 'attachment',
+    'post_status' => 'inherit',
+    'posts_per_page' => 1,
+    'title' => $title,
+  );
+
+  $query = new WP_Query($args);
+
+  if ($query->have_posts()) {
+    $query->the_post();
+    $attachment_id = get_the_ID();
+    wp_reset_postdata();
+    return $attachment_id;
+  }
+
+  return false;
+}
+
 ////// Custom Meta Box //////
 
 //// Main function to register all meta boxes
@@ -336,7 +363,7 @@ function add_menu_title_meta_box(): void
     if ($post_parent > 0) {
       add_meta_box(
         'menu_title_meta_box',
-        'Menu Title',
+        'Titre du sous-menu',
         'menu_title_meta_box_html',
         'page'
       );
@@ -345,7 +372,7 @@ function add_menu_title_meta_box(): void
     // For new pages, we'll add the meta box and hide it with JavaScript if it's not a child page
     add_meta_box(
       'menu_title_meta_box',
-      'Menu Title',
+      'Titre du sous-menu',
       'menu_title_meta_box_html',
       'page'
     );
@@ -360,7 +387,7 @@ function menu_title_meta_box_html($post): void
 {
   $value = get_post_meta($post->ID, 'menu_title', true);
 ?>
-  <label for="menu_title">Court titre pour le menu de la barre de navigation</label>
+  <label for="menu_title">Court titre pour le sous-menu de la barre de navigation</label>
   <input type="text" id="menu_title" name="menu_title" value="<?= esc_attr($value) ?>" class="widefat">
   <p class="description">Laissez vide pour utiliser le titre complet de la page</p>
 <?php
