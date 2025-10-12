@@ -14,31 +14,31 @@ if (!defined('ABSPATH')) {
 function sports_club_team_post_type(): void
 {
     $labels = array(
-            'name' => "Les équipes d'interclubs",
-            'singular_name' => 'Team',
-            'menu_name' => "Les équipes d'interclubs",
-            'add_new' => 'Ajouter une équipe',
-            'add_new_item' => 'Ajouter une équipe',
-            'edit_item' => 'Modifier une équipe',
-            'new_item' => 'Nouvelle équipe',
-            'view_item' => 'Voir l\'équipe',
-            'search_items' => 'Search Teams',
-            'not_found' => 'No teams found',
-            'not_found_in_trash' => 'No teams found in Trash'
+        'name' => "Les équipes d'interclubs",
+        'singular_name' => 'Team',
+        'menu_name' => "Les équipes d'interclubs",
+        'add_new' => 'Ajouter une équipe',
+        'add_new_item' => 'Ajouter une équipe',
+        'edit_item' => 'Modifier une équipe',
+        'new_item' => 'Nouvelle équipe',
+        'view_item' => 'Voir l\'équipe',
+        'search_items' => 'Search Teams',
+        'not_found' => 'No teams found',
+        'not_found_in_trash' => 'No teams found in Trash'
     );
 
     $args = array(
-            'labels' => $labels,
-            'public' => true,
-            'has_archive' => true,
-            'publicly_queryable' => true,
-            'query_var' => true,
-            'rewrite' => array('slug' => 'team'),
-            'capability_type' => 'post',
-            'hierarchical' => true,
-            'supports' => array('title', 'editor', 'page-attributes'),
-            'menu_icon' => 'dashicons-groups',
-            'show_in_rest' => true
+        'labels' => $labels,
+        'public' => true,
+        'has_archive' => true,
+        'publicly_queryable' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'team'),
+        'capability_type' => 'post',
+        'hierarchical' => true,
+        'supports' => array('title', 'editor', 'page-attributes'),
+        'menu_icon' => 'dashicons-groups',
+        'show_in_rest' => true
     );
 
     register_post_type('sports_team', $args);
@@ -52,11 +52,11 @@ add_action('init', 'sports_club_team_post_type');
 function sports_club_team_meta_boxes(): void
 {
     add_meta_box(
-            'sports_team_details',
-            'Détails des équipes',
-            'render_team_details_meta_box',
-            'sports_team',
-            'normal',
+        'sports_team_details',
+        'Détails des équipes',
+        'render_team_details_meta_box',
+        'sports_team',
+        'normal',
     );
 }
 
@@ -74,11 +74,11 @@ function render_team_details_meta_box($post): void
     $team_season = get_post_meta($post->ID, '_sports_team_season', true);
 
     $args = array(
-            'post_type' => 'sports_team',
-            'posts_per_page' => -1,
-            'orderby' => 'meta_value_num',
-            'meta_key' => '_sports_team_order',
-            'order' => 'ASC',
+        'post_type' => 'sports_team',
+        'posts_per_page' => -1,
+        'orderby' => 'meta_value_num',
+        'meta_key' => '_sports_team_order',
+        'order' => 'ASC',
     );
 
     $teams = new WP_Query($args);
@@ -97,7 +97,7 @@ function render_team_details_meta_box($post): void
         wp_reset_postdata();
     }
 
-    ?>
+?>
 
     <div style="display: flex; justify-content: space-around">
         <table style="width: fit-content" class="form-table">
@@ -105,9 +105,9 @@ function render_team_details_meta_box($post): void
                 <th><label for="team_season">Saison :</label></th>
                 <td>
                     <input type="text" id="team_season" name="team_season"
-                           value="<?php echo esc_attr($team_season); ?>"
-                           placeholder="2024-2025"
-                           class="regular-text">
+                        value="<?php echo esc_attr($team_season); ?>"
+                        placeholder="2024-2025"
+                        class="regular-text">
                     <p class="description">Format: YYYY-YYYY (ex: 2024-2025)</p>
                 </td>
             </tr>
@@ -115,8 +115,8 @@ function render_team_details_meta_box($post): void
                 <th><label for="team_captain">Capitaine de l'&eacute;quipe :</label></th>
                 <td>
                     <input type="text" id="team_captain" name="team_captain"
-                           value="<?php echo esc_attr($captain); ?>"
-                           class="regular-text">
+                        value="<?php echo esc_attr($captain); ?>"
+                        class="regular-text">
                 </td>
             </tr>
             <tr>
@@ -133,17 +133,16 @@ function render_team_details_meta_box($post): void
                         <?php echo $image; ?>
                     </div>
                     <input type="hidden" id="team_image_id"
-                           name="team_image_id"
-                           value="<?php echo esc_attr($team_image_id); ?>"
-                           style="margin-top: 10px;"
-                    >
+                        name="team_image_id"
+                        value="<?php echo esc_attr($team_image_id); ?>"
+                        style="margin-top: 10px;">
                     <button type="button"
-                            class="button sports-team-upload-image">
+                        class="button sports-team-upload-image">
                         Sélectionner une image
                     </button>
                     <button type="button"
-                            class="button sports-team-remove-image"
-                            style="color: red; border: 1px solid red; display:<?php echo $image ? 'inline-block' : 'none'; ?>;">
+                        class="button sports-team-remove-image"
+                        style="color: red; border: 1px solid red; display:<?php echo $image ? 'inline-block' : 'none'; ?>;">
                         Supprimer l'image
                     </button>
                 </td>
@@ -152,28 +151,30 @@ function render_team_details_meta_box($post): void
                 <th><label for="team_order">Position de l'équipe sur la page :</label></th>
                 <td>
                     <input type="number" id="team_order" name="team_order"
-                           value="<?php echo esc_attr($theTeamOrderValue); ?>"
-                           class="regular-text">
+                        value="<?php echo esc_attr($theTeamOrderValue); ?>"
+                        class="regular-text">
                 </td>
             </tr>
             <!--Liste des joueurs (un champ texte pour chaque-->
             <tr>
                 <th><label for="team_players">Joueurs de l'équipe :</label></th>
                 <td>
-          <textarea name="team_players" id="team_players"
-                    rows="10" class="regular-text"><?php
-              $players = get_post_meta($post->ID, '_sports_team_players', true);
-              if ($players) {
-                  echo implode("\n", $players);
-              }
-              ?></textarea>
-                    <p class="description">Entrez les noms des joueurs, un par ligne.<br><strong>Ne pas ajouter le capitaine.</strong></p>
+                    <textarea name="team_players" id="team_players"
+                        rows="10" class="regular-text">
+                        <?php
+                        $players = get_post_meta($post->ID, '_sports_team_players', true);
+                        if ($players) {
+                            echo implode("\n", $players);
+                        }
+                        ?>
+                    </textarea>
+                    <p class="description">Entrez les noms des joueurs, un par ligne.</p>
                 </td>
             </tr>
         </table>
         <?php if (isset($teamsBySeasons)) { ?>
             <div>
-                <p style="font-size: 20px; font-weight: bolder">Liste de toutes les équipes actuelles et leur position : (<?= get_the_title() ?>)</p>
+                <p style="font-size: 20px; font-weight: bolder">Liste de toutes les équipes actuelles et leur position :</p>
                 <!--Show all teams in order of position-->
                 <div style="margin-left: 20px">
                     <?php
@@ -191,15 +192,17 @@ function render_team_details_meta_box($post): void
         <?php } ?>
     </div>
 
-    <?php
+<?php
 }
 
 // Save Meta Box Data
 function save_sports_team_meta_data($post_id): void
 {
     // Check nonce for security
-    if (!isset($_POST['sports_team_details_nonce']) ||
-            !wp_verify_nonce($_POST['sports_team_details_nonce'], 'sports_team_details_nonce')) {
+    if (
+        !isset($_POST['sports_team_details_nonce']) ||
+        !wp_verify_nonce($_POST['sports_team_details_nonce'], 'sports_team_details_nonce')
+    ) {
         return;
     }
 
@@ -216,9 +219,9 @@ function save_sports_team_meta_data($post_id): void
     // Save Season
     if (isset($_POST['team_season'])) {
         update_post_meta(
-                $post_id,
-                '_sports_team_season',
-                sanitize_text_field($_POST['team_season'])
+            $post_id,
+            '_sports_team_season',
+            sanitize_text_field($_POST['team_season'])
         );
     }
 
@@ -236,18 +239,18 @@ function save_sports_team_meta_data($post_id): void
         }
 
         update_post_meta(
-                $post_id,
-                '_sports_team_captain',
-                sanitize_text_field($name)
+            $post_id,
+            '_sports_team_captain',
+            sanitize_text_field($name)
         );
     }
 
     // Save Team Image
     if (isset($_POST['team_image_id'])) {
         update_post_meta(
-                $post_id,
-                '_sports_team_image',
-                $_POST['team_image_id'] ? intval($_POST['team_image_id']) : ''
+            $post_id,
+            '_sports_team_image',
+            $_POST['team_image_id'] ? intval($_POST['team_image_id']) : ''
         );
     }
 
@@ -255,9 +258,9 @@ function save_sports_team_meta_data($post_id): void
     if (isset($_POST['team_players'])) {
         $players = array_filter(array_map('trim', explode("\n", $_POST['team_players'])));
         update_post_meta(
-                $post_id,
-                '_sports_team_players',
-                $players ? $players : array()
+            $post_id,
+            '_sports_team_players',
+            $players ? $players : array()
         );
     }
 
@@ -266,12 +269,12 @@ function save_sports_team_meta_data($post_id): void
         $new_order = intval($_POST['team_order']);
         $seasonOfNewOrder = intval($_POST['team_season']);
         $args = array(
-                'post_type' => 'sports_team',
-                'posts_per_page' => -1,
-                'orderby' => 'meta_value_num',
-                'meta_key' => '_sports_team_order',
-                'order' => 'ASC',
-                'post__not_in' => array($post_id) // Exclude current team
+            'post_type' => 'sports_team',
+            'posts_per_page' => -1,
+            'orderby' => 'meta_value_num',
+            'meta_key' => '_sports_team_order',
+            'order' => 'ASC',
+            'post__not_in' => array($post_id) // Exclude current team
         );
 
         $teams_query = new WP_Query($args);
@@ -292,9 +295,9 @@ function save_sports_team_meta_data($post_id): void
             foreach ($existing_teams[$seasonOfNewOrder] as $team_id => $team_order) {
                 if ($team_order >= $new_order) {
                     update_post_meta(
-                            $team_id,
-                            '_sports_team_order',
-                            $team_order + 1
+                        $team_id,
+                        '_sports_team_order',
+                        $team_order + 1
                     );
                 }
             }
@@ -302,9 +305,9 @@ function save_sports_team_meta_data($post_id): void
 
         // Update the current team's order
         update_post_meta(
-                $post_id,
-                '_sports_team_order',
-                $new_order
+            $post_id,
+            '_sports_team_order',
+            $new_order
         );
     }
 }
@@ -328,11 +331,11 @@ add_action('admin_enqueue_scripts', 'sports_team_admin_scripts');
 // Add JavaScript for Media Upload Functionality
 function sports_team_media_upload_script()
 {
-    ?>
+?>
     <script type="text/javascript">
-        jQuery(document).ready(function ($) {
+        jQuery(document).ready(function($) {
             // Media Uploader
-            $(".sports-team-upload-image").on("click", function (e) {
+            $(".sports-team-upload-image").on("click", function(e) {
                 e.preventDefault();
                 var button = $(this);
                 var imageContainer = $("#team_image_container");
@@ -346,7 +349,7 @@ function sports_team_media_upload_script()
                     multiple: false
                 });
 
-                mediaUploader.on("select", function () {
+                mediaUploader.on("select", function() {
                     var attachment = mediaUploader.state().get("selection").first().toJSON();
                     imageContainer.html("<img src=\"" + attachment.url + "\" alt=\"Img\" style=\"max-width:300px;\">");
                     imageIdInput.val(attachment.id);
@@ -357,7 +360,7 @@ function sports_team_media_upload_script()
             });
 
             // Remove Image
-            $(".sports-team-remove-image").on("click", function (e) {
+            $(".sports-team-remove-image").on("click", function(e) {
                 e.preventDefault();
                 $("#team_image_container").html("");
                 $("#team_image_id").val("");
@@ -365,7 +368,7 @@ function sports_team_media_upload_script()
             });
         });
     </script>
-    <?php
+<?php
 }
 
 add_action('admin_footer', 'sports_team_media_upload_script');
@@ -374,13 +377,13 @@ add_action('admin_footer', 'sports_team_media_upload_script');
 function sports_team_custom_columns($columns): array
 {
     return array(
-            'cb' => $columns['cb'],
-            'team_order' => 'Position',
-            'title' => 'Nom de l\'équipe',
-            'season' => 'Saison',
-            'captain' => 'Capitaine',
-            'team_image' => 'Photo',
-            'date' => 'Date'
+        'cb' => $columns['cb'],
+        'team_order' => 'Position',
+        'title' => 'Nom de l\'équipe',
+        'season' => 'Saison',
+        'captain' => 'Capitaine',
+        'team_image' => 'Photo',
+        'date' => 'Date'
     );
 }
 
@@ -469,13 +472,13 @@ add_action('pre_get_posts', 'set_default_sports_team_query_ordering');
 // Ajout du champ dans l’admin
 add_action('add_meta_boxes', function () {
     add_meta_box(
-            'interclub_iframe_url',
-            'Lien de l\'iframe Interclub',
-            function ($post) {
-                $value = get_post_meta($post->ID, '_interclub_iframe_url', true);
-                echo '<input type="text" name="interclub_iframe_url" value="' . esc_attr($value) . '" style="width:100%">';
-            },
-            'sports_team'
+        'interclub_iframe_url',
+        'Lien de l\'iframe Interclub',
+        function ($post) {
+            $value = get_post_meta($post->ID, '_interclub_iframe_url', true);
+            echo '<input type="text" name="interclub_iframe_url" value="' . esc_attr($value) . '" style="width:100%">';
+        },
+        'sports_team'
     );
 });
 

@@ -1,5 +1,6 @@
 <?php
 
+global $capability;
 $capability = 'edit_posts';
 
 // Button used a lot of times
@@ -737,7 +738,8 @@ function render_textarea_field($args): void
 // Render the settings page
 function render_club_settings_page(): void
 {
-  if (!current_user_can('manage_options')) {
+  global $capability;
+  if (!current_user_can($capability)) {
     return;
   }
 ?>
