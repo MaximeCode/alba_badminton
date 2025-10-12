@@ -86,7 +86,6 @@ function render_team_details_meta_box($post): void
     $teamCount = $teams->post_count;
 
     $team_order = get_post_meta($post->ID, '_sports_team_order', true);
-    $theTeamOrderValue = $team_order ?: $teamCount + 1;
 
     if ($teams->have_posts()) {
         while ($teams->have_posts()) {
@@ -105,10 +104,9 @@ function render_team_details_meta_box($post): void
                 <th><label for="team_season">Saison :</label></th>
                 <td>
                     <input type="text" id="team_season" name="team_season"
-                        value="<?php echo esc_attr($team_season); ?>"
-                        placeholder="2024-2025"
+                        value="<?php echo $team_season ? esc_attr($team_season) : date('Y') . '-' . date('Y', strtotime('+1 year')); ?>"
                         class="regular-text">
-                    <p class="description">Format: YYYY-YYYY (ex: 2024-2025)</p>
+                    <p class="description">Format: YYYY-YYYY</p>
                 </td>
             </tr>
             <tr>
@@ -151,7 +149,7 @@ function render_team_details_meta_box($post): void
                 <th><label for="team_order">Position de l'équipe sur la page :</label></th>
                 <td>
                     <input type="number" id="team_order" name="team_order"
-                        value="<?php echo esc_attr($theTeamOrderValue); ?>"
+                        value="<?php echo esc_attr($team_order); ?>"
                         class="regular-text">
                 </td>
             </tr>
