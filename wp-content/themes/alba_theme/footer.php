@@ -20,7 +20,7 @@
             </span>
             <hr class="w-3/4 border-primary-blue">
             <span class="block">Site réalisé par
-                <a href="https://maximecode.github.io/Portfolio/" target="_blank" rel="noopener noreferrer"
+                <a href="https://my-portfolio-maxime-baude.vercel.app/" target="_blank" rel="noopener noreferrer"
                    class="underline md:no-underline hover:underline">Maxime BAUDE</a>
             </span>
         </div>
